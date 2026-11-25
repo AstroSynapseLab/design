@@ -1,0 +1,558 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>/*__TITLE__*/</title>
+<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,800,900&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Barlow+Condensed:wght@600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* The main page (index.html) is built by build.py from build.json. Page chrome uses the Astro Synapse tokens. */
+:root {
+  --background: 40 33% 97%; --foreground: 233 36% 6%; --card: 40 40% 99%; --muted: 38 25% 92%;
+  --muted-foreground: 228 12% 42%; --border: 36 18% 86%; --primary: 173 80% 30%; --primary-foreground: 0 0% 100%;
+  --brand-cyan: 173 80% 32%; --brand-violet: 253 75% 58%; --brand-magenta: 283 70% 50%; --brand-gold: 40 85% 40%; --accent: 38 28% 90%;
+  --code-bg: 40 30% 94%;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --background: 230 43% 3%; --foreground: 0 0% 100%; --card: 233 36% 7%; --muted: 232 24% 14%;
+  --muted-foreground: 228 12% 78%; --border: 240 4% 26%; --primary: 170 85% 72%; --primary-foreground: 230 43% 3%;
+  --brand-cyan: 170 85% 72%; --brand-violet: 253 100% 71%; --brand-magenta: 283 100% 71%; --brand-gold: 44 82% 71%; --accent: 232 24% 16%;
+  --code-bg: 233 36% 5%;
+} }
+:root[data-theme="dark"] {
+  --background: 230 43% 3%; --foreground: 0 0% 100%; --card: 233 36% 7%; --muted: 232 24% 14%;
+  --muted-foreground: 228 12% 78%; --border: 240 4% 26%; --primary: 170 85% 72%; --primary-foreground: 230 43% 3%;
+  --brand-cyan: 170 85% 72%; --brand-violet: 253 100% 71%; --brand-magenta: 283 100% 71%; --brand-gold: 44 82% 71%; --accent: 232 24% 16%;
+  --code-bg: 233 36% 5%;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html { scroll-padding-top: 128px; }
+body { margin: 0; background: hsl(var(--background)); color: hsl(var(--foreground)); font: 15px/1.6 Inter, system-ui, sans-serif; }
+a { color: inherit; }
+code { font: 13px "IBM Plex Mono", ui-monospace, monospace; background: hsl(var(--muted)); padding: 1px 5px; border-radius: 4px; }
+button { font: inherit; color: inherit; }
+
+/* Top bar + sub-nav */
+.top { position: sticky; top: 0; z-index: 30; background: hsl(var(--background) / .88); backdrop-filter: blur(12px); border-bottom: 1px solid hsl(var(--border)); }
+.bar { display: flex; align-items: center; gap: 20px; height: 60px; padding: 0 24px; }
+.brand { font: 800 18px Satoshi, Inter, sans-serif; letter-spacing: -.01em; white-space: nowrap; text-decoration: none;
+  background: linear-gradient(90deg, hsl(var(--brand-cyan)), hsl(var(--brand-violet)), hsl(var(--brand-magenta))); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.tabs { display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; }
+.tab { border: 0; background: none; color: hsl(var(--muted-foreground)); font: 600 14px Satoshi, Inter, sans-serif; padding: 7px 14px; border-radius: 999px; cursor: pointer; white-space: nowrap; display: inline-flex; gap: 6px; align-items: baseline; }
+.tab small { font: 500 11px "IBM Plex Mono", monospace; opacity: .75; }
+.tab:hover { color: hsl(var(--foreground)); }
+a.tab { text-decoration: none; }
+.tab[aria-selected="true"] { background: hsl(var(--muted)); color: hsl(var(--foreground)); }
+.search { margin-left: auto; position: relative; width: min(320px, 34vw); }
+.search input { width: 100%; height: 36px; border-radius: 999px; border: 1px solid hsl(var(--border)); background: hsl(var(--card)); color: inherit; font: 14px Inter, sans-serif; padding: 0 38px 0 36px; outline: none; }
+.search input:focus { border-color: hsl(var(--brand-cyan)); }
+.search svg { position: absolute; left: 12px; top: 10px; width: 16px; height: 16px; stroke: hsl(var(--muted-foreground)); fill: none; stroke-width: 2; }
+.search kbd { position: absolute; right: 11px; top: 8px; font: 11px "IBM Plex Mono", monospace; color: hsl(var(--muted-foreground)); border: 1px solid hsl(var(--border)); border-radius: 4px; padding: 1px 6px; }
+.icon-btn { width: 36px; height: 36px; flex: none; border-radius: 999px; border: 1px solid hsl(var(--border)); background: none; cursor: pointer; display: grid; place-items: center; }
+.icon-btn svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 2; }
+.subnav { display: flex; gap: 2px; padding: 0 24px; height: 44px; align-items: stretch; overflow-x: auto; scrollbar-width: none; }
+.subnav a { display: flex; align-items: center; gap: 8px; padding: 0 14px; text-decoration: none; font: 600 14px Satoshi, Inter, sans-serif; color: hsl(var(--muted-foreground)); border-bottom: 2px solid transparent; white-space: nowrap; }
+.subnav a:hover { color: hsl(var(--foreground)); }
+.subnav a[aria-current="page"] { color: hsl(var(--foreground)); border-bottom-color: hsl(var(--brand-cyan)); }
+.subnav a.is-empty { opacity: .45; }
+.subnav a.item { margin: 7px 0; padding: 0 12px; border: 0; border-radius: 999px; gap: 6px; }
+.subnav a.item small { font: 500 10px "IBM Plex Mono", monospace; letter-spacing: .06em; text-transform: uppercase; opacity: .7; }
+.subnav a.item[aria-current="true"] { background: hsl(var(--muted)); color: hsl(var(--foreground)); }
+.subnav .sep { flex: none; width: 1px; margin: 11px 8px; background: hsl(var(--border)); }
+.subnav .count { font: 500 11px "IBM Plex Mono", monospace; color: hsl(var(--muted-foreground)); background: hsl(var(--muted)); border-radius: 999px; padding: 0 7px; }
+
+/* Shell */
+.shell { display: grid; grid-template-columns: 260px minmax(0, 1fr); }
+.side { position: sticky; top: 105px; height: calc(100vh - 105px); overflow: auto; padding: 24px 12px 48px 24px; border-right: 1px solid hsl(var(--border)); }
+.side h4 { font: 500 11px "IBM Plex Mono", monospace; letter-spacing: .12em; text-transform: uppercase; color: hsl(var(--muted-foreground)); margin: 20px 10px 8px; }
+.side h4:first-child { margin-top: 0; }
+.side a { display: block; text-decoration: none; padding: 5px 10px; border-radius: 8px; color: hsl(var(--muted-foreground)); font-size: 14px; line-height: 1.4; }
+.side a.sub { padding-left: 22px; font-size: 13px; }
+.side a:hover { color: hsl(var(--foreground)); background: hsl(var(--muted) / .6); }
+.side a.active { color: hsl(var(--foreground)); background: hsl(var(--muted)); box-shadow: inset 2px 0 0 hsl(var(--brand-cyan)); }
+.main { padding: 36px 48px 120px; max-width: 1240px; min-width: 0; }
+.intro { margin-bottom: 32px; }
+.intro .eyebrow, .eyebrow { font: 500 11px "IBM Plex Mono", monospace; letter-spacing: .14em; text-transform: uppercase; color: hsl(var(--brand-cyan)); }
+.intro h1 { font: 800 38px/1.08 Satoshi, Inter, sans-serif; letter-spacing: -.025em; margin: 8px 0 10px; }
+.intro p, .lede { color: hsl(var(--muted-foreground)); margin: 0; max-width: 72ch; }
+.meta { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 14px; }
+.chip { font: 500 11px "IBM Plex Mono", monospace; color: hsl(var(--muted-foreground)); border: 1px solid hsl(var(--border)); border-radius: 999px; padding: 2px 9px; text-decoration: none; white-space: nowrap; max-width: 100%; overflow: hidden; text-overflow: ellipsis; }
+a.chip:hover { color: hsl(var(--foreground)); border-color: hsl(var(--brand-cyan)); }
+.chip--warn { color: hsl(5 85% 60%); border-color: hsl(5 85% 60% / .5); }
+.chip--wire { color: hsl(var(--brand-gold)); border-color: hsl(var(--brand-gold) / .5); }
+
+/* Cards */
+.card { border: 1px solid hsl(var(--border)); border-radius: 16px; background: hsl(var(--card)); margin-bottom: 28px; overflow: hidden; }
+.card-head { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; padding: 22px 28px 0; }
+.card-head h2 { font: 800 23px/1.2 Satoshi, Inter, sans-serif; letter-spacing: -.015em; margin: 0; }
+.part { padding: 20px 28px; }
+.part + .part { border-top: 1px solid hsl(var(--border) / .7); }
+.part-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; gap: 12px; flex-wrap: wrap; }
+.label { font: 500 11px "IBM Plex Mono", monospace; letter-spacing: .12em; text-transform: uppercase; color: hsl(var(--brand-cyan)); }
+.rules { margin: 0; padding-left: 20px; }
+.rules li { margin: 4px 0; }
+.rules li::marker { color: hsl(var(--brand-cyan)); }
+.tools { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.copy { display: inline-flex; align-items: center; gap: 6px; border: 1px solid hsl(var(--border)); background: hsl(var(--background)); color: hsl(var(--muted-foreground)); border-radius: 8px; padding: 5px 10px; font: 500 12px Inter, sans-serif; cursor: pointer; }
+.copy:hover { color: hsl(var(--foreground)); border-color: hsl(var(--brand-cyan)); }
+.copy svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; }
+.copy.done { color: hsl(var(--brand-cyan)); border-color: hsl(var(--brand-cyan)); }
+.seg { display: inline-flex; background: hsl(var(--muted)); border-radius: 999px; padding: 3px; gap: 2px; }
+.seg button { border: 0; background: none; color: hsl(var(--muted-foreground)); font: 600 12px Inter, sans-serif; padding: 4px 12px; border-radius: 999px; cursor: pointer; }
+.seg button[aria-pressed="true"] { background: hsl(var(--card)); color: hsl(var(--foreground)); box-shadow: 0 1px 2px hsl(0 0% 0% / .15); }
+pre { margin: 0; background: hsl(var(--code-bg)); border: 1px solid hsl(var(--border) / .7); border-radius: 12px; padding: 16px 18px; overflow: auto; max-height: 520px; font: 12.5px/1.6 "IBM Plex Mono", ui-monospace, monospace; }
+.j-key { color: hsl(var(--brand-violet)); } .j-str { color: hsl(var(--brand-cyan)); } .j-num { color: hsl(var(--brand-magenta)); } .j-pun { color: hsl(var(--muted-foreground)); }
+.err { color: hsl(5 85% 60%); font-size: 13px; margin: 8px 0 0; }
+.stage { border-radius: 12px; overflow: hidden; border: 1px solid hsl(var(--border) / .7); background: hsl(var(--background)); display: flex; justify-content: center; }
+.stage iframe { border: 0; width: 100%; display: block; background: transparent; }
+.stage.mobile iframe { width: 390px; border-inline: 1px solid hsl(var(--border)); }
+.note { color: hsl(var(--muted-foreground)); font-size: 13px; margin: 10px 0 0; }
+/* Components page: cards span the content area, and the layout preview spans the card */
+.main.main--wide { max-width: none; }
+.part.part--layout { padding-left: 0; padding-right: 0; padding-bottom: 0; }
+.part--layout .part-head, .part--layout .note { padding-left: 28px; padding-right: 28px; }
+.part--layout .note { padding-bottom: 16px; }
+.part--layout .stage { border-radius: 0; border-width: 1px 0 0; }
+.shared { border-left: 2px solid hsl(var(--brand-cyan)); padding: 4px 0 4px 20px; margin-bottom: 32px; }
+.shared h2 { font: 800 20px Satoshi, Inter, sans-serif; margin: 0 0 8px; }
+.empty { color: hsl(var(--muted-foreground)); border: 1px dashed hsl(var(--border)); border-radius: 16px; padding: 40px 28px; text-align: center; }
+.empty h2 { font: 800 22px Satoshi, Inter, sans-serif; color: hsl(var(--foreground)); margin: 0 0 6px; }
+
+/* Prose (design, content, readme) */
+.prose { max-width: 78ch; }
+.prose h1 { font: 800 32px/1.1 Satoshi, Inter, sans-serif; letter-spacing: -.02em; margin: 0 0 12px; }
+.prose h2 { font: 800 24px/1.2 Satoshi, Inter, sans-serif; letter-spacing: -.015em; margin: 40px 0 10px; }
+.prose h3 { font: 700 18px/1.3 Satoshi, Inter, sans-serif; margin: 28px 0 8px; }
+.prose h4 { font: 700 15px Satoshi, Inter, sans-serif; margin: 20px 0 6px; }
+.prose p, .prose li { color: hsl(var(--foreground) / .88); }
+.prose ul, .prose ol { padding-left: 22px; } .prose li::marker { color: hsl(var(--brand-cyan)); }
+.prose blockquote { margin: 16px 0; padding: 12px 16px; border-left: 2px solid hsl(var(--brand-violet)); background: hsl(var(--muted) / .5); border-radius: 0 10px 10px 0; color: hsl(var(--muted-foreground)); }
+.prose hr { border: 0; border-top: 1px solid hsl(var(--border)); margin: 28px 0; }
+.tablewrap { overflow-x: auto; }
+.prose table, .tok-table { border-collapse: collapse; width: 100%; font-size: 14px; margin: 12px 0; }
+.prose th, .prose td, .tok-table th, .tok-table td { text-align: left; padding: 8px 10px; border-bottom: 1px solid hsl(var(--border)); vertical-align: top; }
+.prose th, .tok-table th { font: 500 11px "IBM Plex Mono", monospace; letter-spacing: .08em; text-transform: uppercase; color: hsl(var(--muted-foreground)); }
+
+/* Design blocks */
+.dsec { margin-bottom: 44px; }
+.dsec > h2 { font: 800 26px/1.2 Satoshi, Inter, sans-serif; letter-spacing: -.015em; margin: 0 0 10px; }
+.swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 12px; margin-top: 14px; }
+.sw { border: 1px solid hsl(var(--border)); border-radius: 12px; overflow: hidden; background: hsl(var(--card)); }
+.sw i { display: block; height: 64px; border-bottom: 1px solid hsl(var(--border)); }
+.sw div { padding: 8px 10px 10px; font-size: 12px; line-height: 1.4; }
+.sw b { display: block; font: 500 12px "IBM Plex Mono", monospace; }
+.sw span { color: hsl(var(--muted-foreground)); font: 11px "IBM Plex Mono", monospace; display: block; }
+.sw em { font-style: normal; color: hsl(var(--muted-foreground)); display: block; margin-top: 4px; }
+.mode-bar { display: flex; align-items: center; gap: 12px; margin-top: 8px; }
+.type-row { display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: 20px; padding: 18px 0; border-bottom: 1px solid hsl(var(--border)); align-items: baseline; }
+.type-row .meta-col { font: 12px/1.5 "IBM Plex Mono", monospace; color: hsl(var(--muted-foreground)); }
+.type-row .meta-col b { display: block; font: 700 14px Satoshi, Inter, sans-serif; color: hsl(var(--foreground)); margin-bottom: 4px; }
+.type-row .sample { overflow-wrap: anywhere; line-height: 1.15; }
+.scale-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin-top: 14px; }
+.scale { border: 1px solid hsl(var(--border)); border-radius: 12px; padding: 14px 16px; background: hsl(var(--card)); }
+.scale h4 { margin: 0 0 10px; }
+.scale-row { display: grid; grid-template-columns: 100px 70px 1fr; gap: 10px; align-items: center; font: 12px "IBM Plex Mono", monospace; padding: 4px 0; }
+.scale-row span { color: hsl(var(--muted-foreground)); }
+.scale-row i { display: block; height: 10px; background: hsl(var(--brand-cyan)); border-radius: 2px; }
+.scale-row i.r { width: 32px; height: 32px; background: hsl(var(--muted)); border: 2px solid hsl(var(--brand-cyan)); }
+
+/* Layout flows */
+.flow { margin-bottom: 48px; }
+.flow > h2 { font: 800 28px/1.15 Satoshi, Inter, sans-serif; letter-spacing: -.02em; margin: 0 0 8px; }
+.step { border: 1px solid hsl(var(--border)); border-radius: 16px; background: hsl(var(--card)); margin: 18px 0; overflow: hidden; }
+.step-head { padding: 18px 24px 0; display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap; }
+.step-head h3 { font: 800 18px Satoshi, Inter, sans-serif; margin: 0; }
+.chat { display: flex; justify-content: flex-end; padding: 14px 24px 0; }
+.bubble { max-width: min(560px, 90%); background: hsl(var(--primary)); color: hsl(var(--primary-foreground)); padding: 10px 16px; border-radius: 18px 18px 4px 18px; font-size: 14.5px; }
+.bubble em { opacity: .85; }
+.why { padding: 10px 24px 0; color: hsl(var(--muted-foreground)); font-size: 14px; }
+.why b { color: hsl(var(--foreground)); font-weight: 600; }
+.comp-chips { padding: 10px 24px 0; display: flex; flex-wrap: wrap; gap: 6px; }
+.step .part { padding: 16px 24px; }
+details.json > summary { cursor: pointer; font: 500 12px "IBM Plex Mono", monospace; color: hsl(var(--muted-foreground)); list-style: none; display: inline-flex; gap: 6px; align-items: center; }
+details.json > summary::before { content: "▸"; } details.json[open] > summary::before { content: "▾"; }
+details.json pre { margin-top: 10px; }
+
+/* Prototype */
+.proto { border: 1px solid hsl(var(--border)); border-radius: 16px; overflow: hidden; background: hsl(var(--card)); }
+.proto-bar { display: flex; gap: 8px; align-items: center; padding: 10px 12px; border-bottom: 1px solid hsl(var(--border)); flex-wrap: wrap; }
+.proto-bar .icon-btn { width: 32px; height: 32px; }
+.proto-bar .icon-btn:disabled { opacity: .35; cursor: default; }
+.addr { flex: 1; min-width: 180px; display: flex; align-items: center; gap: 8px; height: 32px; padding: 0 12px; border-radius: 999px; background: hsl(var(--muted)); font: 13px "IBM Plex Mono", monospace; color: hsl(var(--muted-foreground)); overflow: hidden; white-space: nowrap; }
+.addr b { color: hsl(var(--foreground)); font-weight: 500; overflow: hidden; text-overflow: ellipsis; }
+.proto-stage { display: flex; justify-content: center; background: hsl(var(--background)); }
+.proto-stage iframe { border: 0; width: 100%; height: calc(100vh - 290px); min-height: 520px; display: block; }
+.proto-stage.mobile iframe { width: 390px; border-inline: 1px solid hsl(var(--border)); }
+/* A classic-site prototype fills the content area: sidebar to the right edge, sub-nav line to the bottom */
+.main.main--bleed { padding: 0; max-width: none; }
+.main--bleed .proto { display: flex; flex-direction: column; height: calc(100vh - 105px); height: calc(100dvh - 105px); border: 0; border-radius: 0; }
+.main--bleed .proto-stage { flex: 1; min-height: 0; }
+.main--bleed .proto-stage iframe { height: 100%; min-height: 0; }
+.main--bleed .proto-bar { flex-wrap: nowrap; }
+a.icon-btn { color: inherit; text-decoration: none; }
+.side a.proto-link { display: flex; flex-direction: column; gap: 1px; }
+.side a.proto-link small { font: 11px "IBM Plex Mono", monospace; color: hsl(var(--muted-foreground)); opacity: .8; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.results .res { display: block; text-decoration: none; padding: 14px 18px; border: 1px solid hsl(var(--border)); border-radius: 12px; margin-bottom: 10px; background: hsl(var(--card)); }
+.results .res:hover { border-color: hsl(var(--brand-cyan)); }
+.results .res b { font: 700 16px Satoshi, Inter, sans-serif; }
+.results .res p { margin: 4px 0 0; color: hsl(var(--muted-foreground)); font-size: 13px; }
+.toast { position: fixed; bottom: 24px; left: 50%; transform: translate(-50%, 20px); opacity: 0; pointer-events: none; transition: .25s; background: hsl(var(--foreground)); color: hsl(var(--background)); border-radius: 12px; padding: 10px 16px; font: 13px Inter, sans-serif; max-width: 90vw; z-index: 50; }
+.toast.show { opacity: 1; transform: translate(-50%, 0); }
+.toast b { font-family: "IBM Plex Mono", monospace; font-weight: 500; }
+@media (max-width: 900px) {
+  .shell { grid-template-columns: 1fr; } .side { display: none; }
+  .main { padding: 24px 16px 80px; } .bar { gap: 10px; padding: 0 16px; } .brand { display: none; }
+  .subnav { padding: 0 8px; } .search { width: auto; flex: 1; min-width: 120px; }
+  .part--layout .part-head, .part--layout .note { padding-left: 16px; padding-right: 16px; }
+  .part, .card-head, .step .part, .step-head, .chat, .why, .comp-chips { padding-left: 16px; padding-right: 16px; }
+  .type-row { grid-template-columns: 1fr; gap: 6px; }
+  html { scroll-padding-top: 116px; } .side { top: 105px; }
+}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="bar">
+    <a class="brand" href="#/">/*__TITLE__*/</a>
+    <nav class="tabs" role="tablist" id="tabs"></nav>
+    <label class="search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input id="q" type="search" placeholder="Search everything…" autocomplete="off"><kbd>/</kbd></label>
+    <button class="icon-btn" id="theme" title="Toggle theme" aria-label="Toggle theme"><svg viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg></button>
+  </div>
+  <nav class="subnav" id="subnav" aria-label="Project items and pages"></nav>
+</header>
+<div class="shell"><aside class="side" id="side"></aside><main class="main" id="main"></main></div>
+<div class="toast" id="toast"></div>
+
+
+<script>window.WEBAGEN_STYLES = /*__STYLES__*/{};</script>
+<script>/*__RENDERERS__*/</script>
+<script>
+/* Data from build.py: { title, projects: [{ id, title, items: [website | template] }] }
+   website:  { id, type: "website", title, path, prototype: { base, pages } }
+   template: { id, type: "template", title, label, brand, path, design, components, layouts, content, prototype } */
+const DATA = /*__DATA__*/null;
+const PROJECTS = DATA.projects;
+const R = window.WEBAGEN_RENDERERS || {};
+const $ = (s, el = document) => el.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const strip = s => String(s).replace(/<[^>]+>/g, "");
+const DOWNLOAD = '<svg viewBox="0 0 24 24"><path d="M12 4v11"/><path d="M7 10l5 5 5-5"/><path d="M5 20h14"/></svg>';
+const COPY = '<svg viewBox="0 0 24 24"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>';
+const PAGES = [["prototype", "Prototype"], ["design", "Design"], ["components", "Components"], ["layouts", "Example layouts"], ["content", "Content"]];
+let S = { proj: "", item: "", page: "", anchor: "", q: "" };
+
+const hl = code => esc(code).replace(/(&quot;(?:[^&]|&(?!quot;))*?&quot;)(\s*:)?|\b(-?\d+(?:\.\d+)?)\b|([{}\[\],])/g,
+  (m, str, colon, num, pun) => str ? `<span class="${colon ? "j-key" : "j-str"}">${str}</span>${colon || ""}` : num ? `<span class="j-num">${num}</span>` : `<span class="j-pun">${pun}</span>`);
+const P = () => PROJECTS.find(p => p.id === S.proj);
+const I = () => P()?.items.find(i => i.id === S.item);
+const T = I; // the current template (only called on template pages)
+const theme = () => document.documentElement.dataset.theme || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+const count = (t, p) => p === "prototype" ? (t.prototype ? t.prototype.pages.length : 0) : p === "design" ? (t.design ? t.design.sections.length : 0) : p === "components" ? t.components.components.length : p === "layouts" ? t.layouts.length : t.content ? 1 : 0;
+const href = (proj, item, page, anchor) => `#/${proj}/${item}${page ? "/" + page : ""}${anchor ? "/" + anchor : ""}`;
+const here = (page, anchor) => href(S.proj, S.item, page, anchor);
+const isSiteView = i => i && (i.type === "website" || S.page === "prototype");
+
+/* ---------------- previews ---------------- */
+function wire(name, props) {
+  const texts = [];
+  (function walk(v, k) { if (texts.length > 7) return; if (typeof v === "string" && v.length > 1 && !/^(photo-|#|https?:|section-)/.test(v) && !/prompt|href|anchor|image|variant/.test(k || "")) texts.push(v); else if (Array.isArray(v)) v.forEach(x => walk(x, k)); else if (v && typeof v === "object") Object.entries(v).forEach(([kk, x]) => walk(x, kk)); })(props || {});
+  return `<section class="wa-wire"><div class="wa-wire-name">${esc(name)} <span>wireframe · no renderer yet</span></div>${texts.map((t, i) => `<div class="wa-wire-t ${i === 0 ? "is-h" : ""}">${esc(t)}</div>`).join("")}</section>`;
+}
+const WIRE_CSS = `#wa-root{display:flow-root}.wa-wire{margin:12px 16px;border:1.5px dashed rgba(127,135,150,.6);border-radius:14px;padding:18px 20px;font:14px/1.5 Inter,system-ui,sans-serif;color:inherit}
+ .wa-wire-name{font:500 11px "IBM Plex Mono",ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;opacity:.7;margin-bottom:10px}.wa-wire-name span{opacity:.7;text-transform:none;letter-spacing:0;margin-left:6px}
+ .wa-wire-t{opacity:.75;margin:3px 0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.wa-wire-t.is-h{font:700 20px Satoshi,Inter,sans-serif;opacity:1;white-space:normal}`;
+
+/* items: [{name, props}], rendered in one iframe, in order. The iframe reports its height so it can grow. */
+function previewDoc(items) {
+  const rs = items.map(it => R[it.name]);
+  const themed = rs.find(r => r && r.theme);
+  const css = [...new Set(rs.filter(Boolean).map(r => r.css || ""))].join("\n");
+  const scripts = [...new Set(rs.filter(r => r && r.script).map(r => r.script))].join(";\n");
+  const body = items.map((it, i) => rs[i] ? rs[i].render(it.props || {}) : wire(it.name, it.props)).join("\n");
+  let head, root, htmlAttrs = "";
+  if (themed) {
+    head = `${(themed.fonts || []).map(f => `<link rel="stylesheet" href="${f}">`).join("")}<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=satoshi@700,800&display=swap">
+      <style>${(window.WEBAGEN_STYLES || {})[themed.theme] || ""}
+      html,body{margin:0;background:${themed.bg || "var(--bg)"}}body{overflow:hidden}#wa-root.scope{border:0;border-radius:0;overflow:visible}${WIRE_CSS}${css}</style>`;
+    root = `<div id="wa-root" class="${themed.rootClass || "scope"}" data-store="${themed.theme}">${body}</div>`;
+    const cls = themed.htmlClass ? themed.htmlClass(theme()) : "";
+    htmlAttrs = ` data-store="${themed.theme}" data-theme="${theme()}"${cls ? ` class="${cls}"` : ""}`;
+  } else {
+    const v = getComputedStyle(document.documentElement);
+    const tokens = ["--background", "--foreground", "--card", "--muted", "--muted-foreground", "--border", "--primary", "--primary-foreground", "--brand-cyan", "--brand-violet", "--brand-magenta", "--brand-gold", "--accent"].map(k => `${k}:${v.getPropertyValue(k)}`).join(";");
+    head = `<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,800,900&display=swap"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+      <style>:root{${tokens}}*{box-sizing:border-box}html,body{margin:0;background:hsl(var(--background));color:hsl(var(--foreground))}body{overflow:hidden}${WIRE_CSS}${css}</style>`;
+    root = `<div id="wa-root">${body}</div>`;
+  }
+  return `<!doctype html><html${htmlAttrs}><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">${head}</head>
+  <body>${root}${scripts ? `<script>${scripts}<\/script>` : ""}<script>
+    const root = document.getElementById("wa-root");
+    const post = () => parent.postMessage({ h: Math.ceil(root.getBoundingClientRect().height) }, "*");
+    new ResizeObserver(post).observe(root); addEventListener("load", post);
+    document.addEventListener("click", e => {
+      const el = e.target.closest("[data-prompt],[data-href],[data-anchor],[data-action],a,button"); if (!el) return;
+      if (el.matches("summary, summary *, [data-local]")) return;
+      e.preventDefault(); e.stopPropagation();
+      parent.postMessage({ click: { prompt: el.dataset.prompt || "", href: el.dataset.href || "", anchor: el.dataset.anchor || "", action: el.dataset.action || (el.matches("button") && !el.dataset.prompt ? el.textContent.trim().slice(0, 40) : "") } }, "*");
+    }, true);
+  <\/script></body></html>`;
+}
+const STAGES = new Map();
+function mountStage(stage, items) {
+  STAGES.set(stage, items);
+  const f = document.createElement("iframe");
+  f.title = "Preview"; f.style.height = (stage.dataset.h || 420) + "px"; f.loading = "lazy";
+  f.srcdoc = previewDoc(items);
+  stage.replaceChildren(f);
+}
+function remountAll() { for (const [stage, items] of STAGES) if (stage.isConnected) mountStage(stage, items); else STAGES.delete(stage); }
+const viewportSeg = () => `<div class="seg" data-viewport><button aria-pressed="true" data-w="desktop">Desktop</button><button aria-pressed="false" data-w="mobile">Mobile</button></div>`;
+
+/* ---------------- chrome: projects in the top bar; the project's items, then the template's pages, in the sub-nav ---------------- */
+function renderChrome() {
+  $("#tabs").innerHTML = PROJECTS.map(p => `<a class="tab" role="tab" href="${href(p.id, p.items[0]?.id || "")}" aria-selected="${!S.q && p.id === S.proj}">${esc(p.title)}</a>`).join("");
+  if (S.q) { $("#subnav").innerHTML = `<a aria-current="page">Search results</a>`; return; }
+  const p = P(), it = I(); if (!p) { $("#subnav").innerHTML = ""; return; }
+  const items = p.items.map(i => `<a class="item" href="${href(p.id, i.id)}" aria-current="${i.id === S.item}">${esc(i.title)}<small>${i.type}</small></a>`).join("");
+  const pages = it && it.type === "template" ? `<span class="sep"></span>` + PAGES.map(([id, label]) => { const n = count(it, id); return `<a href="${here(id)}" ${S.page === id ? 'aria-current="page"' : ""} class="${n ? "" : "is-empty"}">${label}${!["content", "prototype"].includes(id) && n ? `<span class="count">${n}</span>` : ""}</a>`; }).join("") : "";
+  $("#subnav").innerHTML = items + pages;
+}
+
+function sideFor(it) {
+  if (!it) return "";
+  const L = (id, title, cls = "") => `<a href="${here(S.page, id)}" data-id="${id}" class="${cls}">${esc(title)}</a>`;
+  if (isSiteView(it)) {
+    const pr = it.prototype; if (!pr) return "";
+    return `<h4>Pages</h4>` + pr.pages.map(pg => `<a href="#" class="proto-link${PROTO && PROTO.key === protoKey() && PROTO.history[PROTO.idx].file === pg.file ? " active" : ""}" data-proto-page="${esc(pg.file)}">${esc(pg.label)}<small>${esc(pg.file)}</small></a>`).join("");
+  }
+  if (S.page === "design") return it.design ? `<h4>${esc(it.design.title)}</h4>` + it.design.sections.map(s => L(s.id, s.title)).join("") : "";
+  if (S.page === "components") { const c = it.components; return c.components.length ? `<h4>${esc(it.label)} components</h4>` + c.shared.map(s => L(s.id, s.title)).join("") + c.components.map(x => L(x.id, x.title.replace(/^(Stride|Astro) /, "").replace(/ (Section|Component)$/, ""))).join("") : ""; }
+  if (S.page === "layouts") return it.layouts.length ? `<h4>Flows</h4>` + it.layouts.map(f => L(f.id, f.title) + f.steps.map(s => L(f.id + "--" + s.id, s.title, "sub")).join("")).join("") : "";
+  if (S.page === "content") return it.content ? `<h4>Content</h4>` + it.content.toc.filter(x => x.level <= 2 && x.level > 1).map(x => L(x.id, x.title)).join("") : "";
+  return "";
+}
+
+/* ---------------- template pages ---------------- */
+const FILES = { design: "design.md", components: "components.md", "example layouts": "flows to layouts/", content: "content.md" };
+const emptyState = (t, what) => `<div class="empty"><h2>No ${what} yet</h2><p>Add <code>${FILES[what]}</code> to <code>${esc(t.path)}/</code> and run <code>python3 build.py</code>.</p></div>`;
+const header = (t, eyebrow, title, text, chips = "") => `<div class="intro">${eyebrow ? `<div class="eyebrow">${esc(eyebrow)}</div>` : ""}<h1>${esc(title)}</h1>${text ? `<p>${text}</p>` : ""}${chips ? `<div class="meta">${chips}</div>` : ""}</div>`;
+
+function pageDesign(t) {
+  const d = t.design;
+  if (!d) return header(t, t.title, "Design", esc(t.description)) + (t.readme ? `<div class="prose">${t.readme}</div><br>` : "") + emptyState(t, "design");
+  const blocks = s => s.blocks.map(b => {
+    if (b.kind === "colors") {
+      const modes = Object.keys(b.data.modes); const cur = modes.includes(theme()) ? theme() : modes[0];
+      return `<div data-colors><div class="mode-bar"><div class="seg">${modes.map(m => `<button data-mode="${m}" aria-pressed="${m === cur}">${m[0].toUpperCase() + m.slice(1)}</button>`).join("")}</div><span class="note" style="margin:0">Values for the selected mode</span></div>
+        ${modes.map(m => `<div class="swatches" data-m="${m}" ${m === cur ? "" : "hidden"}>${Object.entries(b.data.modes[m]).map(([k, v]) => `<div class="sw"><i style="background:${esc(v)}"></i><div><b>${esc(k)}</b><span>${esc(v)}</span>${b.data.usage?.[k] ? `<em>${esc(b.data.usage[k])}</em>` : ""}</div></div>`).join("")}</div>`).join("")}</div>`;
+    }
+    if (b.kind === "type") return b.data.map(x => { const px = Math.min(56, parseFloat(String(x.size).split(/[–-]/).pop()) || 16);
+      return `<div class="type-row"><div class="meta-col"><b>${esc(x.name)}</b>${esc(x.family)} · ${esc(x.weight)}<br>${esc(x.size)}${x.case !== "none" ? " · " + esc(x.case) : ""}${x.tracking && x.tracking !== "0" ? " · " + esc(x.tracking) : ""}<br>${esc(x.use || "")}</div>
+        <div class="sample" style="font-family:'${esc(x.family)}',Inter,sans-serif;font-weight:${esc(x.weight)};font-size:${px}px;text-transform:${x.case === "uppercase" ? "uppercase" : "none"};letter-spacing:${esc(x.tracking || 0)}">${esc(x.sample)}</div></div>`; }).join("");
+    if (b.kind === "scale") return `<div class="scale-grid">${Object.entries(b.data).map(([group, vals]) => `<div class="scale"><h4 class="label">${esc(group)}</h4>${Object.entries(vals).map(([k, v]) => { const n = parseFloat(v);
+      return `<div class="scale-row"><b>${esc(k)}</b><span>${esc(v)}</span>${/radius/i.test(group) && !isNaN(n) ? `<i class="r" style="border-radius:${Math.min(n, 16)}px"></i>` : /spacing/i.test(group) && !isNaN(n) ? `<i style="width:${Math.min(n * 1.5, 160)}px"></i>` : "<span></span>"}</div>`; }).join("")}</div>`).join("")}</div>`;
+    return "";
+  }).join("");
+  return header(t, t.title, d.title, "", `<span class="chip">${esc(d.source)}</span>`) + `<div class="prose" style="margin-bottom:32px">${d.intro}</div>` +
+    d.sections.map(s => `<section class="dsec" id="${s.id}"><h2>${esc(s.title)}</h2><div class="prose">${s.html}</div>${blocks(s)}
+      ${s.kit ? `<div class="card" style="margin-top:16px"><div class="part"><div class="part-head"><span class="label">Live UI kit · ${esc(s.kit)}</span>${viewportSeg()}</div><div class="stage" data-stage data-items='${esc(JSON.stringify([{ name: s.kit, props: {} }]))}' data-h="900"></div></div></div>` : ""}</section>`).join("");
+}
+
+function compCard(t, c) {
+  const v = c.variants;
+  const rulesMd = c.rules.map(r => "- " + strip(r).replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&")).join("\n");
+  const layout = `<div class="stage" data-stage data-items='${esc(JSON.stringify([{ name: c.id, props: v[0].props }]))}'></div>${c.layout.kind === "wire" ? `<p class="note">Wireframe from the JSON example. Add a renderer for <code>${esc(c.id)}</code> to the project's <code>renderers/</code> and list it in <code>build.json</code>.</p>` : ""}`;
+  return `<section class="card" id="${c.id}" data-c="${c.id}">
+    <div class="card-head"><h2>${esc(c.title)}</h2><span class="chip">${esc(c.id)}</span>${v.length > 1 ? `<span class="chip">${v.length} variants</span>` : ""}${c.layout.kind === "wire" ? `<span class="chip chip--wire">wireframe</span>` : ""}${c.problems.length ? `<span class="chip chip--warn" title="${esc(c.problems.join("\n"))}">Invalid JSON</span>` : ""}</div>
+    <div class="part"><div class="part-head"><span class="label">Ruleset</span><button class="copy" data-copy="${esc(rulesMd)}">${COPY}Copy</button></div><ul class="rules">${c.rules.map(r => `<li>${r}</li>`).join("")}</ul></div>
+    <div class="part"><div class="part-head"><span class="label">JSON</span><div class="tools">${v.length > 1 ? `<div class="seg" data-variants>${v.map((x, i) => `<button aria-pressed="${i === 0}" data-v="${i}">${esc(x.label)}</button>`).join("")}</div>` : ""}<button class="copy" data-copy-json>${COPY}Copy</button></div></div>
+      <pre data-code>${hl(v[0].code)}</pre>${v[0].error ? `<p class="err">Invalid JSON, ${esc(v[0].error)}</p>` : ""}</div>
+    <div class="part part--layout"><div class="part-head"><span class="label">Layout</span>${viewportSeg()}</div>${layout}</div></section>`;
+}
+function pageComponents(t) {
+  const c = t.components;
+  if (!c.components.length) return header(t, "", "Components", "") + emptyState(t, "components");
+  const live = c.components.filter(x => x.layout.kind === "live").length;
+  return header(t, "", "Components", "",
+    `<button class="copy" data-download-components>${DOWNLOAD}Download .md</button><span class="chip">${esc(c.source)}</span><span class="chip">${c.components.length} components</span><span class="chip">${live} live previews</span>${live < c.components.length ? `<span class="chip chip--wire">${c.components.length - live} wireframes</span>` : ""}`) +
+    c.shared.map(s => `<div class="shared" id="${s.id}"><h2>${esc(s.title)}</h2><ul class="rules">${s.rules.map(r => `<li>${r}</li>`).join("")}</ul></div>`).join("") +
+    c.components.map(x => compCard(t, x)).join("");
+}
+
+function pageLayouts(t) {
+  if (!t.layouts.length) return header(t, t.title, "Example layouts", "Hypothetical flows from user interaction with the website, built from the components.") + emptyState(t, "example layouts");
+  const names = new Set(t.components.components.map(c => c.id));
+  return header(t, t.title, "Example layouts", "Hypothetical visitor journeys. Each step is the user's message and the exact JSON the agent sends back, rendered with the components.", `<span class="chip">${esc(t.path)}/layouts/</span><span class="chip">${t.layouts.length} flows</span>`) +
+    t.layouts.map(f => `<section class="flow" id="${f.id}"><h2>${esc(f.title)}</h2><div class="prose lede">${f.intro}</div><div class="meta"><span class="chip">${esc(f.file)}</span><span class="chip">${f.steps.length} steps</span></div>
+      ${f.steps.map((s, i) => `<article class="step" id="${f.id}--${s.id}"><div class="step-head"><span class="label">Step ${i + 1}</span><h3>${esc(s.title.replace(/^Step \d+ · /, ""))}</h3></div>
+        <div class="chat"><div class="bubble">${s.user}</div></div>${s.why ? `<div class="why"><b>Why:</b> ${s.why}</div>` : ""}
+        <div class="comp-chips">${s.items.map(it => names.has(it.name) ? `<a class="chip" href="${here("components", it.name)}">${esc(it.name)}</a>` : `<span class="chip chip--warn">${esc(it.name)}</span>`).join("")}</div>
+        <div class="part"><div class="part-head"><span class="label">Response · ${s.items.length} section${s.items.length === 1 ? "" : "s"}</span><div class="tools">${viewportSeg()}<button class="copy" data-copy="${esc(s.code)}">${COPY}Copy JSON</button></div></div>
+          <div class="stage" data-stage data-items='${esc(JSON.stringify(s.items.map(x => ({ name: x.name, props: x.props }))))}' data-h="600"></div>
+          <details class="json" style="margin-top:12px"><summary>Response JSON</summary><pre>${hl(s.code)}</pre></details></div></article>`).join("")}</section>`).join("");
+}
+
+function pageContent(t) {
+  if (!t.content) return header(t, t.title, "Content", "Default web content the agent answers from.") + emptyState(t, "content");
+  return header(t, t.title, "Content", "Default web content for this template. The agent treats it as the source of truth for every fact it shows.", `<span class="chip">${esc(t.content.source)}</span><button class="copy" data-copy-content>${COPY}Copy markdown path</button>`) + `<div class="prose">${t.content.html}</div>`;
+}
+
+/* ---------------- clickable sites: a website, or a template's prototype ----------------
+   The frame loads the site's real pages from their own folder; each page includes frame.js, which reports
+   which page is open, so the address bar, page list and back/forward follow links inside the site. */
+let PROTO = null; // { key, history: [{ file, title }], idx, expect }
+const protoKey = () => `${S.proj}/${S.item}`;
+function protoStart(it) { const pg = it.prototype.pages[0]; PROTO = { key: protoKey(), history: [{ file: pg.file, title: pg.title }], idx: 0, expect: null }; }
+function siteGo(it, file) {
+  const pg = it.prototype.pages.find(x => x.file === file) || { file, title: file };
+  PROTO.history = PROTO.history.slice(0, PROTO.idx + 1); PROTO.history.push({ file, title: pg.title }); PROTO.idx++;
+  protoPaint(it);
+}
+function siteChrome(it) {
+  const page = PROTO.history[PROTO.idx];
+  $("#proto-addr").innerHTML = `<span>›</span><b>${esc(page.file)}</b>${page.title ? `<span>${esc(page.title)}</span>` : ""}`;
+  $("#proto-back").disabled = PROTO.idx === 0; $("#proto-fwd").disabled = PROTO.idx >= PROTO.history.length - 1;
+  $("#proto-open").href = it.prototype.base + page.file;
+  document.querySelectorAll(".side [data-proto-page]").forEach(a => a.classList.toggle("active", a.dataset.protoPage === page.file));
+}
+function protoPaint(it) {
+  const st = $("#proto-stage"); if (!st) return;
+  const page = PROTO.history[PROTO.idx];
+  const f = document.createElement("iframe"); f.title = it.title; f.id = "proto-frame";
+  PROTO.expect = page.file; f.src = it.prototype.base + page.file;
+  st.replaceChildren(f); siteChrome(it);
+}
+function pageSite(it) {
+  const pr = it.prototype;
+  if (!pr) return `<div style="padding:36px 48px">${header(it, it.title, it.type === "website" ? "Website" : "Prototype", "")}<div class="empty"><h2>No pages yet</h2><p>Add an <code>index.html</code> to <code>${esc(it.type === "website" ? it.path : it.path + "/prototype")}/</code> and run <code>python3 build.py</code>.</p></div></div>`;
+  if (!PROTO || PROTO.key !== protoKey()) protoStart(it);
+  return `<div class="proto"><div class="proto-bar"><button class="icon-btn" id="proto-back" aria-label="Back" title="Back"><svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg></button><button class="icon-btn" id="proto-fwd" aria-label="Forward" title="Forward"><svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></button><button class="icon-btn" id="proto-home" aria-label="Start over" title="Start over"><svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg></button>
+      <div class="addr" id="proto-addr"></div><div class="seg" data-proto-vp><button aria-pressed="true" data-w="desktop">Desktop</button><button aria-pressed="false" data-w="mobile">Mobile</button></div>
+      <a class="icon-btn" id="proto-open" href="${esc(pr.base)}index.html" target="_blank" rel="noopener" aria-label="Open in a new tab" title="Open in a new tab"><svg viewBox="0 0 24 24"><path d="M14 4h6v6"/><path d="M20 4l-9 9"/><path d="M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg></a></div>
+    <div class="proto-stage" id="proto-stage"></div></div>`;
+}
+
+/* ---------------- search (templates) ---------------- */
+function searchIndex() {
+  const out = [];
+  for (const p of PROJECTS) for (const t of p.items) {
+    if (t.type !== "template") continue;
+    const at = { p, t };
+    t.design?.sections.forEach(s => out.push({ ...at, page: "design", id: s.id, kind: "Design", title: s.title, text: strip(s.html) + JSON.stringify(s.blocks) }));
+    t.components.components.forEach(c => out.push({ ...at, page: "components", id: c.id, kind: "Component", title: c.title, sub: c.id, text: [c.id, ...c.rules.map(strip), ...c.variants.map(v => v.code)].join("\n") }));
+    t.layouts.forEach(f => f.steps.forEach(s => out.push({ ...at, page: "layouts", id: f.id + "--" + s.id, kind: "Layout step", title: `${f.title} · ${s.title}`, sub: strip(s.user), text: [f.title, strip(s.user), strip(s.why), s.code].join("\n") })));
+    t.content?.toc.forEach(x => out.push({ ...at, page: "content", id: x.id, kind: "Content", title: x.title, text: x.title }));
+  }
+  return out;
+}
+const INDEX = searchIndex();
+function pageSearch() {
+  const terms = S.q.toLowerCase().split(/\s+/).filter(Boolean);
+  const hits = INDEX.filter(x => { const h = (x.title + " " + (x.sub || "") + " " + x.text).toLowerCase(); return terms.every(w => h.includes(w)); });
+  const groups = [...new Set(hits.map(h => h.t))].map(t => hits.filter(h => h.t === t));
+  return `<div class="intro"><div class="eyebrow">Search</div><h1>“${esc(S.q)}”</h1><p>${hits.length} match${hits.length === 1 ? "" : "es"}.</p></div><div class="results">` +
+    (groups.map(h => `<h4 class="label" style="margin:24px 0 10px">${esc(h[0].p.title)} · ${esc(h[0].t.title)}</h4>` + h.slice(0, 60).map(x => `<a class="res" href="${href(x.p.id, x.t.id, x.page, x.id)}"><span class="chip">${esc(x.kind)}</span> <b>${esc(x.title)}</b>${x.sub ? `<p>${esc(x.sub)}</p>` : ""}</a>`).join("")).join("") ||
+      `<div class="empty"><h2>Nothing found</h2><p>Try a component name like <code>hero</code>, a prop like <code>data-prompt</code> or a colour like <code>accent</code>.</p></div>`) + `</div>`;
+}
+
+/* ---------------- render ---------------- */
+function render() {
+  renderChrome();
+  const it = I();
+  $("#side").innerHTML = S.q ? "" : sideFor(it);
+  $("#main").classList.toggle("main--wide", !S.q && it?.type === "template" && S.page === "components");
+  $("#main").classList.toggle("main--bleed", !S.q && isSiteView(it));
+  const page = { design: pageDesign, components: pageComponents, layouts: pageLayouts, content: pageContent }[S.page] || pageDesign;
+  $("#main").innerHTML = S.q ? pageSearch()
+    : !it ? `<div class="empty"><h2>Nothing to show yet</h2><p>Add a website or a template to this project in <code>build.json</code> and run <code>python3 build.py</code>.</p></div>`
+    : isSiteView(it) ? pageSite(it) : page(it);
+  if (!S.q && isSiteView(it) && it.prototype && PROTO) protoPaint(it);
+  STAGES.clear();
+  document.querySelectorAll("[data-stage][data-items]").forEach(st => mountStage(st, JSON.parse(st.dataset.items)));
+  spy();
+  if (S.anchor) requestAnimationFrame(() => document.getElementById(S.anchor)?.scrollIntoView()); else scrollTo(0, 0);
+}
+function spy() {
+  const links = [...document.querySelectorAll(".side a[data-id]")]; if (!links.length) return;
+  const targets = links.map(a => document.getElementById(a.dataset.id)).filter(Boolean);
+  const io = new IntersectionObserver(es => es.forEach(en => { if (en.isIntersecting) links.forEach(a => a.classList.toggle("active", a.dataset.id === en.target.id)); }), { rootMargin: "-120px 0px -65% 0px" });
+  targets.forEach(x => io.observe(x));
+}
+/* #/<project>/<item>/<page>/<anchor>; a website has no page */
+function route() {
+  const [proj, item, page, anchor] = decodeURIComponent(location.hash.replace(/^#\/?/, "")).split("/");
+  const p = PROJECTS.find(x => x.id === proj) || PROJECTS[0];
+  S.proj = p ? p.id : "";
+  const it = p?.items.find(x => x.id === item) || p?.items[0];
+  S.item = it ? it.id : "";
+  S.page = it?.type === "template" ? (PAGES.some(([x]) => x === page) ? page : (it.prototype ? "prototype" : "design")) : "";
+  S.anchor = anchor || ""; S.q = ""; $("#q").value = "";
+  render();
+}
+
+/* ---------------- events ---------------- */
+async function copy(btn, text) {
+  try { await navigator.clipboard.writeText(text); } catch { const x = document.createElement("textarea"); x.value = text; document.body.appendChild(x); x.select(); document.execCommand("copy"); x.remove(); }
+  const old = btn.innerHTML; btn.classList.add("done"); btn.innerHTML = COPY + "Copied"; setTimeout(() => { btn.classList.remove("done"); btn.innerHTML = old; }, 1400);
+}
+let toastT; function toast(h) { const x = $("#toast"); x.innerHTML = h; x.classList.add("show"); clearTimeout(toastT); toastT = setTimeout(() => x.classList.remove("show"), 2600); }
+document.addEventListener("click", e => {
+  const pp = e.target.closest("[data-proto-page]"); if (pp) { e.preventDefault(); if (PROTO && PROTO.key === protoKey()) siteGo(I(), pp.dataset.protoPage); return; }
+  if (e.target.closest("#proto-back")) { if (PROTO.idx > 0) { PROTO.idx--; protoPaint(I()); } return; }
+  if (e.target.closest("#proto-fwd")) { if (PROTO.idx < PROTO.history.length - 1) { PROTO.idx++; protoPaint(I()); } return; }
+  if (e.target.closest("#proto-home")) { protoStart(I()); protoPaint(I()); return; }
+  const pv = e.target.closest("[data-proto-vp] button"); if (pv) { pv.parentNode.querySelectorAll("button").forEach(b => b.setAttribute("aria-pressed", b === pv)); $("#proto-stage").classList.toggle("mobile", pv.dataset.w === "mobile"); return; }
+  const cb = e.target.closest(".copy"); if (cb) {
+    const card = cb.closest(".card[data-c]");
+    if (cb.hasAttribute("data-copy-json") && card) { const c = T().components.components.find(x => x.id === card.dataset.c); const i = +(card.querySelector("[data-variants] [aria-pressed=true]")?.dataset.v || 0); return copy(cb, c.variants[i].code); }
+    if (cb.hasAttribute("data-copy-content")) return copy(cb, T().content.source);
+    if (cb.hasAttribute("data-download-components")) { const x = T().components.export; const a = document.createElement("a");
+      a.href = URL.createObjectURL(new Blob([x.md], { type: "text/markdown" })); a.download = x.name; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 1000); return; }
+    return copy(cb, cb.dataset.copy);
+  }
+  const vb = e.target.closest("[data-variants] button"); if (vb) {
+    const card = vb.closest(".card[data-c]"); const c = T().components.components.find(x => x.id === card.dataset.c); const v = c.variants[+vb.dataset.v];
+    vb.parentNode.querySelectorAll("button").forEach(b => b.setAttribute("aria-pressed", b === vb));
+    card.querySelector("[data-code]").innerHTML = hl(v.code);
+    const st = card.querySelector("[data-stage]"); if (st) mountStage(st, [{ name: c.id, props: v.props }]); return;
+  }
+  const wb = e.target.closest("[data-viewport] button"); if (wb) {
+    wb.parentNode.querySelectorAll("button").forEach(b => b.setAttribute("aria-pressed", b === wb));
+    wb.closest(".part, .card").querySelector("[data-stage]")?.classList.toggle("mobile", wb.dataset.w === "mobile"); return;
+  }
+  const mb = e.target.closest("[data-colors] [data-mode]"); if (mb) {
+    const box = mb.closest("[data-colors]"); box.querySelectorAll("[data-mode]").forEach(b => b.setAttribute("aria-pressed", b === mb));
+    box.querySelectorAll("[data-m]").forEach(g => g.hidden = g.dataset.m !== mb.dataset.mode); return;
+  }
+});
+addEventListener("message", e => {
+  const d = e.data || {};
+  const pf = $("#proto-frame");
+  if (d.designFrame && pf && e.source === pf.contentWindow && PROTO) { // sent by frame.js
+    const cur = PROTO.history[PROTO.idx], pg = d.designFrame.page;
+    if (PROTO.expect === pg || cur.file === pg) cur.title = d.designFrame.title || cur.title; // our own navigation, or a reload
+    else { PROTO.history = PROTO.history.slice(0, PROTO.idx + 1); PROTO.history.push({ file: pg, title: d.designFrame.title || "" }); PROTO.idx++; } // a link inside the site
+    PROTO.expect = null; siteChrome(I()); return;
+  }
+  if (d.h) document.querySelectorAll("iframe").forEach(f => { if (f.contentWindow === e.source) f.style.height = d.h + "px"; });
+  if (d.click) { const k = d.click; toast(k.prompt ? `Sends data-prompt: <b>${esc(k.prompt)}</b>` : k.anchor ? `Scrolls to anchor: <b>${esc(k.anchor)}</b>` : k.href ? `Navigates to href: <b>${esc(k.href)}</b>` : `Frontend action, no prompt: <b>${esc(k.action || "static")}</b>`); }
+});
+let qt; $("#q").addEventListener("input", e => { clearTimeout(qt); qt = setTimeout(() => { S.q = e.target.value.trim(); if (!S.q) return route(); render(); }, 140); });
+addEventListener("keydown", e => {
+  if (e.key === "/" && document.activeElement !== $("#q")) { e.preventDefault(); $("#q").focus(); }
+  if (e.key === "Escape" && document.activeElement === $("#q")) { $("#q").value = ""; route(); }
+});
+$("#theme").addEventListener("click", () => {
+  document.documentElement.dataset.theme = theme() === "dark" ? "light" : "dark";
+  try { localStorage.setItem("design-theme", document.documentElement.dataset.theme); } catch {}
+  if (I()?.type === "template" && S.page === "design" && !S.q) render(); else remountAll();
+});
+try { const th = localStorage.getItem("design-theme"); if (th) document.documentElement.dataset.theme = th; } catch {}
+addEventListener("hashchange", route);
+route();
+</script>
+</body>
+</html>

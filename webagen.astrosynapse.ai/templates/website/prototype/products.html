@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Products · Korvane Silicon</title>
+  <meta name="description" content="Nerva N1, Ostra P8, Lumen R60, Vault M4 and the Tessel Kit: chips Korvane Silicon designs and ships itself.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Products · Korvane Silicon">
+  <meta property="og:description" content="Nerva N1, Ostra P8, Lumen R60, Vault M4 and the Tessel Kit: chips Korvane Silicon designs and ships itself.">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&amp;display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
+  <link rel="stylesheet" href="styles.css">
+  <script>document.documentElement.classList.add("js");</script>
+</head>
+<body>
+  <div class="fx-grain" aria-hidden="true"></div>
+  <div class="fx-vignette" aria-hidden="true"></div>
+  <canvas class="fx-orbs" data-orbs aria-hidden="true"></canvas>
+  <div class="cursor" data-cursor aria-hidden="true"></div>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header" id="site-header">
+    <div class="site-header__inner wrap">
+      <a class="brand" href="index.html">
+        <img src="public/logo/korvane-mark.svg" width="32" height="32" alt="">
+        <span>Korvane Silicon</span>
+        <span class="brand__code">ST/02</span>
+      </a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Open menu">
+        <span class="nav-toggle__bar"></span>
+        <span class="nav-toggle__bar"></span>
+      </button>
+      <nav id="site-nav" class="site-nav" aria-label="Primary">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="solutions.html">Solutions</a></li>
+          <li><a href="products.html" aria-current="page">Products</a></li>
+          <li><a href="use-cases.html">Use Cases</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a class="btn btn--nav" href="contact.html">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero hero--page">
+      <div class="hero__stage" aria-hidden="true">
+        <div class="hero__ring"></div>
+        <div class="hero__orb"></div>
+      </div>
+      <div class="wrap hero__copy">
+        <p class="kicker"><span>02. Products</span><span>Designed in-house</span></p>
+        <h1>Chips we design and ship ourselves.</h1>
+        <p class="lede">Every block in our products is silicon-proven IP from our client programs, and every product proves that IP at volume before it goes back into client designs.</p>
+      </div>
+    </section>
+
+    <article class="section" id="nerva">
+      <div class="wrap">
+        <div class="glow-card glow-card--1 glow-card--banner" data-tilt data-reveal>
+          <span class="glow-card__num">001</span>
+          <div class="glow-card__top">
+            <h2>Nerva N1</h2>
+            <span class="badge badge--live">In Production</span>
+          </div>
+        </div>
+        <div data-reveal>
+          <h3>Run vision AI on the device, not in the cloud.</h3>
+          <div class="prose">
+            <p>Smart cameras, inspection systems and robots need to run neural networks in real time, but GPUs draw too much power and cloud inference adds latency, bandwidth cost and privacy risk. Nerva N1 is a dedicated inference accelerator that runs modern vision and audio models locally at 8 TOPS while drawing under one watt: small enough to sit next to the image sensor and efficient enough to run on battery or PoE power.</p>
+            <h3>How it works</h3>
+            <ol class="steps">
+              <li>Train your model in PyTorch or TensorFlow as usual</li>
+              <li>Compile it with the Nerva toolchain to INT8 or INT4</li>
+              <li>Connect Nerva N1 to your host over PCIe or USB</li>
+              <li>Stream camera frames directly in through MIPI CSI-2</li>
+              <li>Your model runs on-device at under one watt</li>
+            </ol>
+            <h3>What sets it apart</h3>
+            <p>Unlike general-purpose GPUs and NPUs bundled into application processors, Nerva N1 keeps the full model in on-chip memory, so it never stalls waiting on external DRAM. That's where most of its power advantage comes from, and why it delivers consistent frame rates with no thermal throttling.</p>
+          </div>
+          <dl class="facts">
+            <div>
+              <dt>Performance.</dt>
+              <dd>8 TOPS (INT8), 16 TOPS (INT4) at 0.9 W typical power, with 4 MB on-chip SRAM and a RISC-V RV32 control core.</dd>
+            </div>
+            <div>
+              <dt>Interfaces.</dt>
+              <dd>MIPI CSI-2 (2× 4-lane), PCIe Gen3 x1, USB 3.2.</dd>
+            </div>
+            <div>
+              <dt>Silicon.</dt>
+              <dd>22nm FD-SOI, 9 × 9 mm FCBGA, −40 °C to +105 °C.</dd>
+            </div>
+            <div>
+              <dt>Proof.</dt>
+              <dd>Lyrafield, a maker of industrial inspection cameras, moved defect detection from an embedded GPU module to Nerva N1, cutting camera power from 11 W to 3.2 W and removing the fan from its enclosure entirely.</dd>
+            </div>
+          </dl>
+          <ul class="pills">
+            <li class="pill">8 TOPS</li>
+            <li class="pill">sub-1 W</li>
+            <li class="pill">INT4/INT8</li>
+            <li class="pill">on-chip SRAM</li>
+            <li class="pill">RISC-V control core</li>
+          </ul>
+          <div class="cta-row">
+            <a class="btn btn--primary" href="contact.html">View the datasheet →</a>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="section section--void" id="ostra">
+      <div class="wrap">
+        <div class="glow-card glow-card--2 glow-card--banner" data-tilt data-reveal>
+          <span class="glow-card__num">002</span>
+          <div class="glow-card__top">
+            <h2>Ostra P8</h2>
+            <span class="badge badge--live">In Production</span>
+          </div>
+        </div>
+        <div data-reveal>
+          <h3>Eight power rails. One chip. Two microamps.</h3>
+          <div class="prose">
+            <p>Battery-powered industrial and medical devices often need six to ten separate voltage regulators, each adding board area, cost and standby current that drains batteries in storage. Ostra P8 integrates four buck converters and four LDOs into a single programmable power management IC with a quiescent current of just 2 µA, configured over I²C or PMBus and stored in one-time-programmable memory.</p>
+          </div>
+          <dl class="facts">
+            <div>
+              <dt>Integrate.</dt>
+              <dd>Four high-efficiency buck converters and four low-noise LDOs replace up to eight discrete regulators.</dd>
+            </div>
+            <div>
+              <dt>Program.</dt>
+              <dd>Voltages, sequencing and fault limits set over I²C/PMBus, then locked into on-chip OTP memory.</dd>
+            </div>
+            <div>
+              <dt>Monitor.</dt>
+              <dd>Built-in telemetry reports voltage, current and temperature on every rail.</dd>
+            </div>
+            <div>
+              <dt>Protect.</dt>
+              <dd>Over-voltage, over-current and thermal shutdown on each rail independently.</dd>
+            </div>
+            <div>
+              <dt>Proof.</dt>
+              <dd>Brenholt Elektro, an industrial drives manufacturer, replaced seven discrete regulators with a single Ostra P8, cutting power-section BOM cost by 31% and board area by 44%.</dd>
+            </div>
+          </dl>
+          <ul class="pills">
+            <li class="pill">2.7–5.5 V input</li>
+            <li class="pill">up to 94% efficiency</li>
+            <li class="pill">2 microamp quiescent</li>
+            <li class="pill">130nm BCD</li>
+            <li class="pill">4 × 4 mm WLCSP</li>
+          </ul>
+          <div class="cta-row">
+            <a class="btn btn--primary" href="contact.html">Request samples →</a>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="section" id="lumen">
+      <div class="wrap">
+        <div class="glow-card glow-card--3 glow-card--banner" data-tilt data-reveal>
+          <span class="glow-card__num">003</span>
+          <div class="glow-card__top">
+            <h2>Lumen R60</h2>
+            <span class="badge badge--access">Engineering Samples</span>
+          </div>
+        </div>
+        <div data-reveal>
+          <h3>See presence, motion and breathing, without a camera.</h3>
+          <div class="prose">
+            <p>Lumen R60 is a 60 GHz radar sensor SoC that detects people, gestures and vital signs through plastic and fabric, with no camera and no images to protect.</p>
+          </div>
+          <dl class="facts">
+            <div>
+              <dt>Sense.</dt>
+              <dd>Three transmit and four receive channels with integrated antennas produce a 4D point cloud of range, speed and angle.</dd>
+            </div>
+            <div>
+              <dt>Process.</dt>
+              <dd>An on-chip DSP and RISC-V core run detection algorithms locally, so only results leave the chip.</dd>
+            </div>
+            <div>
+              <dt>Privacy.</dt>
+              <dd>Radar sees movement, not faces, making it suitable for bathrooms, bedrooms and care homes where cameras are unacceptable.</dd>
+            </div>
+            <div>
+              <dt>Applications.</dt>
+              <dd>In-cabin child presence detection, elderly fall detection, smart lighting and touchless controls.</dd>
+            </div>
+          </dl>
+          <ul class="pills">
+            <li class="pill">57–64 GHz</li>
+            <li class="pill">3 TX / 4 RX</li>
+            <li class="pill">antenna-in-package</li>
+            <li class="pill">up to 15 m range</li>
+            <li class="pill">40nm RF CMOS</li>
+            <li class="pill">AEC-Q100 in progress</li>
+          </ul>
+          <div class="cta-row">
+            <a class="btn btn--primary" href="contact.html">Apply for engineering samples →</a>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="section section--void" id="vault">
+      <div class="wrap">
+        <div class="glow-card glow-card--mesh glow-card--banner" data-tilt data-reveal>
+          <span class="glow-card__num">004</span>
+          <div class="glow-card__top">
+            <h2>Vault M4</h2>
+            <span class="badge badge--wait">Waitlist</span>
+          </div>
+        </div>
+        <div data-reveal>
+          <h3>A microcontroller ready for the quantum era.</h3>
+          <div class="prose">
+            <p>Vault M4 is a secure RISC-V microcontroller with a hardware root of trust and built-in post-quantum cryptography, designed for connected devices that must stay secure for fifteen years or more.</p>
+            <p><strong>Built for long-lived devices.</strong> Smart meters, industrial controllers and medical devices stay in the field for 15+ years. Vault M4 implements the post-quantum algorithms ML-KEM and ML-DSA in hardware, so devices shipped today stay secure after classical encryption is broken.</p>
+            <p><strong>Hardware root of trust.</strong> Device keys are generated from a physically unclonable function and never stored in memory. Secure boot, encrypted firmware updates and an active tamper-detection mesh are built in.</p>
+            <p><strong>Coming next.</strong> Pre-certified firmware stacks for EU Cyber Resilience Act compliance, and a secure provisioning service that injects keys during production testing.</p>
+          </div>
+          <ul class="pills">
+            <li class="pill">RISC-V RV32 at 200 MHz</li>
+            <li class="pill">1 MB flash · 256 KB SRAM</li>
+            <li class="pill">hardware PQC engine</li>
+            <li class="pill">PUF key storage</li>
+            <li class="pill">22nm FD-SOI</li>
+          </ul>
+          <div class="cta-row">
+            <a class="btn btn--primary" href="contact.html">Join the waitlist →</a>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="section" id="tessel">
+      <div class="wrap">
+        <div class="glow-card glow-card--mesh glow-card--banner" data-tilt data-reveal>
+          <span class="glow-card__num">005</span>
+          <div class="glow-card__top">
+            <h2>Tessel Kit</h2>
+            <span class="badge badge--live">Live</span>
+          </div>
+        </div>
+        <div data-reveal>
+          <h3>Prototype with every Korvane chip on one board.</h3>
+          <div class="prose">
+            <p>Tessel is a modular evaluation platform: one carrier board, plug-in modules for each Korvane chip, and a desktop app for configuration, telemetry and firmware flashing. Prototype a vision sensor, a radar node or a secure gateway in an afternoon instead of designing a custom board first.</p>
+            <ul>
+              <li>Carrier board with USB-C power and debug</li>
+              <li>Plug-in modules for Nerva N1, Ostra P8, Lumen R60 and Vault M4</li>
+              <li>Raspberry Pi and Arduino-compatible headers</li>
+              <li>Tessel Studio desktop app for Windows, macOS and Linux</li>
+              <li>Reference designs and schematics included</li>
+            </ul>
+          </div>
+          <ul class="pills">
+            <li class="pill">modular</li>
+            <li class="pill">plug-in chip modules</li>
+            <li class="pill">Tessel Studio app</li>
+            <li class="pill">open reference designs</li>
+          </ul>
+          <div class="cta-row">
+            <a class="btn btn--primary" href="contact.html">Get a Tessel Kit →</a>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <section class="section section--void">
+      <div class="wrap" data-reveal>
+        <h2>Need a chip that isn't on this page?</h2>
+        <p class="lede">That's what our design services are for. Tell us what you're building.</p>
+        <a class="btn btn--primary" href="contact.html">Contact us →</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap site-footer__grid">
+      <div>
+        <h3>Korvane Silicon B.V.</h3>
+        <address class="address">Kalkovenweg 117, 5652 RT Eindhoven, Netherlands</address>
+        <ul class="social">
+          <li><a href="#" rel="noopener noreferrer">LinkedIn</a></li>
+          <li><a href="#" rel="noopener noreferrer">GitHub</a></li>
+        </ul>
+      </div>
+      <nav aria-label="Footer">
+        <ul class="footer-nav">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="solutions.html">Solutions</a></li>
+          <li><a href="products.html" aria-current="page">Products</a></li>
+          <li><a href="use-cases.html">Use Cases</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </nav>
+      <nav aria-label="Legal">
+        <ul class="footer-nav">
+          <li><a href="privacy-policy.html">Privacy Policy</a></li>
+          <li><a href="terms-of-sale.html">Terms of Sale</a></li>
+        </ul>
+      </nav>
+    </div>
+    <p class="wrap copyright">© Korvane Silicon B.V. Eindhoven, Netherlands. A fictional company for the webAgen demo.</p>
+  </footer>
+  <script src="main.js"></script>
+  <script src="../../../../frame.js"></script>
+</body>
+</html>

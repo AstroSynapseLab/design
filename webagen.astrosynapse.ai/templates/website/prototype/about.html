@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>About · Korvane Silicon</title>
+  <meta name="description" content="Korvane Silicon is a fabless chip design house in Eindhoven and Porto: part design studio, part product company.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="About · Korvane Silicon">
+  <meta property="og:description" content="Korvane Silicon is a fabless chip design house in Eindhoven and Porto: part design studio, part product company.">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&amp;display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
+  <link rel="stylesheet" href="styles.css">
+  <script>document.documentElement.classList.add("js");</script>
+</head>
+<body>
+  <div class="fx-grain" aria-hidden="true"></div>
+  <div class="fx-vignette" aria-hidden="true"></div>
+  <canvas class="fx-orbs" data-orbs aria-hidden="true"></canvas>
+  <div class="cursor" data-cursor aria-hidden="true"></div>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header" id="site-header">
+    <div class="site-header__inner wrap">
+      <a class="brand" href="index.html">
+        <img src="public/logo/korvane-mark.svg" width="32" height="32" alt="">
+        <span>Korvane Silicon</span>
+        <span class="brand__code">ST/04</span>
+      </a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Open menu">
+        <span class="nav-toggle__bar"></span>
+        <span class="nav-toggle__bar"></span>
+      </button>
+      <nav id="site-nav" class="site-nav" aria-label="Primary">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="solutions.html">Solutions</a></li>
+          <li><a href="products.html">Products</a></li>
+          <li><a href="use-cases.html">Use Cases</a></li>
+          <li><a href="about.html" aria-current="page">About</a></li>
+          <li><a class="btn btn--nav" href="contact.html">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero hero--page">
+      <div class="hero__stage" aria-hidden="true">
+        <div class="hero__ring"></div>
+        <div class="hero__orb"></div>
+      </div>
+      <div class="wrap hero__copy">
+        <p class="kicker"><span>04. Company</span><span>Eindhoven · Porto</span></p>
+        <h1>We design chips that do one thing exceptionally well.</h1>
+        <p class="lede">Korvane Silicon is a fabless semiconductor design house: part chip design studio, part product company.</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap prose">
+        <div data-reveal>
+          <p class="st-code">ST/04.1 · Practice</p>
+          <h2>What we do</h2>
+          <p>General-purpose chips are built to sell into every market at once, which means every product that uses them pays for features it will never touch, in power, in board space and in cost. We design silicon around a specific job and strip out everything else.</p>
+          <p>We split our work into two halves that feed each other. Design services fund our research: custom ASICs and SoCs for clients, plus verification, analog IP, packaging, test and firmware as stand-alone services. That research becomes reusable IP, which goes into our own chips (Nerva N1, Ostra P8, Lumen R60, Vault M4) and the Tessel evaluation platform. Our products prove the IP at volume before it goes back into client designs, so every block we license has already shipped in production.</p>
+          <p>We don't own a fab. We own the design, the verification, the test programs and the relationship with every foundry and packaging partner in our supply chain, so our customers get one accountable team from first specification to volume production.</p>
+        </div>
+        <div data-reveal>
+          <h2>Our story</h2>
+          <p>Korvane Silicon was founded in 2019 by four engineers who had spent their careers inside large semiconductor companies, watching good product ideas get cancelled because they didn't fit a roadmap built for smartphones. They started Korvane to design the chips those companies wouldn't: low-volume, long-life, highly specific silicon for industrial, medical and automotive products.</p>
+          <p>The first years were funded entirely by custom ASIC work for clients. In 2022, the power management IP built for those clients became Ostra P8, our first product. Nerva N1 followed in 2024.</p>
+          <dl class="facts">
+            <div>
+              <dt>Team.</dt>
+              <dd>46 engineers, 61 people total, across design centers in Eindhoven (digital &amp; system) and Porto (analog &amp; RF).</dd>
+            </div>
+            <div>
+              <dt>Track record.</dt>
+              <dd>23 tape-outs (11 own products, 12 customer ASICs) and 9.4 million chips shipped to date.</dd>
+            </div>
+            <div>
+              <dt>Process nodes.</dt>
+              <dd>22nm FD-SOI, 40nm RF CMOS, 130nm BCD, 180nm.</dd>
+            </div>
+          </dl>
+        </div>
+        <div data-reveal>
+          <h2>Leadership</h2>
+          <dl class="facts">
+            <div>
+              <dt>Ilse Varendonck · Co-founder &amp; CEO</dt>
+              <dd>Previously led mixed-signal product lines for industrial markets.</dd>
+            </div>
+            <div>
+              <dt>Tomás Revelo · Co-founder &amp; CTO</dt>
+              <dd>Digital architect behind three generations of low-power SoCs.</dd>
+            </div>
+            <div>
+              <dt>Marta Quintela · Co-founder &amp; Head of Analog, Porto</dt>
+              <dd>Specialist in data converters and mmWave front ends.</dd>
+            </div>
+            <div>
+              <dt>Joris Abbenhuis · Co-founder &amp; VP Operations</dt>
+              <dd>Runs foundry, packaging and supply chain relationships.</dd>
+            </div>
+          </dl>
+        </div>
+        <div data-reveal>
+          <h2>How we operate</h2>
+          <p>Hardware punishes improvisation: a mistake found after tape-out costs months, not hours. Every program runs on a small set of internal protocols, refined across 23 tape-outs: Specification Freeze, Architecture Review, Verification Sign-off, Tape-out Readiness, Silicon Bring-up, Qualification &amp; Release, and Customer Handoff.</p>
+          <p>The same toolchain and IP library serves our own products and our client programs: RISC-V cores, SystemVerilog and UVM, custom ADCs, PLLs and mmWave front ends, firmware in C and Rust on Zephyr. What we build for ourselves and what we build for clients stays compatible.</p>
+          <ul>
+            <li>Small, senior teams: every program is led by an engineer with at least two tape-outs behind them.</li>
+            <li>Honest recommendations: we turn down programs where custom silicon isn't the right answer.</li>
+            <li>Long relationships: our first client is still a client, now on its third chip.</li>
+          </ul>
+        </div>
+        <div data-reveal>
+          <h2>Supply chain &amp; quality</h2>
+          <p>The chip shortage of the early 2020s stopped production lines for want of parts costing less than a euro. Every Korvane product is designed to avoid single points of failure: two foundries per process node with at least one in Europe, two packaging and test partners on two continents, a fifteen-year longevity commitment on every standard product, and buffer stock programs in bonded storage for customers on long-term agreements.</p>
+          <ul class="pills">
+            <li class="pill">ISO 9001</li>
+            <li class="pill">ISO 26262 (ASIL-B capable)</li>
+            <li class="pill">AEC-Q100</li>
+            <li class="pill">IEC 62443</li>
+            <li class="pill">wafer-to-unit traceability</li>
+            <li class="pill">8D failure analysis</li>
+            <li class="pill">EU Chips Act aligned</li>
+          </ul>
+        </div>
+        <div data-reveal>
+          <h2>Where we're headed</h2>
+          <p>The near-term plan is straightforward: grow a small, senior design team across Eindhoven and Porto, fund it through custom ASIC programs and design services, and use that runway to expand our own product families (Nerva, Ostra, Lumen and Vault), each eventually run as an independent business unit. Nerva N2 and Vault M4 are planned for production by 2028. We are optimising for first-pass silicon success and long customer relationships, not for headcount.</p>
+        </div>
+        <div data-reveal>
+          <h2>Careers</h2>
+          <p>We hire digital designers, verification engineers, analog and RF designers, firmware engineers and test engineers in Eindhoven and Porto.</p>
+          <div class="cta-row">
+            <a class="btn btn--primary" href="contact.html">Ask about open roles →</a>
+          </div>
+        </div>
+        <div data-reveal>
+          <h2>Where we are</h2>
+          <p>Korvane Silicon B.V. is registered in Eindhoven, Netherlands, with a second design center in Porto, Portugal.</p>
+          <address class="address address--lg">Kalkovenweg 117, 5652 RT Eindhoven, Netherlands</address>
+          <address class="address address--lg">Rua das Fundições 48, 4100-321 Porto, Portugal</address>
+          <div class="cta-row">
+            <a class="btn btn--primary" href="contact.html">Contact us →</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap site-footer__grid">
+      <div>
+        <h3>Korvane Silicon B.V.</h3>
+        <address class="address">Kalkovenweg 117, 5652 RT Eindhoven, Netherlands</address>
+        <ul class="social">
+          <li><a href="#" rel="noopener noreferrer">LinkedIn</a></li>
+          <li><a href="#" rel="noopener noreferrer">GitHub</a></li>
+        </ul>
+      </div>
+      <nav aria-label="Footer">
+        <ul class="footer-nav">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="solutions.html">Solutions</a></li>
+          <li><a href="products.html">Products</a></li>
+          <li><a href="use-cases.html">Use Cases</a></li>
+          <li><a href="about.html" aria-current="page">About</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </nav>
+      <nav aria-label="Legal">
+        <ul class="footer-nav">
+          <li><a href="privacy-policy.html">Privacy Policy</a></li>
+          <li><a href="terms-of-sale.html">Terms of Sale</a></li>
+        </ul>
+      </nav>
+    </div>
+    <p class="wrap copyright">© Korvane Silicon B.V. Eindhoven, Netherlands. A fictional company for the webAgen demo.</p>
+  </footer>
+  <script src="main.js"></script>
+  <script src="../../../../frame.js"></script>
+</body>
+</html>

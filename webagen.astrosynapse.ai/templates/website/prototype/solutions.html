@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Solutions · Korvane Silicon</title>
+  <meta name="description" content="Custom ASIC and SoC design, verification, analog IP, packaging, test, firmware and lifecycle management from Korvane Silicon.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Solutions · Korvane Silicon">
+  <meta property="og:description" content="Custom ASIC and SoC design, verification, analog IP, packaging, test, firmware and lifecycle management from Korvane Silicon.">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&amp;display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
+  <link rel="stylesheet" href="styles.css">
+  <script>document.documentElement.classList.add("js");</script>
+</head>
+<body>
+  <div class="fx-grain" aria-hidden="true"></div>
+  <div class="fx-vignette" aria-hidden="true"></div>
+  <canvas class="fx-orbs" data-orbs aria-hidden="true"></canvas>
+  <div class="cursor" data-cursor aria-hidden="true"></div>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header" id="site-header">
+    <div class="site-header__inner wrap">
+      <a class="brand" href="index.html">
+        <img src="public/logo/korvane-mark.svg" width="32" height="32" alt="">
+        <span>Korvane Silicon</span>
+        <span class="brand__code">ST/01</span>
+      </a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Open menu">
+        <span class="nav-toggle__bar"></span>
+        <span class="nav-toggle__bar"></span>
+      </button>
+      <nav id="site-nav" class="site-nav" aria-label="Primary">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="solutions.html" aria-current="page">Solutions</a></li>
+          <li><a href="products.html">Products</a></li>
+          <li><a href="use-cases.html">Use Cases</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a class="btn btn--nav" href="contact.html">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero hero--page">
+      <div class="hero__stage" aria-hidden="true">
+        <div class="hero__ring"></div>
+        <div class="hero__orb"></div>
+      </div>
+      <div class="wrap hero__copy">
+        <p class="kicker"><span>01. Design</span><span>Spec to silicon</span></p>
+        <h1>Silicon built around how your product actually works.</h1>
+        <p class="lede">We design the chip around your product, not the other way around. And if an off-the-shelf part already does the job, we will tell you to buy it.</p>
+      </div>
+    </section>
+
+    <article class="solution" data-reveal>
+      <div class="wrap">
+        <p class="solution__index">01 · Custom ASIC &amp; SoC Design</p>
+        <h2>Your product's chip, designed from the specification up.</h2>
+        <p class="lede">We design custom ASICs and RISC-V based SoCs from specification to tape-out, combining our silicon-proven IP library with new blocks built for your product. One chip can replace a board full of discrete parts, cutting power, area and unit cost while making your design much harder to copy.</p>
+        <ul class="pills">
+          <li class="pill">RISC-V SoC design</li>
+          <li class="pill">mixed-signal ASICs</li>
+          <li class="pill">spec to tape-out ownership</li>
+          <li class="pill">22nm to 180nm process nodes</li>
+          <li class="pill">multi-project wafer prototyping</li>
+          <li class="pill">cost-per-unit modeling from day one</li>
+        </ul>
+        <p>Typical engagement: 14–22 months; a derivative design starts at 9.</p>
+        <div class="cta-row">
+          <a class="btn btn--primary" href="contact.html">Start a project →</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="solution" data-reveal>
+      <div class="wrap">
+        <p class="solution__index">02 · Design Verification &amp; DFT</p>
+        <h2>Find the bug before the foundry does.</h2>
+        <p class="lede">Verification is the majority of the work in any chip, and the stage most often underfunded. We build UVM testbenches, write formal properties and run FPGA prototypes until coverage closes, and we insert design-for-test structures so every chip can be tested quickly in production.</p>
+        <ul class="pills">
+          <li class="pill">UVM testbench development</li>
+          <li class="pill">formal verification</li>
+          <li class="pill">FPGA prototyping</li>
+          <li class="pill">scan and BIST insertion</li>
+          <li class="pill">coverage closure and sign-off</li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="solution" data-reveal>
+      <div class="wrap">
+        <p class="solution__index">03 · Analog &amp; Mixed-Signal IP</p>
+        <h2>Proven analog blocks, licensable or custom-built.</h2>
+        <p class="lede">Our Porto design center builds the analog blocks most digital teams can't: data converters, clock generation, power regulation and high-speed interfaces. License a block from our catalog or have one designed and ported to your process.</p>
+        <ul class="pills">
+          <li class="pill">12-bit and 16-bit ADCs</li>
+          <li class="pill">fractional-N PLLs</li>
+          <li class="pill">low-noise LDOs and DC-DC converters</li>
+          <li class="pill">SerDes up to 16 Gbps</li>
+          <li class="pill">process porting</li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="solution" data-reveal>
+      <div class="wrap">
+        <p class="solution__index">04 · Packaging &amp; Chiplet Integration</p>
+        <h2>The package is part of the design.</h2>
+        <p class="lede">We design the package alongside the die: selecting the format, modeling thermal and signal integrity, and managing the packaging partner. For larger systems, we integrate multiple dies into a single 2.5D chiplet package.</p>
+        <ul class="pills">
+          <li class="pill">QFN, FCBGA and WLCSP</li>
+          <li class="pill">antenna-in-package for mmWave</li>
+          <li class="pill">2.5D chiplet integration</li>
+          <li class="pill">thermal and signal-integrity modeling</li>
+          <li class="pill">packaging partner management</li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="solution" data-reveal>
+      <div class="wrap">
+        <p class="solution__index">05 · Test, Qualification &amp; Reliability</p>
+        <h2>Every chip proven before it ships.</h2>
+        <p class="lede">We develop the production test programs, run reliability qualification, and handle failure analysis when something comes back from the field. Automotive programs are qualified to AEC-Q100.</p>
+        <ul class="pills">
+          <li class="pill">ATE test program development</li>
+          <li class="pill">AEC-Q100 qualification</li>
+          <li class="pill">HTOL, ESD and latch-up testing</li>
+          <li class="pill">characterization across voltage and temperature</li>
+          <li class="pill">failure analysis</li>
+        </ul>
+        <div class="cta-row">
+          <a class="btn btn--primary" href="contact.html">Contact us →</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="solution" data-reveal>
+      <div class="wrap">
+        <p class="solution__index">06 · Embedded Firmware &amp; SDKs</p>
+        <h2>Silicon is only as good as the software that runs it.</h2>
+        <p class="lede">Every chip we design ships with working firmware on day one of bring-up: bootloaders, drivers, board support packages and Zephyr RTOS integration. For AI hardware, we build the model compilers that turn trained networks into efficient on-chip code.</p>
+        <ul class="pills">
+          <li class="pill">bootloaders and secure boot</li>
+          <li class="pill">device drivers and BSPs</li>
+          <li class="pill">Zephyr RTOS support</li>
+          <li class="pill">model compiler toolchains</li>
+          <li class="pill">reference applications</li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="solution" data-reveal>
+      <div class="wrap">
+        <p class="solution__index">07 · Lifecycle &amp; Obsolescence Management</p>
+        <h2>When your critical part goes end-of-life, we build its replacement.</h2>
+        <p class="lede">Industrial, medical and rail products live for decades; the chips inside them often don't. We design pin-compatible, drop-in replacements for discontinued parts and guarantee long-term supply, so a single end-of-life notice never stops your production line.</p>
+        <ul class="pills">
+          <li class="pill">pin-compatible drop-in replacements</li>
+          <li class="pill">15-year supply commitments</li>
+          <li class="pill">last-time-buy planning</li>
+          <li class="pill">component risk audits</li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="solution" data-reveal>
+      <div class="wrap">
+        <p class="solution__index">08 · Engineering Team Augmentation</p>
+        <h2>We don't just consult. We embed.</h2>
+        <p class="lede">We place silicon, firmware and test engineers directly inside your hardware team, working in your tools and your schedules, not delivering a report and leaving.</p>
+        <dl class="facts">
+          <div>
+            <dt>What we do</dt>
+            <dd>Embed digital, analog, verification, firmware and test engineers into your hardware team to design, verify and ship, not just review.</dd>
+          </div>
+          <div>
+            <dt>Why us</dt>
+            <dd>Engineers who have taken chips through tape-out, onboarded through the same protocols we use internally (Specification Freeze, Tape-out Readiness, Customer Handoff) instead of ad hoc. Includes VP-level silicon leadership.</dd>
+          </div>
+          <div>
+            <dt>Process</dt>
+            <dd>Discovery. Scoping. Embedded delivery. Handoff.</dd>
+          </div>
+          <div>
+            <dt>Engagement</dt>
+            <dd>Custom scoped, minimum three months, starting from a discovery call.</dd>
+          </div>
+          <div>
+            <dt>Proof</dt>
+            <dd>23 tape-outs, first-pass silicon success on 19 of them, delivered under protocol: Specification Freeze, Architecture Review, Verification Sign-off, Tape-out Readiness, Silicon Bring-up, Qualification &amp; Release.</dd>
+          </div>
+        </dl>
+        <div class="cta-row">
+          <a class="btn btn--primary" href="contact.html">Book a discovery call →</a>
+        </div>
+      </div>
+    </article>
+
+    <section class="section section--void" id="process">
+      <div class="wrap prose" data-reveal>
+        <p class="st-code">ST/01.1 · Process</p>
+        <h2>Concept to silicon in nine stages.</h2>
+        <p>A typical custom ASIC program takes 14 to 22 months; a derivative of existing Korvane IP can take as little as 9.</p>
+        <ol class="steps">
+          <li><strong>Discovery.</strong> We review your product, volumes, power budget and supply risks, and decide together whether custom silicon makes sense at all.</li>
+          <li><strong>Specification.</strong> Requirements become a frozen specification: functions, interfaces, power targets, package, cost per unit.</li>
+          <li><strong>Architecture.</strong> We partition the system, select IP blocks, choose the process node, and model power and performance before any design work starts.</li>
+          <li><strong>Design.</strong> RTL for digital blocks, schematics and layout for analog and RF, built from silicon-proven IP wherever possible.</li>
+          <li><strong>Verification.</strong> UVM testbenches, formal checks and FPGA prototypes run until coverage targets are met, typically 70% of the pre-silicon effort.</li>
+          <li><strong>Physical design.</strong> Floorplanning, place and route, timing closure, and sign-off checks for the target foundry.</li>
+          <li><strong>Tape-out.</strong> The design goes to the foundry through a multi-project wafer for prototypes or a dedicated run for production.</li>
+          <li><strong>Bring-up &amp; characterization.</strong> First silicon is tested on our lab benches across voltage and temperature, with firmware ready on day one.</li>
+          <li><strong>Qualification &amp; production.</strong> Reliability testing, test program release, and handover to volume manufacturing with dual-sourced supply.</li>
+        </ol>
+        <p>At every stage you get a written gate review, an updated cost-per-unit estimate, and a clear go or no-go recommendation. You can stop at any gate and keep everything produced so far.</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap" data-reveal>
+        <h2>Not sure you need custom silicon?</h2>
+        <p class="lede">Tell us what you're building. We'll tell you honestly whether you need a custom chip at all, and what it would take to get there.</p>
+        <a class="btn btn--primary" href="contact.html">Contact us →</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap site-footer__grid">
+      <div>
+        <h3>Korvane Silicon B.V.</h3>
+        <address class="address">Kalkovenweg 117, 5652 RT Eindhoven, Netherlands</address>
+        <ul class="social">
+          <li><a href="#" rel="noopener noreferrer">LinkedIn</a></li>
+          <li><a href="#" rel="noopener noreferrer">GitHub</a></li>
+        </ul>
+      </div>
+      <nav aria-label="Footer">
+        <ul class="footer-nav">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="solutions.html" aria-current="page">Solutions</a></li>
+          <li><a href="products.html">Products</a></li>
+          <li><a href="use-cases.html">Use Cases</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </nav>
+      <nav aria-label="Legal">
+        <ul class="footer-nav">
+          <li><a href="privacy-policy.html">Privacy Policy</a></li>
+          <li><a href="terms-of-sale.html">Terms of Sale</a></li>
+        </ul>
+      </nav>
+    </div>
+    <p class="wrap copyright">© Korvane Silicon B.V. Eindhoven, Netherlands. A fictional company for the webAgen demo.</p>
+  </footer>
+  <script src="main.js"></script>
+  <script src="../../../../frame.js"></script>
+</body>
+</html>
