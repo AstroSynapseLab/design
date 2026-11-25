@@ -1,0 +1,35 @@
+{
+  "title": "Astro Synapse design",
+  "projects": [
+    {
+      "id": "webagen",
+      "title": "webAgen",
+      "build": [
+        {
+          "id": "website-template",
+          "type": "template",
+          "title": "Website · Astro",
+          "path": "webagen.astrosynapse.ai/templates/website",
+          "renderers": [
+            "webagen.astrosynapse.ai/renderers/astro.js",
+            "webagen.astrosynapse.ai/renderers/astro-kit.js"
+          ],
+          "theme": "astro",
+          "styles": "webagen.astrosynapse.ai/renderers/astro-base.css",
+          "tailwind": "webagen.astrosynapse.ai/renderers/twlite.py"
+        },
+        {
+          "id": "webshop-template",
+          "type": "template",
+          "title": "Webshop · Stride",
+          "path": "webagen.astrosynapse.ai/templates/webshop",
+          "renderers": [
+            "webagen.astrosynapse.ai/renderers/stride.js"
+          ],
+          "theme": "stride",
+          "styles": "webagen.astrosynapse.ai/renderers/stride.css"
+        }
+      ]
+    }
+  ]
+}

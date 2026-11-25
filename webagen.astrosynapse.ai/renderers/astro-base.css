@@ -1,0 +1,62 @@
+/* Astro (webagen.astrosynapse.ai/website) base styles, copied from the live stylesheet:
+   Tailwind preflight, design tokens (light + .dark), and the site's custom astro-* rules.
+   Utility classes (.flex, .text-4xl, md:… etc.) are generated at build time by twlite.py (next to this file)
+   from the classes the renderers use, so this file only holds what isn't a standard utility. */
+
+*, ::before, ::after { --tw-border-spacing-x: 0; --tw-border-spacing-y: 0; --tw-translate-x: 0; --tw-translate-y: 0; --tw-rotate: 0; --tw-skew-x: 0; --tw-skew-y: 0; --tw-scale-x: 1; --tw-scale-y: 1; --tw-ring-offset-width: 0px; --tw-ring-offset-color: #fff; --tw-ring-color: rgb(59 130 246 / .5); --tw-ring-offset-shadow: 0 0 #0000; --tw-ring-shadow: 0 0 #0000; --tw-shadow: 0 0 #0000; --tw-shadow-colored: 0 0 #0000; --tw-blur: ; --tw-brightness: ; --tw-contrast: ; --tw-grayscale: ; --tw-hue-rotate: ; --tw-invert: ; --tw-saturate: ; --tw-sepia: ; --tw-drop-shadow: ; --tw-backdrop-blur: ; --tw-backdrop-brightness: ; --tw-backdrop-contrast: ; --tw-backdrop-grayscale: ; --tw-backdrop-hue-rotate: ; --tw-backdrop-invert: ; --tw-backdrop-opacity: ; --tw-backdrop-saturate: ; --tw-backdrop-sepia: ; --tw-scroll-snap-strictness: proximity; --tw-gradient-from-position: ; --tw-gradient-via-position: ; --tw-gradient-to-position: ; }
+*, ::before, ::after { box-sizing: border-box; border-width: 0; border-style: solid; border-color: hsl(var(--border)); }
+::before, ::after { --tw-content: ""; }
+html { line-height: 1.5; -webkit-text-size-adjust: 100%; tab-size: 4; font-family: ui-sans-serif, system-ui, sans-serif; -webkit-tap-highlight-color: transparent; }
+body { margin: 0; line-height: inherit; }
+h1, h2, h3, h4, h5, h6 { font-size: inherit; font-weight: inherit; }
+a { color: inherit; text-decoration: inherit; }
+button, input, optgroup, select, textarea { font-family: inherit; font-size: 100%; font-weight: inherit; line-height: inherit; letter-spacing: inherit; color: inherit; margin: 0; padding: 0; }
+button { text-transform: none; background-color: transparent; background-image: none; cursor: pointer; }
+blockquote, dl, dd, h1, h2, h3, h4, h5, h6, hr, figure, p, pre { margin: 0; }
+ol, ul, menu { list-style: none; margin: 0; padding: 0; }
+textarea { resize: vertical; }
+input::placeholder, textarea::placeholder { opacity: 1; color: rgb(156, 163, 175); }
+img, svg, video, canvas, audio, iframe, embed, object { display: block; vertical-align: middle; }
+img, video { max-width: 100%; height: auto; }
+address { font-style: normal; }
+
+:root { --background: 40 33% 97%; --foreground: 233 36% 6%; --card: 40 40% 99%; --card-foreground: 233 36% 6%; --primary: 173 80% 30%; --primary-foreground: 0 0% 100%; --secondary: 38 25% 92%; --muted: 38 25% 92%; --muted-foreground: 228 12% 42%; --accent: 38 28% 90%; --border: 36 18% 86%; --input: 36 14% 78%; --ring: 173 80% 30%; --brand-cyan: 173 80% 32%; --brand-cyan-deep: 173 70% 26%; --brand-violet: 253 75% 58%; --brand-magenta: 283 70% 50%; --brand-gold: 40 85% 40%; --status-live: 142 72% 32%; --status-wait: 36 90% 40%; --status-dev: 222 12% 45%; --radius: .5rem; }
+.dark { --background: 230 43% 3%; --foreground: 39 39% 93%; --card: 233 36% 4%; --card-foreground: 39 39% 93%; --primary: 170 85% 72%; --primary-foreground: 230 43% 3%; --secondary: 232 28% 9%; --muted: 232 28% 9%; --muted-foreground: 228 13% 60%; --accent: 232 24% 12%; --border: 240 4% 14%; --input: 240 1% 28%; --ring: 170 85% 72%; --brand-cyan: 170 85% 72%; --brand-cyan-deep: 173 66% 50%; --brand-violet: 253 100% 71%; --brand-magenta: 283 100% 71%; --brand-gold: 44 82% 71%; --status-live: 142 69% 58%; --status-wait: 40 89% 65%; --status-dev: 220 15% 66%; }
+
+html { overflow-x: hidden; }
+body { width: 100%; background-color: hsl(var(--background)); color: hsl(var(--foreground)); }
+.font-satoshi { font-family: Satoshi, Inter, ui-sans-serif, system-ui, sans-serif; }
+.font-inter { font-family: Inter, ui-sans-serif, system-ui, sans-serif; }
+.font-plex-mono { font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; }
+.container { width: 100%; margin-right: auto; margin-left: auto; padding-right: .5rem; padding-left: .5rem; }
+@media (min-width: 1400px) { .container { max-width: 1400px; } }
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { scrollbar-width: none; }
+
+/* Custom astro-* rules (live site) */
+.astro-dot-glow { box-shadow: 0 0 10px hsl(var(--brand-cyan)); }
+.astro-text-outline { color: transparent; -webkit-text-stroke: 1px hsl(var(--foreground) / .35); }
+.astro-st-scope { counter-reset: astro-st 0 astro-index 0; }
+.astro-index-code::before { counter-increment: astro-index 1; content: counter(astro-index, decimal-leading-zero) " · "; }
+.astro-index-code:empty::before { content: counter(astro-index, decimal-leading-zero); }
+.astro-st-code::before { counter-increment: astro-st 1; content: "ST/" counter(astro-st, decimal-leading-zero) " · "; }
+.astro-st-code:empty::before { content: "ST/" counter(astro-st, decimal-leading-zero); }
+.astro-card-1, .astro-card-2, .astro-card-3, .astro-card-mesh { background-size: cover; background-position: center; }
+.astro-card-1 { background-image: linear-gradient(180deg, hsl(var(--background) / .2), hsl(var(--background) / .72)), url(https://webagen.astrosynapse.ai/cards/card-1.jpg); }
+.astro-card-2 { background-image: linear-gradient(180deg, hsl(var(--background) / .2), hsl(var(--background) / .72)), url(https://webagen.astrosynapse.ai/cards/card-2.jpg); }
+.astro-card-3 { background-image: linear-gradient(180deg, hsl(var(--background) / .25), hsl(var(--background) / .78)), url(https://webagen.astrosynapse.ai/cards/card-3.jpg); }
+.astro-card-mesh { background-image: linear-gradient(180deg, hsl(var(--background) / .2), hsl(var(--background) / .8)), radial-gradient(circle at 20% 20%, hsl(var(--brand-cyan) / .35), transparent 40%), radial-gradient(circle at 80% 80%, hsl(var(--brand-violet) / .45), transparent 42%); }
+.astro-void { background-image: linear-gradient(180deg, transparent, hsl(var(--foreground) / .03) 20%, hsl(var(--foreground) / .05)); }
+.dark .astro-void { background-image: linear-gradient(transparent, rgba(0, 0, 0, .35) 20%, rgba(0, 0, 0, .5)); }
+@media (hover: hover) and (pointer: fine) {
+  .hover\:astro-glow:hover { box-shadow: 0 0 32px hsl(var(--brand-cyan) / .35); }
+  .hover\:astro-card-glow:hover { box-shadow: 0 20px 80px hsl(var(--background) / .35), 0 0 40px hsl(var(--brand-cyan) / .12); }
+}
+@keyframes bounce-y { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(6px); } }
+@media (prefers-reduced-motion: no-preference) { .motion-safe\:animate-bounce-y { animation: bounce-y 2.2s cubic-bezier(.22, 1, .36, 1) infinite; } }
+/* Marquee: the live site animates it with JS; the previews use CSS */
+@keyframes wa-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@media (prefers-reduced-motion: no-preference) { .wa-marquee { animation: wa-marquee 40s linear infinite; } }
+/* Accordion (FAQ) */
+.wa-acc[data-state="closed"] .wa-acc-body { display: none; }
+.wa-acc[data-state="open"] .wa-acc-icon { transform: rotate(45deg); color: hsl(var(--primary)); }

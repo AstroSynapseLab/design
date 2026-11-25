@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" data-store="stride">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Checkout · Stride</title>
+  <meta name="description" content="Guest checkout.">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="preconnect" href="https://images.unsplash.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&amp;family=Inter:wght@400;500;600;700&amp;display=swap">
+  <link rel="stylesheet" href="styles.css">
+  <script>try{var t=localStorage.getItem("stride-theme");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <main id="main">
+<div id="section-s17" class="container checkout"><div class="co-head"><a class="logo" href="index.html" data-prompt="Show the homepage">Stride</a><div class="steps"><div class="is-active">Information</div><div>Shipping</div><div>Payment</div></div></div>
+    <div class="co-body"><form class="co-form" onsubmit="return false">
+     <section class="co-sec"><h2 class="h3">Express checkout</h2><div class="express"><button type="button" class="btn btn-express" data-action="Apple Pay"> Pay</button><button type="button" class="btn btn-express" data-action="Google Pay">G Pay</button><button type="button" class="btn btn-express" data-action="PayPal">PayPal</button></div><div class="or"><span>or continue as guest</span></div></section>
+     <section class="co-sec"><h2 class="h3">Contact</h2><div class="field"><label>Email</label><input class="input" type="email" placeholder="you@example.com" data-local><span class="hint">Order updates only. No account needed; you can create one after paying.</span></div></section>
+     <section class="co-sec"><h2 class="h3">Delivery address</h2><div class="co-grid">
+      <div class="field"><label>First name</label><input class="input" data-local></div><div class="field"><label>Last name</label><input class="input" data-local></div>
+      <div class="field span2"><label>Street and number</label><input class="input" data-local></div>
+      <div class="field"><label>Postcode</label><input class="input" data-local></div><div class="field"><label>City</label><input class="input" data-local></div>
+      <div class="field span2"><label>Country</label><select class="select" data-local><option>Croatia</option><option>Austria</option><option>Germany</option><option>Italy</option><option>Netherlands</option><option>Slovenia</option><option>Other EU country</option></select></div></div>
+      <h2 class="h3" style="margin-top:var(--s-5)">Delivery method</h2><div class="radios"><label class="radio"><input type="radio" name="ship" data-local checked><div><b>Standard · 2–4 working days</b><span>DPD or GLS to your door</span></div><b class="num">Free</b></label><label class="radio"><input type="radio" name="ship" data-local ><div><b>Pickup point · 2–4 working days</b><span>Any DPD Pickup or Box</span></div><b class="num">Free</b></label><label class="radio"><input type="radio" name="ship" data-local ><div><b>Express · next working day</b><span>Order by 14:00, Croatia only</span></div><b class="num">€9,90</b></label></div></section>
+     <section class="co-sec"><h2 class="h3">Payment</h2><div class="co-grid"><div class="field span2"><label>Card number</label><input class="input" placeholder="1234 1234 1234 1234" data-local></div><div class="field"><label>Expiry</label><input class="input" placeholder="MM / YY" data-local></div><div class="field"><label>CVC</label><input class="input" placeholder="123" data-local></div></div>
+      <div class="co-submit"><button class="btn btn-primary btn-lg btn-block" data-action="Pay">Pay €139,00</button><p class="small muted" style="text-align:center;margin:10px 0 0">Encrypted · 30-day returns · prices include VAT</p></div></section></form>
+    <aside class="co-summary"><details class="co-sum-toggle" open><summary><b>Order summary</b><span class="num">€139,00</span></summary><div><div class="line-item"><a href="#"><img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=144&h=180&fit=crop&auto=format&q=75" alt=""></a><div><div class="t">Aero Run 2</div><div class="v">Signal Red / White · EU 42 · Qty 1</div>
+    </div>
+    <div style="text-align:right"><div class="price"><span class="now">€139,00</span></div></div></div><div style="margin-top:12px"><div class="totals"><div><span>Subtotal</span><span class="num">€139,00</span></div><div><span>Shipping</span><span class="num">Free</span></div><div><span>Incl. VAT 25%</span><span class="num">€27,80</span></div><div class="grand"><span>Total</span><span class="num">€139,00</span></div></div></div><div class="paylogos" style="margin-top:14px"><span>VISA</span><span>MASTERCARD</span><span>APPLE PAY</span><span>GOOGLE PAY</span><span>PAYPAL</span><span>KLARNA</span><span>SEPA</span></div></div></details></aside></div></div>
+  </main>
+  <script type="application/json" id="page-data">{"checkout":{"store":"Stride","delivery":[{"id":"standard","label":"Standard · 2–4 working days","note":"DPD or GLS to your door","price":0},{"id":"pickup","label":"Pickup point · 2–4 working days","note":"Any DPD Pickup or Box","price":0},{"id":"express","label":"Express · next working day","note":"Order by 14:00, Croatia only","price":9.9}],"countries":["Croatia","Austria","Germany","Italy","Netherlands","Slovenia","Other EU country"],"lines":[{"title":"Aero Run 2","options":["Signal Red / White","EU 42"],"qty":1,"price":139,"image":"photo-1542291026-7eec264c27ff"}],"subtotal":139,"shipping":0,"vat":27.8,"total":139,"payments":["VISA","MASTERCARD","APPLE PAY","GOOGLE PAY","PAYPAL","KLARNA","SEPA"]}}</script>
+  <script src="components.js"></script>
+  <script src="data.js"></script>
+  <script src="main.js"></script>
+  <script src="../../../../frame.js"></script>
+</body>
+</html>
