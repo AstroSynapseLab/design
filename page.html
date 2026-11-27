@@ -82,6 +82,7 @@ a.tab { text-decoration: none; }
 a.chip:hover { color: hsl(var(--foreground)); border-color: hsl(var(--brand-cyan)); }
 .chip--warn { color: hsl(5 85% 60%); border-color: hsl(5 85% 60% / .5); }
 .chip--wire { color: hsl(var(--brand-gold)); border-color: hsl(var(--brand-gold) / .5); }
+.chip--unique { color: hsl(var(--brand-violet)); border-color: hsl(var(--brand-violet) / .5); }
 
 /* Cards */
 .card { border: 1px solid hsl(var(--border)); border-radius: 16px; background: hsl(var(--card)); margin-bottom: 28px; overflow: hidden; }
@@ -296,7 +297,7 @@ function previewDoc(items) {
       const el = e.target.closest("[data-prompt],[data-href],[data-anchor],[data-action],a,button"); if (!el) return;
       if (el.matches("summary, summary *, [data-local]")) return;
       e.preventDefault(); e.stopPropagation();
-      parent.postMessage({ click: { prompt: el.dataset.prompt || "", href: el.dataset.href || "", anchor: el.dataset.anchor || "", action: el.dataset.action || (el.matches("button") && !el.dataset.prompt ? el.textContent.trim().slice(0, 40) : "") } }, "*");
+      parent.postMessage({ click: { prompt: el.dataset.prompt || "", clear: el.dataset.clear === "true", href: el.dataset.href || "", anchor: el.dataset.anchor || "", action: el.dataset.action || (el.matches("button") && !el.dataset.prompt ? el.textContent.trim().slice(0, 40) : "") } }, "*");
     }, true);
   <\/script></body></html>`;
 }
@@ -329,7 +330,7 @@ function sideFor(it) {
     return `<h4>Pages</h4>` + pr.pages.map(pg => `<a href="#" class="proto-link${PROTO && PROTO.key === protoKey() && PROTO.history[PROTO.idx].file === pg.file ? " active" : ""}" data-proto-page="${esc(pg.file)}">${esc(pg.label)}<small>${esc(pg.file)}</small></a>`).join("");
   }
   if (S.page === "design") return it.design ? `<h4>${esc(it.design.title)}</h4>` + it.design.sections.map(s => L(s.id, s.title)).join("") : "";
-  if (S.page === "components") { const c = it.components; return c.components.length ? `<h4>${esc(it.label)} components</h4>` + c.shared.map(s => L(s.id, s.title)).join("") + c.components.map(x => L(x.id, x.title.replace(/^(Stride|Astro) /, "").replace(/ (Section|Component)$/, ""))).join("") : ""; }
+  if (S.page === "components") { const c = it.components; return c.components.length ? `<h4>${esc(it.label)} components</h4>` + c.shared.map(s => L(s.id, s.title)).join("") + c.components.map(x => L(x.id, x.title.replace(/^(Website|Webshop) /, "").replace(/ (Section|Component)$/, ""))).join("") : ""; }
   if (S.page === "layouts") return it.layouts.length ? `<h4>Flows</h4>` + it.layouts.map(f => L(f.id, f.title) + f.steps.map(s => L(f.id + "--" + s.id, s.title, "sub")).join("")).join("") : "";
   if (S.page === "content") return it.content ? `<h4>Content</h4>` + it.content.toc.filter(x => x.level <= 2 && x.level > 1).map(x => L(x.id, x.title)).join("") : "";
   return "";
@@ -366,7 +367,7 @@ function compCard(t, c) {
   const rulesMd = c.rules.map(r => "- " + strip(r).replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&")).join("\n");
   const layout = `<div class="stage" data-stage data-items='${esc(JSON.stringify([{ name: c.id, props: v[0].props }]))}'></div>${c.layout.kind === "wire" ? `<p class="note">Wireframe from the JSON example. Add a renderer for <code>${esc(c.id)}</code> to the project's <code>renderers/</code> and list it in <code>build.json</code>.</p>` : ""}`;
   return `<section class="card" id="${c.id}" data-c="${c.id}">
-    <div class="card-head"><h2>${esc(c.title)}</h2><span class="chip">${esc(c.id)}</span>${v.length > 1 ? `<span class="chip">${v.length} variants</span>` : ""}${c.layout.kind === "wire" ? `<span class="chip chip--wire">wireframe</span>` : ""}${c.problems.length ? `<span class="chip chip--warn" title="${esc(c.problems.join("\n"))}">Invalid JSON</span>` : ""}</div>
+    <div class="card-head"><h2>${esc(c.title)}</h2><span class="chip">${esc(c.id)}</span>${c.unique ? `<span class="chip chip--unique" title="Sent with &quot;unique&quot;: true: the page holds it once">unique</span>` : ""}${v.length > 1 ? `<span class="chip">${v.length} variants</span>` : ""}${c.layout.kind === "wire" ? `<span class="chip chip--wire">wireframe</span>` : ""}${c.problems.length ? `<span class="chip chip--warn" title="${esc(c.problems.join("\n"))}">Invalid JSON</span>` : ""}</div>
     <div class="part"><div class="part-head"><span class="label">Ruleset</span><button class="copy" data-copy="${esc(rulesMd)}">${COPY}Copy</button></div><ul class="rules">${c.rules.map(r => `<li>${r}</li>`).join("")}</ul></div>
     <div class="part"><div class="part-head"><span class="label">JSON</span><div class="tools">${v.length > 1 ? `<div class="seg" data-variants>${v.map((x, i) => `<button aria-pressed="${i === 0}" data-v="${i}">${esc(x.label)}</button>`).join("")}</div>` : ""}<button class="copy" data-copy-json>${COPY}Copy</button></div></div>
       <pre data-code>${hl(v[0].code)}</pre>${v[0].error ? `<p class="err">Invalid JSON, ${esc(v[0].error)}</p>` : ""}</div>
@@ -538,7 +539,7 @@ addEventListener("message", e => {
     PROTO.expect = null; siteChrome(I()); return;
   }
   if (d.h) document.querySelectorAll("iframe").forEach(f => { if (f.contentWindow === e.source) f.style.height = d.h + "px"; });
-  if (d.click) { const k = d.click; toast(k.prompt ? `Sends data-prompt: <b>${esc(k.prompt)}</b>` : k.anchor ? `Scrolls to anchor: <b>${esc(k.anchor)}</b>` : k.href ? `Navigates to href: <b>${esc(k.href)}</b>` : `Frontend action, no prompt: <b>${esc(k.action || "static")}</b>`); }
+  if (d.click) { const k = d.click; toast(k.prompt ? `Sends data-prompt${k.clear ? " and starts a new page" : ""}: <b>${esc(k.prompt)}</b>` : k.anchor ? `Scrolls to anchor: <b>${esc(k.anchor)}</b>` : k.href ? `Navigates to href: <b>${esc(k.href)}</b>` : `Frontend action, no prompt: <b>${esc(k.action || "static")}</b>`); }
 });
 let qt; $("#q").addEventListener("input", e => { clearTimeout(qt); qt = setTimeout(() => { S.q = e.target.value.trim(); if (!S.q) return route(); render(); }, 140); });
 addEventListener("keydown", e => {

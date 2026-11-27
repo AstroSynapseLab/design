@@ -6,7 +6,7 @@ A shopper asks for advice instead of browsing, compares two shoes and opens the 
 
 **User:** I overpronate. Which road shoe should I buy?
 
-**Why:** A quick answer about one product is a `stride-product-card`, not a full page. STORE INFO says the Aero Stable is the shoe for overpronation.
+**Why:** A quick answer about one product is a `webshop-product-card-section`, not a full page. STORE INFO says the Aero Stable is the shoe for overpronation.
 
 ```json
 [
@@ -14,8 +14,8 @@ A shopper asks for advice instead of browsing, compares two shoes and opens the 
     "section_id": "section-s1",
     "components": [
       {
-        "category": "product-card",
-        "name": "stride-product-card",
+        "category": "product-card-section",
+        "name": "webshop-product-card-section",
         "props": {
           "title": "Aero Stable",
           "subtitle": "Supportive road shoe for overpronators",
@@ -45,7 +45,7 @@ A shopper asks for advice instead of browsing, compares two shoes and opens the 
 
 **User:** How is it different from the Aero Run 2?
 
-**Why:** Two named products: `stride-compare`. Every value comes from STORE INFO specs; the frontend adds price, rating and availability rows.
+**Why:** Two named products: `webshop-compare-section`. Every value comes from STORE INFO specs; the frontend adds price, rating and availability rows.
 
 ```json
 [
@@ -54,7 +54,7 @@ A shopper asks for advice instead of browsing, compares two shoes and opens the 
     "components": [
       {
         "category": "compare-section",
-        "name": "stride-compare",
+        "name": "webshop-compare-section",
         "props": {
           "products": [
             {
@@ -140,7 +140,7 @@ A shopper asks for advice instead of browsing, compares two shoes and opens the 
     "components": [
       {
         "category": "product-section",
-        "name": "stride-product",
+        "name": "webshop-product-section",
         "props": {
           "breadcrumbs": [
             "Home",
@@ -311,7 +311,7 @@ A shopper asks for advice instead of browsing, compares two shoes and opens the 
     "components": [
       {
         "category": "product-grid-section",
-        "name": "stride-cross-sell",
+        "name": "webshop-cross-sell-section",
         "props": {
           "title": "Complete the kit",
           "products": [
@@ -363,7 +363,7 @@ A shopper asks for advice instead of browsing, compares two shoes and opens the 
     "components": [
       {
         "category": "sticky-section",
-        "name": "stride-sticky-atc",
+        "name": "webshop-sticky-add-to-bag-section",
         "props": {
           "title": "Aero Stable",
           "options": [

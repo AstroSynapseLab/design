@@ -6,7 +6,7 @@ A visitor wants to know the people before the product: who leads the company, wh
 
 **User:** Who runs Korvane?
 
-**Why:** `astro-team-section` with `variant` `featured`: the CEO leads. The names and roles come from the company document's Leadership section.
+**Why:** `website-team-section` with `variant` `featured`: the CEO leads. The names and roles come from the company document's Leadership section.
 
 ```json
 [
@@ -15,7 +15,8 @@ A visitor wants to know the people before the product: who leads the company, wh
     "components": [
       {
         "category": "team-section",
-        "name": "astro-team-section",
+        "name": "website-team-section",
+        "unique": true,
         "props": {
           "variant": "featured",
           "sur-heading": "Leadership",
@@ -93,7 +94,7 @@ A visitor wants to know the people before the product: who leads the company, wh
 
 **User:** Are you hiring?
 
-**Why:** The roles from the Careers section as an `astro-list-section`, then a CTA.
+**Why:** The roles from the Careers section as an `website-list-section`, then a CTA.
 
 ```json
 [
@@ -102,7 +103,7 @@ A visitor wants to know the people before the product: who leads the company, wh
     "components": [
       {
         "category": "list-section",
-        "name": "astro-list-section",
+        "name": "website-list-section",
         "props": {
           "heading": "Open roles",
           "sub-heading": "We hire in Eindhoven and Porto.",
@@ -137,7 +138,7 @@ A visitor wants to know the people before the product: who leads the company, wh
     "components": [
       {
         "category": "cta-section",
-        "name": "astro-cta-section",
+        "name": "website-cta-section",
         "props": {
           "heading": "Work on real silicon.",
           "sur-heading": "Careers",
@@ -153,7 +154,7 @@ A visitor wants to know the people before the product: who leads the company, wh
 
 **User:** Can your engineers join our team?
 
-**Why:** Team augmentation from the company document, as `astro-content-section` with a rich list.
+**Why:** Team augmentation from the company document, as `website-content-section` with a rich list.
 
 ```json
 [
@@ -162,7 +163,7 @@ A visitor wants to know the people before the product: who leads the company, wh
     "components": [
       {
         "category": "content-section",
-        "name": "astro-content-section",
+        "name": "website-content-section",
         "props": {
           "main-heading": "We don't just consult. We embed.",
           "sur-heading": "Engineering Team Augmentation",

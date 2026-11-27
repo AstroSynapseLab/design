@@ -2,7 +2,7 @@
 (function () {
   const R = (window.WEBAGEN_RENDERERS = window.WEBAGEN_RENDERERS || {});
   const sec = (eyebrow, title, body) => `<section class="k-sec"><p class="k-eyebrow">${eyebrow}</p><h3 class="k-h">${title}</h3>${body}</section>`;
-  R["astro-kit"] = {
+  R["website-kit"] = {
     css: `
       .k{padding:48px 32px 56px;display:grid;gap:44px;font-family:Inter,system-ui,sans-serif;color:hsl(var(--foreground));
         background:radial-gradient(55% 40% at 90% 0%,hsl(var(--brand-violet)/.14),transparent 70%),radial-gradient(45% 40% at 0% 100%,hsl(var(--brand-cyan)/.1),transparent 70%),

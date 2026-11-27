@@ -60,7 +60,7 @@ The look of the Astro website template, as shipped on webagen.astrosynapse.ai/we
 
 ## Graphics
 
-- Sections sit on the plain background; "void" sections fade to darker at the bottom (`astro-void`)
+- Sections sit on the plain background; "void" sections fade to darker at the bottom (`website-void`)
 - Cards are 24 px-radius panels with a thin border; product cards carry a photo or a cyan/violet mesh behind a dark scrim, and glow cyan on hover
 - Section numbering in mono type (`ST/01`, `01 ·`) and small glowing cyan dots before badges
 - The brand wordmark uses the cyan → violet → magenta gradient as text fill; nothing else does
@@ -72,4 +72,4 @@ The look of the Astro website template, as shipped on webagen.astrosynapse.ai/we
 
 The shared building blocks of the Astro components, drawn with the webAgen tokens. Use the theme toggle to switch between dark and light.
 
-<!-- kit: astro-kit -->
+<!-- kit: website-kit -->

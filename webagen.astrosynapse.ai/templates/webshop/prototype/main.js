@@ -54,7 +54,7 @@
   }
 
   /* bag */
-  function bag() { return load("stride-bag") || []; }
+  function bag() { return load("webshop-bag") || []; }
   function totals(lines) {
     var d = S.bagDefaults || { "free-shipping-over": 75, shipping: 4.9, vatRate: 0.25 };
     var sub = lines.reduce(function (a, l) { return a + l.price * l.qty; }, 0);
@@ -62,10 +62,10 @@
     var total = Math.round((sub + ship) * 100) / 100;
     return { subtotal: sub, shipping: ship, total: total, vat: Math.round((total - total / (1 + d.vatRate)) * 100) / 100, "free-shipping-over": d["free-shipping-over"] };
   }
-  function setBag(lines) { save("stride-bag", lines); paintCount(); if ($("body > .drawer.cart")) openBag(); }
+  function setBag(lines) { save("webshop-bag", lines); paintCount(); if ($("body > .drawer.cart")) openBag(); }
   function openBag() {
     var lines = bag();
-    var o = overlay(lines.length ? html("stride-cart", Object.assign({ variant: "filled", lines: lines }, totals(lines))) : html("stride-cart", S.bagEmpty || {}));
+    var o = overlay(lines.length ? html("webshop-cart-section", Object.assign({ variant: "filled", lines: lines }, totals(lines))) : html("webshop-cart-section", S.bagEmpty || {}));
     o.classList.add("cart");
   }
   function paintCount() {
@@ -107,16 +107,16 @@
   }
   function placeOrder() {
     var lines = bag();
-    save("stride-order", lines.length ? lines : null);
-    save("stride-bag", []);
+    save("webshop-order", lines.length ? lines : null);
+    save("webshop-bag", []);
     location.href = "order-confirmation.html";
   }
 
   /* menu + quick view */
-  function openMenu() { overlay(html("stride-mobile-menu", S.menu || {})); }
+  function openMenu() { overlay(html("webshop-mobile-menu-section", S.menu || {})); }
   function quickView(name) {
     var qv = (S.quickView || {})[name];
-    if (qv) return overlay(html("stride-quick-view", qv));
+    if (qv) return overlay(html("webshop-quick-view-section", qv));
     if (routes["Show product " + name]) return go(routes["Show product " + name]);
     missing("Quick view " + name);
   }
@@ -145,7 +145,7 @@
       case "Toggle dark mode": {
         var dark = root.dataset.theme ? root.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
         root.dataset.theme = dark ? "light" : "dark";
-        try { localStorage.setItem("stride-theme", root.dataset.theme); } catch (e) {}
+        try { localStorage.setItem("webshop-theme", root.dataset.theme); } catch (e) {}
         return;
       }
       case "Save to wishlist": btn.classList.toggle("is-on"); return toast(btn.classList.contains("is-on") ? "Saved to wishlist" : "Removed from wishlist");
@@ -233,7 +233,7 @@
   function showSuggest() {
     var q = input.value.trim();
     if (!q) return hideSuggest();
-    var box = el(html("stride-search-suggest", suggestFor(q)));
+    var box = el(html("webshop-search-suggest-section", suggestFor(q)));
     var next = $(".suggest", box);
     if (sug) sug.replaceWith(next); else wrap.appendChild(next);
     sug = next;
@@ -257,7 +257,7 @@
   var co = $(".checkout");
   if (co && page.checkout && bag().length) {
     var lines = bag();
-    co.outerHTML = html("stride-checkout", Object.assign({}, page.checkout, { lines: lines }, totals(lines)));
+    co.outerHTML = html("webshop-checkout-section", Object.assign({}, page.checkout, { lines: lines }, totals(lines)));
   }
   var ord = $(".order");
   if (ord && page.order) {
@@ -265,9 +265,9 @@
     var eta = new Date(), add = 3;
     while (add) { eta.setDate(eta.getDate() + 1); if (eta.getDay() % 6) add--; }
     var o = Object.assign({}, page.order, { eta: eta.toISOString().slice(0, 10) });
-    var last = load("stride-order");
+    var last = load("webshop-order");
     if (last && last.length) { var t2 = totals(last); Object.assign(o, { lines: last, subtotal: t2.subtotal, shipping: t2.shipping, total: t2.total }); }
-    ord.closest(".container").outerHTML = html("stride-order-confirmation", o);
+    ord.closest(".container").outerHTML = html("webshop-order-confirmation-section", o);
   }
 
   /* ---------- component scripts (gallery, slider, hotspots), each once ---------- */

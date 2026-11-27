@@ -6,7 +6,7 @@ A visitor lands on the empty page, asks what Korvane makes, reads about one chip
 
 **User:** _Opens the site. The page is empty._
 
-**Why:** An empty page always starts with `astro-landing-heading`.
+**Why:** An empty page always starts with `website-landing-heading-section`.
 
 ```json
 [
@@ -15,7 +15,8 @@ A visitor lands on the empty page, asks what Korvane makes, reads about one chip
     "components": [
       {
         "category": "landing-heading-section",
-        "name": "astro-landing-heading",
+        "name": "website-landing-heading-section",
+        "unique": true,
         "props": {
           "main-heading": "Purpose-built silicon for the intelligent edge",
           "sub-heading": "Fabless chip design house building low-power AI, power and sensing chips, and custom silicon for products that have outgrown off-the-shelf parts.",
@@ -58,7 +59,7 @@ A visitor lands on the empty page, asks what Korvane makes, reads about one chip
 
 **User:** What chips do you make?
 
-**Why:** A question about the products offered: `astro-products-section`, one card per product in the company document.
+**Why:** A question about the products offered: `website-products-section`, one card per product in the company document.
 
 ```json
 [
@@ -67,7 +68,8 @@ A visitor lands on the empty page, asks what Korvane makes, reads about one chip
     "components": [
       {
         "category": "products-section",
-        "name": "astro-products-section",
+        "name": "website-products-section",
+        "unique": true,
         "props": {
           "main-heading": "Chips we design and ship ourselves.",
           "sur-heading": "Products",
@@ -184,7 +186,7 @@ A visitor lands on the empty page, asks what Korvane makes, reads about one chip
 
 **User:** Tell me about Nerva N1
 
-**Why:** One product in detail: `astro-product-section`, then a CTA to turn interest into action.
+**Why:** One product in detail: `website-product-section`, then a CTA to turn interest into action.
 
 ```json
 [
@@ -193,7 +195,7 @@ A visitor lands on the empty page, asks what Korvane makes, reads about one chip
     "components": [
       {
         "category": "product-section",
-        "name": "astro-product-section",
+        "name": "website-product-section",
         "props": {
           "main-heading": "Nerva N1",
           "badge": "In Production",
@@ -253,7 +255,7 @@ A visitor lands on the empty page, asks what Korvane makes, reads about one chip
     "components": [
       {
         "category": "cta-section",
-        "name": "astro-cta-section",
+        "name": "website-cta-section",
         "props": {
           "heading": "Tape out with us.",
           "sur-heading": "Collaborate",
@@ -278,7 +280,7 @@ A visitor lands on the empty page, asks what Korvane makes, reads about one chip
     "components": [
       {
         "category": "heading-section",
-        "name": "astro-heading-section",
+        "name": "website-heading-section",
         "props": {
           "heading": "Tell us what you're building.",
           "sur-heading": "Contact",
@@ -292,7 +294,8 @@ A visitor lands on the empty page, asks what Korvane makes, reads about one chip
     "components": [
       {
         "category": "contact-section",
-        "name": "astro-contact-section"
+        "name": "website-contact-section",
+        "unique": true
       }
     ]
   }

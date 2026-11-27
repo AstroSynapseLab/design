@@ -15,7 +15,7 @@ A product manager isn't sure a custom chip is worth it. The agent answers honest
     "components": [
       {
         "category": "heading-section",
-        "name": "astro-heading-section",
+        "name": "website-heading-section",
         "props": {
           "heading": "Maybe not. Here is how to tell.",
           "sur-heading": "Honestly",
@@ -29,7 +29,7 @@ A product manager isn't sure a custom chip is worth it. The agent answers honest
     "components": [
       {
         "category": "content-section",
-        "name": "astro-content-section",
+        "name": "website-content-section",
         "props": {
           "main-heading": "Silicon in industrial systems",
           "sur-heading": "",
@@ -65,7 +65,7 @@ A product manager isn't sure a custom chip is worth it. The agent answers honest
 
 **User:** How does a custom chip project work?
 
-**Why:** Ordered steps belong in the numbered list of `astro-content-section`.
+**Why:** Ordered steps belong in the numbered list of `website-content-section`.
 
 ```json
 [
@@ -74,7 +74,7 @@ A product manager isn't sure a custom chip is worth it. The agent answers honest
     "components": [
       {
         "category": "content-section",
-        "name": "astro-content-section",
+        "name": "website-content-section",
         "props": {
           "main-heading": "From first conversation to production silicon",
           "sur-heading": "Our process",
@@ -136,7 +136,7 @@ A product manager isn't sure a custom chip is worth it. The agent answers honest
 
 **User:** How long does it take, and what does it cost?
 
-**Why:** Several practical questions at once: `astro-faq-section`, answered only from the company document.
+**Why:** Several practical questions at once: `website-faq-section`, answered only from the company document.
 
 ```json
 [
@@ -145,7 +145,8 @@ A product manager isn't sure a custom chip is worth it. The agent answers honest
     "components": [
       {
         "category": "faq-section",
-        "name": "astro-faq-section",
+        "name": "website-faq-section",
+        "unique": true,
         "props": {
           "heading": "Time and cost",
           "sub-heading": "Straight answers before you commit to anything.",
@@ -176,7 +177,7 @@ A product manager isn't sure a custom chip is worth it. The agent answers honest
     "components": [
       {
         "category": "cta-section",
-        "name": "astro-cta-section",
+        "name": "website-cta-section",
         "props": {
           "heading": "Tape out with us.",
           "sur-heading": "Collaborate",

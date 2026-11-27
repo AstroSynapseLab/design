@@ -6,7 +6,7 @@ Astro renderers use, with Tailwind's values and variants (sm/md/lg/xl, hover, fo
 group-hover, first, last, motion-safe). Colours resolve to the site's tokens: hsl(var(--name) / a).
 Unknown classes are reported so a missing family is noticed instead of silently unstyled.
 
-  python3 webagen.astrosynapse.ai/renderers/twlite.py webagen.astrosynapse.ai/renderers/astro.js      # prints CSS
+  python3 webagen.astrosynapse.ai/renderers/twlite.py webagen.astrosynapse.ai/renderers/website.js      # prints CSS
 """
 import re, sys
 from pathlib import Path
@@ -201,7 +201,7 @@ def esc(c):
     return re.sub(r"([:/.\[\]%(),=!#&>+~*'\"@])", r"\\\1", c)
 
 
-SKIP = re.compile(r"^(group|group/[\w-]+|peer|container|font-(satoshi|inter|plex-mono)|astro-.*|hover:astro-.*|motion-safe:animate-bounce-y|no-scrollbar|tabler-icon.*|wa-.*)$")
+SKIP = re.compile(r"^(group|group/[\w-]+|peer|container|font-(satoshi|inter|plex-mono)|website-.*|hover:website-.*|motion-safe:animate-bounce-y|no-scrollbar|tabler-icon.*|wa-.*)$")
 
 
 def generate(classes):

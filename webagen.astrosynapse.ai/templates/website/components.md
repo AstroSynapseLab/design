@@ -1,24 +1,34 @@
-# Astro UI components
+# Website UI components
 
-## Astro Synapse Web Components
+## Website Components
 
-- Astro Landing Heading Section
-- Astro Services Section
-- Astro Products Section
-- Astro Heading Section
-- Astro Content Section
-- Astro Contact Section
-- Astro Product Section
-- Astro Grid Section
-- Astro List Section
-- Astro FAQ Section
-- Astro Team Section
+- Website Landing Heading Section
+- Website Services Section
+- Website Products Section
+- Website Heading Section
+- Website Content Section
+- Website Contact Section
+- Website Product Section
+- Website Grid Section
+- Website List Section
+- Website FAQ Section
+- Website Team Section
+- Website Stream Section
 
-### Astro Landing Heading Component
+
+### Shared rules
 
 **Ruleset:**
 
-- Use when the page (components array) is empty: always generate the astro-landing-heading component first, unless the users query implies another type of component
+- Every link and button sends either `href` (navigates) or `data-prompt` (sends a new message; the answer is added below the page)
+- Add `"clear": true` next to a `data-prompt` when the answer should start a new page; the current page moves to history
+- A non-empty `data-prompt` wins over `href`; send `clear` only as `true`, and only with a non-empty `data-prompt`
+
+### Website Landing Heading Section
+
+**Ruleset:**
+
+- Use when the page (components array) is empty: always generate the website-landing-heading-section component first, unless the users query implies another type of component
 - Keep the badges between min 1 - max 3 items
 - Keep the badges label between min 1 - max 2 words
 - Keep the main-heading between min 3 - max 8 words
@@ -28,6 +38,7 @@
 - Keep the ctas label between min 1 - max 4 words
 - Keep the ctas href as a route starting with `/`
 - Keep the ctas data-prompt as the follow-up question the button sends, empty when it only navigates
+- Unique: always send `"unique": true` on the component; the page holds it once, and sending it again fills in its missing props and scrolls to it instead of adding a copy
 
 **JSON:**
 
@@ -37,7 +48,8 @@
   "components": [
     {
       "category": "landing-heading-section",
-      "name": "astro-landing-heading",
+      "name": "website-landing-heading-section",
+      "unique": true,
       "props": {
         "main-heading": "Purpose-built silicon for the intelligent edge",
         "sub-heading": "Fabless chip design house building low-power AI, power and sensing chips, and custom silicon for products that have outgrown off-the-shelf parts.",
@@ -48,7 +60,7 @@
         ],
         "ctas": [
           { "label": "Start a project", "href": "/contact", "data-prompt": "" },
-          { "label": "Explore our chips", "href": "/products", "data-prompt": "What chips do you make? Show me your products." }
+          { "label": "Explore our chips", "href": "/products", "data-prompt": "What chips do you make? Show me your products.", "clear": true }
         ],
         "marquee": ["Edge AI", "Power", "Korvane Silicon"]
       }
@@ -57,7 +69,7 @@
 }
 ```
 
-### Astro Services Section
+### Website Services Section
 
 **Ruleset:**
 
@@ -76,7 +88,7 @@
   "components": [
     {
       "category": "services-section",
-      "name": "astro-services-heading",
+      "name": "website-services-section",
       "props": {
         "heading": "From concept to silicon under one roof",
         "sur-heading": "capabilities",
@@ -96,7 +108,7 @@
 }
 ```
 
-### Astro Products Section
+### Website Products Section
 
 **Ruleset:**
 
@@ -110,6 +122,7 @@
 - Keep the product-cards cta between min 1 - max 4 words
 - Keep the pills between min 2 - max 5 items
 - Keep the pills label between min 1 - max 3 words
+- Unique: always send `"unique": true` on the component; the page holds it once, and sending it again fills in its missing props and scrolls to it instead of adding a copy
 
 **JSON:**
 
@@ -119,7 +132,8 @@
   "components": [
     {
       "category": "products-section",
-      "name": "astro-products-section",
+      "name": "website-products-section",
+      "unique": true,
       "props": {
         "main-heading": "Chips we design and ship ourselves.",
         "sur-heading": "Products",
@@ -191,7 +205,7 @@
 }
 ```
 
-### Astro Heading Section
+### Website Heading Section
 
 **Ruleset:**
 
@@ -208,7 +222,7 @@
   "components": [
     {
       "category": "heading-section",
-      "name": "astro-heading-section",
+      "name": "website-heading-section",
       "props": {
         "heading": "Dual-sourced silicon. Supported for fifteen years.",
         "sur-heading": "Resilience",
@@ -219,7 +233,7 @@
 }
 ```
 
-### Astro CTA Section
+### Website CTA Section
 
 **Ruleset:**
 
@@ -236,7 +250,7 @@
   "components": [
     {
       "category": "cta-section",
-      "name": "astro-cta-section",
+      "name": "website-cta-section",
       "props": {
         "heading": "Tape out with us.",
         "sur-heading": "Collaborate",
@@ -247,12 +261,13 @@
 }
 ```
 
-### Astro Contact Section
+### Website Contact Section
 
 **Ruleset:**
 
 - Use when you want to provide the user a contact form
 - The contact form needs no props
+- Unique: always send `"unique": true` on the component; the page holds it once, and sending it again fills in its missing props and scrolls to it instead of adding a copy
 
 **JSON:**
 
@@ -262,13 +277,14 @@
   "components": [
     {
       "category": "contact-section",
-      "name": "astro-contact-section"
+      "name": "website-contact-section",
+      "unique": true
     }
   ]
 }
 ```
 
-### Astro Product Section
+### Website Product Section
 
 **Ruleset:**
 
@@ -302,7 +318,7 @@
   "components": [
     {
       "category": "product-section",
-      "name": "astro-product-section",
+      "name": "website-product-section",
       "props": {
         "main-heading": "Nerva N1",
         "badge": "In Production",
@@ -347,7 +363,7 @@
   "components": [
     {
       "category": "product-section",
-      "name": "astro-product-section",
+      "name": "website-product-section",
       "props": {
         "main-heading": "Lumen R60",
         "badge": "Engineering Samples",
@@ -388,7 +404,7 @@
   "components": [
     {
       "category": "product-section",
-      "name": "astro-product-section",
+      "name": "website-product-section",
       "props": {
         "main-heading": "Vault M4",
         "badge": "Waitlist",
@@ -420,7 +436,7 @@
 }
 ```
 
-### Astro Grid Section
+### Website Grid Section
 
 **Ruleset:**
 
@@ -437,8 +453,8 @@
   "section_id": "section-a8",
   "components": [
     {
-      "category": "list-section",
-      "name": "astro-list-section",
+      "category": "grid-section",
+      "name": "website-grid-section",
       "props": {
         "heading": "By Application",
         "card-items": [
@@ -458,12 +474,12 @@
 }
 ```
 
-### Astro List Section
+### Website List Section
 
 **Ruleset:**
 
 - Use when you want to provide a list of items
-- Never use for FAQs or question and answer content, use the Astro FAQ Section instead
+- Never use for FAQs or question and answer content, use the Website FAQ Section instead
 - Keep the heading between min 1 - max 5 words
 - Keep the sub-heading between min 5 - max 10 words in min 1 - max 2 sentences
 - Keep the list-items between min 3 - max 8 items
@@ -478,7 +494,7 @@
   "components": [
     {
       "category": "list-section",
-      "name": "astro-list-section",
+      "name": "website-list-section",
       "props": {
         "heading": "By Industry",
         "sub-heading": "Low-power, long-life silicon, applied across sectors:",
@@ -496,7 +512,7 @@
 }
 ```
 
-### Astro Content Section
+### Website Content Section
 
 **Ruleset:**
 
@@ -526,7 +542,7 @@
   "components": [
     {
       "category": "content-section",
-      "name": "astro-content-section",
+      "name": "website-content-section",
       "props": {
         "main-heading": "Your product's chip, designed from the specification up",
         "sur-heading": "Custom ASIC & SoC Design",
@@ -561,7 +577,7 @@
   "components": [
     {
       "category": "content-section",
-      "name": "astro-content-section",
+      "name": "website-content-section",
       "props": {
         "main-heading": "Every chip proven before it ships.",
         "sur-heading": "Test, Qualification & Reliability",
@@ -596,7 +612,7 @@
   "components": [
     {
       "category": "content-section",
-      "name": "astro-content-section",
+      "name": "website-content-section",
       "props": {
         "main-heading": "We don't just consult. We embed.",
         "sur-heading": "Engineering Team Augmentation",
@@ -628,7 +644,7 @@
   "components": [
     {
       "category": "content-section",
-      "name": "astro-content-section",
+      "name": "website-content-section",
       "props": {
         "main-heading": "Silicon in industrial systems",
         "sur-heading": "",
@@ -650,7 +666,7 @@
 }
 ```
 
-### Astro FAQ Section
+### Website FAQ Section
 
 **Ruleset:**
 
@@ -660,6 +676,7 @@
 - Keep the items between min 3 - max 8 items
 - Keep the items question as a full question between min 4 - max 12 words
 - Keep the items answer between min 15 - max 50 words
+- Unique: always send `"unique": true` on the component; the page holds it once, and sending it again fills in its missing props and scrolls to it instead of adding a copy
 
 **JSON:**
 
@@ -669,7 +686,8 @@
   "components": [
     {
       "category": "faq-section",
-      "name": "astro-faq-section",
+      "name": "website-faq-section",
+      "unique": true,
       "props": {
         "heading": "Frequently asked questions",
         "sub-heading": "Straight answers about working with our silicon team.",
@@ -684,12 +702,12 @@
 }
 ```
 
-### Astro Team Section
+### Website Team Section
 
 **Ruleset:**
 
 - Use when the user asks who is behind the company: the team, founders, leadership, or the people they would work with
-- Send it alone, or after an astro-heading-section or astro-content-section; it can be followed by an astro-cta-section
+- Send it alone, or after an website-heading-section or website-content-section; it can be followed by an website-cta-section
 - Use `variant` `grid` for the whole team and `featured` when one person leads the answer (founder, CEO, or a person the user asked about); default is `grid`
 - Generate a plausible team that fits the company's industry, size and location
 - Keep the sur-heading to max 1 word
@@ -703,6 +721,7 @@
 - Keep the members socials between min 0 - max 3 items; `type` is one of `linkedin`, `x`, `github`, and `href` is always `#`
 - Keep the members data-prompt as `Tell me more about <name>`
 - Keep the ctas between min 0 - max 1 item; send `href` as a route starting with `/` to navigate, or `data-prompt` to ask the agent, empty when it only navigates
+- Unique: always send `"unique": true` on the component; the page holds it once, and sending it again fills in its missing props and scrolls to it instead of adding a copy
 
 **JSON Variant 1:**
 
@@ -712,7 +731,8 @@
   "components": [
     {
       "category": "team-section",
-      "name": "astro-team-section",
+      "name": "website-team-section",
+      "unique": true,
       "props": {
         "variant": "grid",
         "sur-heading": "Team",
@@ -772,7 +792,8 @@
   "components": [
     {
       "category": "team-section",
-      "name": "astro-team-section",
+      "name": "website-team-section",
+      "unique": true,
       "props": {
         "variant": "featured",
         "sur-heading": "Leadership",
@@ -810,6 +831,32 @@
         "ctas": [
           { "label": "Are you hiring?", "href": "", "data-prompt": "Are you hiring? What roles are open?" }
         ]
+      }
+    }
+  ]
+}
+```
+
+### Website Stream Section
+
+**Ruleset:**
+
+- Use only when no other component can answer the query
+- Keep the heading between min 2 - max 8 words, optional
+- Leave text empty, it is filled by streaming
+
+**JSON:**
+
+```jsx
+{
+  "section_id": "section-a1",
+  "components": [
+    {
+      "category": "stream-section",
+      "name": "website-stream-section",
+      "props": {
+        "heading": "About your question",
+        "text": ""
       }
     }
   ]
