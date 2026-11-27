@@ -78,4 +78,4 @@ Light is the default; dark follows the system setting or the theme toggle. Text 
 
 The shared building blocks every component is made of, drawn with the live Stride CSS. Use the theme toggle to see them in dark mode.
 
-<!-- kit: stride-kit -->
+<!-- kit: webshop-kit -->

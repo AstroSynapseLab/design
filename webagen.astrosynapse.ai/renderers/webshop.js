@@ -1,7 +1,7 @@
 // Preview renderers for the Stride webshop (components/webshop.md).
 // Markup is ported from astro-webshop js/pages.js + js/core.js and styled by the real Stride CSS
-// (stride.css, next to this file), so each preview matches the live prototype. Data comes only from the JSON props.
-// Clicks: data-prompt = sends a query · data-anchor = scrolls · data-action = static frontend action.
+// (webshop.css, next to this file), so each preview matches the live prototype. Data comes only from the JSON props.
+// Clicks: data-prompt = sends a query (data-clear = it starts a new page) · data-anchor = scrolls · data-action = static frontend action.
 (function () {
   const R = (window.WEBAGEN_RENDERERS = window.WEBAGEN_RENDERERS || {});
   const FONTS = ["https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Inter:wght@400;500;600;700&display=swap"];
@@ -11,7 +11,8 @@
   const img = (id, w = 800, h = 1000) => (/^https?:\/\//.test(id) ? id : `https://images.unsplash.com/${id}?w=${w}&h=${h}&fit=crop&auto=format&q=75`);
   const money = (n) => "€" + Number(n || 0).toFixed(2).replace(".", ",").replace(/\B(?=(\d{3})+(?!\d))/g, " ");
   const num1 = (n) => Number(n).toFixed(1).replace(".", ",");
-  const P = (s) => (s ? ` data-prompt="${esc(s)}"` : "");
+  // A link object or a plain prompt; a link with "clear": true starts a new page (data-clear), other values are ignored
+  const P = (s) => { const o = s && typeof s === "object" ? s : { "data-prompt": s }; return o["data-prompt"] ? ` data-prompt="${esc(o["data-prompt"])}"${o.clear === true ? ' data-clear="true"' : ""}` : ""; };
   const A = (s) => ` data-action="${esc(s)}"`;
   const stars = (avg) => { let h = '<span class="s">'; for (let i = 1; i <= 5; i++) h += avg >= i ? "<i></i>" : avg >= i - 0.5 ? '<i class="half"></i>' : '<i class="off"></i>'; return h + "</span>"; };
   const rating = (r, link) => r ? `<span class="stars">${stars(r.avg)}<b>${num1(r.avg)}</b>${link ? `<a class="n" href="#"${A("Scroll to reviews")}>${r.count} reviews</a>` : `<span class="n">(${r.count})</span>`}</span>` : "";
@@ -37,7 +38,7 @@
         <div class="card-badges">${badges(p)}</div>
         <button class="icon-btn card-wish"${A("Save to wishlist")} aria-label="Save ${esc(p.title)} to wishlist">♡</button>
         <button class="btn btn-secondary btn-sm btn-block card-quick"${P("Quick view " + p.title)}>Quick view</button></div>
-      <div class="card-body"><div class="card-title"><a href="#"${P(p["data-prompt"])}>${esc(p.title)}</a></div><div class="card-sub">${esc(sub)}</div>
+      <div class="card-body"><div class="card-title"><a href="#"${P(p)}>${esc(p.title)}</a></div><div class="card-sub">${esc(sub)}</div>
         ${price(p)}${swh}${rating(p.rating)}</div></article>`;
   };
   const grid = (ps, cls = "") => `<div class="grid ${cls}">${(ps || []).map((p) => card(p)).join("")}</div>`;
@@ -74,19 +75,19 @@
   const reviewsBlock = (rt, dist, list) => { const tot = (dist || []).reduce((a, b) => a + b, 0) || 1; return `<section class="section" id="reviews"><div class="section-head"><h2 class="h2">Reviews</h2><button class="btn btn-outline btn-sm"${A("Write a review")}>Write a review</button></div>
     <div class="rev-layout"><div class="rating-sum"><div><div class="big">${num1(rt.avg)}</div><span class="stars">${stars(rt.avg)}</span><div class="small muted">${rt.count} verified reviews</div></div>${dist ? `<div class="bars">${[5, 4, 3, 2, 1].map((s) => `<div>${s}<i style="--w:${Math.round((100 * dist[s - 1]) / tot)}%"></i><span class="num">${dist[s - 1]}</span></div>`).join("")}</div>` : ""}</div>
     <div>${(list || []).map(review).join("") || '<p class="muted">No written reviews yet for this item; the rating comes from verified purchases.</p>'}${(list || []).length && rt.count > list.length ? `<p class="small muted" style="margin-top:12px">Showing ${list.length} of ${rt.count} reviews.</p>` : ""}</div></div></section>`; };
-  const tiles = (ts, cls = "") => `<div class="tiles ${cls}">${(ts || []).map((t) => `<a class="tile" href="#"${P(t["data-prompt"])}><img src="${img(t.image, 700, 700)}" alt="" loading="lazy"><span>${esc(t.label)}</span></a>`).join("")}</div>`;
-  const lineItem = (l, withQty) => `<div class="line-item"><a href="#"${P(l["data-prompt"])}><img src="${img(l.image, 144, 180)}" alt=""></a><div><div class="t">${esc(l.title)}</div><div class="v">${esc((l.options || []).join(" · "))}${withQty ? "" : ` · Qty ${l.qty}`}</div>
+  const tiles = (ts, cls = "") => `<div class="tiles ${cls}">${(ts || []).map((t) => `<a class="tile" href="#"${P(t)}><img src="${img(t.image, 700, 700)}" alt="" loading="lazy"><span>${esc(t.label)}</span></a>`).join("")}</div>`;
+  const lineItem = (l, withQty) => `<div class="line-item"><a href="#"${P(l)}><img src="${img(l.image, 144, 180)}" alt=""></a><div><div class="t">${esc(l.title)}</div><div class="v">${esc((l.options || []).join(" · "))}${withQty ? "" : ` · Qty ${l.qty}`}</div>
     ${withQty ? `<div class="qty" style="margin-top:8px"><button${A("Decrease quantity")}>−</button><output>${l.qty}</output><button${A("Increase quantity")} ${l.qty >= l.max ? "disabled" : ""}>+</button></div>${l.qty >= l.max ? `<div class="hint" style="margin-top:4px">Only ${l.max} available</div>` : ""}` : ""}</div>
     <div style="text-align:right"><div class="price"><span class="now">${money(l.price)}</span></div>${withQty ? `<button class="btn btn-ghost btn-sm"${A("Remove line")}>Remove</button>` : ""}</div></div>`;
   const totals = (p, label = "Total") => `<div class="totals"><div><span>Subtotal</span><span class="num">${money(p.subtotal)}</span></div><div><span>Shipping</span><span class="num">${p.shipping ? money(p.shipping) : "Free"}</span></div>${p.vat != null ? `<div><span>Incl. VAT 25%</span><span class="num">${money(p.vat)}</span></div>` : ""}<div class="grand"><span>${label}</span><span class="num">${money(p.total)}</span></div></div>`;
-  const def = (name, render, extra = {}) => { R[name] = Object.assign({ theme: "stride", fonts: FONTS, render }, extra); };
+  const def = (name, render, extra = {}) => { R[name] = Object.assign({ theme: "webshop", fonts: FONTS, render }, extra); };
 
   /* ---------- frame ---------- */
-  def("stride-announcement", (p) => `<div class="annc">${esc(p.text)}</div>`);
+  def("webshop-announcement-section", (p) => `<div class="annc">${esc(p.text)}</div>`);
 
-  def("stride-header", (p) => `<header class="header is-static"><div class="container bar">
+  def("webshop-header-section", (p) => `<header class="header is-static"><div class="container bar">
       <div class="bar-left"><button class="icon-btn menu-btn"${A("Open menu")} aria-label="Menu">${ICON.menu}</button><a class="logo" href="#"${P("Show the homepage")}>${esc(p.logo)}</a></div>
-      <nav class="nav" aria-label="Main">${(p.nav || []).map((n) => `<div class="nav-item"><a href="#"${P(n["data-prompt"])}>${esc(n.label)}</a>${n.children ? `<div class="mega"><div class="mega-cols"><div><div class="eyebrow">${esc(n.label)}</div><ul>${n.children.map((c) => `<li><a href="#"${P(c["data-prompt"])}>${esc(c.label)}</a></li>`).join("")}<li><a href="#"${P(n["data-prompt"])}><b>All ${esc(n.label.toLowerCase())}</b></a></li></ul></div>${n.promo ? `<div class="mega-promo"><a href="#"${P(n.promo["data-prompt"])}><img src="${img(n.promo.image, 520, 340)}" alt=""><span>${esc(n.promo.label)}</span></a></div>` : ""}</div></div>` : ""}</div>`).join("")}</nav>
+      <nav class="nav" aria-label="Main">${(p.nav || []).map((n) => `<div class="nav-item"><a href="#"${P(n)}>${esc(n.label)}</a>${n.children ? `<div class="mega"><div class="mega-cols"><div><div class="eyebrow">${esc(n.label)}</div><ul>${n.children.map((c) => `<li><a href="#"${P(c)}>${esc(c.label)}</a></li>`).join("")}<li><a href="#"${P(n)}><b>All ${esc(n.label.toLowerCase())}</b></a></li></ul></div>${n.promo ? `<div class="mega-promo"><a href="#"${P(n.promo)}><img src="${img(n.promo.image, 520, 340)}" alt=""><span>${esc(n.promo.label)}</span></a></div>` : ""}</div></div>` : ""}</div>`).join("")}</nav>
       <div class="utils"><div class="search-wrap"><div class="search">${ICON.search}<input class="input" type="search" placeholder="Search" aria-label="Search products" data-local></div></div>
         <button class="icon-btn search-btn"${A("Open search")} aria-label="Search">${ICON.search.replace("<svg", '<svg width="20" height="20"')}</button>
         <button class="icon-btn"${A("Toggle dark mode")} aria-label="Toggle dark mode">${ICON.moon}</button>
@@ -94,72 +95,72 @@
         <button class="icon-btn"${A("Open bag")} aria-label="Bag">${ICON.bag}</button></div></div></header>`,
     { css: ".header.is-static{position:relative}#wa-root>.header:only-child .nav:not(:hover) .nav-item:first-child .mega{opacity:1;pointer-events:auto;transform:translate(-50%,0)}#wa-root:has(>.header:only-child){min-height:380px}" });
 
-  def("stride-search-suggest", (p) => {
+  def("webshop-search-suggest-section", (p) => {
     const cats = p.categories || [], ps = p.products || [];
     const body = !cats.length && !ps.length
       ? `<div class="sug-empty">No matches for “${esc(p.query)}”. Press Enter to search anyway.</div>`
-      : `${cats.length ? `<div class="sug-cats">${cats.map((c) => `<a class="pill" href="#"${P(c["data-prompt"])}>${esc(c.label)}</a>`).join("")}</div>` : ""}${ps.map((x) => `<a class="sug-item" href="#"${P(x["data-prompt"])}><img src="${img(x.image, 80, 100)}" alt=""><div><b>${esc(x.title)}</b><div class="small muted">${esc(x.subtitle || "")}</div></div><span class="price"><span class="now">${money(x.price)}</span></span></a>`).join("")}<a class="sug-all" href="#"${P(p["data-prompt"])}>All results for “${esc(p.query)}” →</a>`;
+      : `${cats.length ? `<div class="sug-cats">${cats.map((c) => `<a class="pill" href="#"${P(c)}>${esc(c.label)}</a>`).join("")}</div>` : ""}${ps.map((x) => `<a class="sug-item" href="#"${P(x)}><img src="${img(x.image, 80, 100)}" alt=""><div><b>${esc(x.title)}</b><div class="small muted">${esc(x.subtitle || "")}</div></div><span class="price"><span class="now">${money(x.price)}</span></span></a>`).join("")}<a class="sug-all" href="#"${P(p)}>All results for “${esc(p.query)}” →</a>`;
     return `<div class="container"><div class="search-wrap" style="position:relative;max-width:420px"><div class="search">${ICON.search}<input class="input" value="${esc(p.query)}" aria-label="Search" readonly></div><div class="suggest is-static">${body}</div></div></div>`;
   });
 
-  def("stride-mobile-menu", (p) => `<div class="drawer from-left is-static"><aside class="panel"><header><b>Menu</b><button class="icon-btn"${A("Close menu")} aria-label="Close">✕</button></header>
-    <div class="body"><ul class="menu-list">${(p.nav || []).map((n) => `<li><a href="#"${P(n["data-prompt"])}>${esc(n.label)}</a>${n.children ? `<ul>${n.children.map((c) => `<li><a href="#"${P(c["data-prompt"])}>${esc(c.label)}</a></li>`).join("")}</ul>` : ""}</li>`).join("")}<li><a href="#"${A("Open wishlist")}>Wishlist</a></li></ul></div></aside></div>`,
+  def("webshop-mobile-menu-section", (p) => `<div class="drawer from-left is-static"><aside class="panel"><header><b>Menu</b><button class="icon-btn"${A("Close menu")} aria-label="Close">✕</button></header>
+    <div class="body"><ul class="menu-list">${(p.nav || []).map((n) => `<li><a href="#"${P(n)}>${esc(n.label)}</a>${n.children ? `<ul>${n.children.map((c) => `<li><a href="#"${P(c)}>${esc(c.label)}</a></li>`).join("")}</ul>` : ""}</li>`).join("")}<li><a href="#"${A("Open wishlist")}>Wishlist</a></li></ul></div></aside></div>`,
     { css: "#wa-root>.drawer.from-left:not(:only-child){display:none}" });
 
-  def("stride-footer", (p) => `<footer class="footer"><div class="container"><div class="cols">
+  def("webshop-footer-section", (p) => `<footer class="footer"><div class="container"><div class="cols">
       <div><div class="logo">${esc(p.logo)}</div><p class="small" style="max-width:36ch;margin:10px 0 14px">${esc(p.tagline)}</p>
         <form class="field" style="max-width:340px" onsubmit="return false"><label>${esc(p.newsletter?.label)}</label><div class="nl-row"><input class="input" type="email" placeholder="Email" data-local><button class="btn btn-secondary"${A("Join newsletter")}>Join</button></div><span class="hint">${esc(p.newsletter?.hint)}</span></form></div>
-      ${(p.columns || []).map((c) => `<div><h4>${esc(c.title)}</h4><ul>${(c.links || []).map((l) => `<li><a href="#"${P(l["data-prompt"])}>${esc(l.label)}</a></li>`).join("")}</ul></div>`).join("")}</div>
+      ${(p.columns || []).map((c) => `<div><h4>${esc(c.title)}</h4><ul>${(c.links || []).map((l) => `<li><a href="#"${P(l)}>${esc(l.label)}</a></li>`).join("")}</ul></div>`).join("")}</div>
     <div class="paylogos" style="margin-top:var(--s-6)">${(p.payments || []).map((x) => `<span>${esc(x)}</span>`).join("")}</div>
     <div class="legal"><span>${esc(p.legal)}</span><span>Privacy · Terms · Cookies · Imprint</span></div></div></footer>`);
 
   /* ---------- heroes ---------- */
-  def("stride-hero", (p) => `<section class="section" style="padding-top:var(--s-4)"><div class="container"><div class="hero"><img src="${img(p.image, 1600, 900)}" alt=""><div class="copy"><div class="eyebrow" style="color:#fff;opacity:.85">${esc(p.eyebrow)}</div><h1 class="display">${esc(p.title)}</h1><p class="lead" style="color:#fff;opacity:.9;margin:0">${esc(p.text)}</p><div><a class="btn btn-primary btn-lg" href="#"${P(p.cta?.["data-prompt"])}>${esc(p.cta?.label)}</a></div></div></div></div></section>
+  def("webshop-hero-section", (p) => `<section class="section" style="padding-top:var(--s-4)"><div class="container"><div class="hero"><img src="${img(p.image, 1600, 900)}" alt=""><div class="copy"><div class="eyebrow" style="color:#fff;opacity:.85">${esc(p.eyebrow)}</div><h1 class="display">${esc(p.title)}</h1><p class="lead" style="color:#fff;opacity:.9;margin:0">${esc(p.text)}</p><div><a class="btn btn-primary btn-lg" href="#"${P(p.cta)}>${esc(p.cta?.label)}</a></div></div></div></div></section>
     <section class="section" style="padding-top:0"><div class="container">${tiles(p.tiles)}</div></section>`);
 
-  def("stride-hero-campaign", (p) => `<section class="campaign"><div class="campaign-media"><img src="${img(p.image, 1600, 980)}" alt="">${(p.hotspots || []).map((h, i) => `<div class="hotspot ${i === 0 ? "is-open" : ""}" style="left:${+h.x}%;top:${+h.y}%"><button class="hs-dot" data-local aria-label="Shop ${esc(h.title)}"></button><a class="hs-card" href="#"${P(h["data-prompt"])}><img src="${img(h.image, 120, 150)}" alt=""><span><b>${esc(h.title)}</b><span class="price"><span class="now">${money(h.price)}</span></span></span></a></div>`).join("")}</div>
-    <div class="container campaign-copy"><div class="eyebrow">${esc(p.eyebrow)}</div><h1 class="display">${esc(p.title)}</h1><p class="lead">${esc(p.text)}</p><div class="sg-row"><a class="btn btn-secondary btn-lg" href="#"${P(p.cta?.["data-prompt"])}>${esc(p.cta?.label)}</a><span class="small muted">Tap a dot on the image to shop the look</span></div></div></section>`,
+  def("webshop-hero-campaign-section", (p) => `<section class="campaign"><div class="campaign-media"><img src="${img(p.image, 1600, 980)}" alt="">${(p.hotspots || []).map((h, i) => `<div class="hotspot ${i === 0 ? "is-open" : ""}" style="left:${+h.x}%;top:${+h.y}%"><button class="hs-dot" data-local aria-label="Shop ${esc(h.title)}"></button><a class="hs-card" href="#"${P(h)}><img src="${img(h.image, 120, 150)}" alt=""><span><b>${esc(h.title)}</b><span class="price"><span class="now">${money(h.price)}</span></span></span></a></div>`).join("")}</div>
+    <div class="container campaign-copy"><div class="eyebrow">${esc(p.eyebrow)}</div><h1 class="display">${esc(p.title)}</h1><p class="lead">${esc(p.text)}</p><div class="sg-row"><a class="btn btn-secondary btn-lg" href="#"${P(p.cta)}>${esc(p.cta?.label)}</a><span class="small muted">Tap a dot on the image to shop the look</span></div></div></section>`,
     { script: "document.addEventListener('click',e=>{const d=e.target.closest('.hs-dot');if(!d)return;const h=d.parentElement,o=!h.classList.contains('is-open');document.querySelectorAll('.hotspot').forEach(x=>x.classList.remove('is-open'));h.classList.toggle('is-open',o)})" });
 
-  def("stride-hero-slider", (p) => { const s = p.slides || []; return `<section class="section" style="padding-top:var(--s-4)"><div class="container hybrid">
-    <div class="slider"><div class="slides">${s.map((x, i) => `<div class="slide ${i === 0 ? "is-active" : ""}"><img src="${img(x.image, 1200, 800)}" alt=""><div class="copy"><div class="eyebrow" style="color:#fff;opacity:.85">${esc(x.eyebrow)}</div><h2 class="h1">${esc(x.title)}</h2><p>${esc(x.text)}</p><a class="btn btn-primary" href="#"${P(x.cta?.["data-prompt"])}>${esc(x.cta?.label)}</a></div></div>`).join("")}</div>
+  def("webshop-hero-slider-section", (p) => { const s = p.slides || []; return `<section class="section" style="padding-top:var(--s-4)"><div class="container hybrid">
+    <div class="slider"><div class="slides">${s.map((x, i) => `<div class="slide ${i === 0 ? "is-active" : ""}"><img src="${img(x.image, 1200, 800)}" alt=""><div class="copy"><div class="eyebrow" style="color:#fff;opacity:.85">${esc(x.eyebrow)}</div><h2 class="h1">${esc(x.title)}</h2><p>${esc(x.text)}</p><a class="btn btn-primary" href="#"${P(x.cta)}>${esc(x.cta?.label)}</a></div></div>`).join("")}</div>
       <div class="slider-nav"><button class="icon-btn" data-local data-slide="-1" aria-label="Previous slide">‹</button><div class="dots">${s.map((_, i) => `<button class="${i === 0 ? "is-active" : ""}" data-local data-dot="${i}" aria-label="Slide ${i + 1}"></button>`).join("")}</div><button class="icon-btn" data-local data-slide="1" aria-label="Next slide">›</button></div></div>
-    <div class="hero-tiles">${(p.tiles || []).map((t) => `<a class="tile" href="#"${P(t["data-prompt"])}><img src="${img(t.image, 500, 500)}" alt="" loading="lazy"><span>${esc(t.label)}</span></a>`).join("")}</div></div></section>`; },
+    <div class="hero-tiles">${(p.tiles || []).map((t) => `<a class="tile" href="#"${P(t)}><img src="${img(t.image, 500, 500)}" alt="" loading="lazy"><span>${esc(t.label)}</span></a>`).join("")}</div></div></section>`; },
     { script: "document.querySelectorAll('.slider').forEach(sl=>{const sl2=[...sl.querySelectorAll('.slide')],ds=[...sl.querySelectorAll('[data-dot]')];let i=0;const go=k=>{i=(k+sl2.length)%sl2.length;sl2.forEach((s,j)=>s.classList.toggle('is-active',j===i));ds.forEach((d,j)=>d.classList.toggle('is-active',j===i))};sl.addEventListener('click',e=>{const b=e.target.closest('[data-slide]');if(b)go(i+ +b.dataset.slide);const d=e.target.closest('[data-dot]');if(d)go(+d.dataset.dot)})})" });
 
-  def("stride-hero-product", (p) => `<div class="single pdp"><section class="s-hero container">
+  def("webshop-hero-product-section", (p) => `<div class="single pdp"><section class="s-hero container">
     <div class="s-hero-copy"><div class="eyebrow">${esc(p.eyebrow)}</div><h1 class="display">${esc(p.title)}</h1><p class="lead">${esc(p.text)}</p><div class="sg-row">${rating(p.rating, true)}</div></div>
     <div class="gallery s-gallery">${gallery(p.images, p.product, badges(p))}</div>
     <div class="buy s-buy">${buyBox(p)}${(p["key-specs"] || []).length ? `<dl class="keyspecs">${p["key-specs"].map(([k, v]) => `<div><dt>${esc(k)}</dt><dd>${esc(v)}</dd></div>`).join("")}</dl>` : ""}</div></section></div>`,
     { script: galleryScript });
 
-  def("stride-chapter-nav", (p) => `<nav class="chapter-nav is-static" aria-label="Sections"><div class="container"><div class="cn-row">${(p.links || []).map((l, i) => `<a href="#" class="${i === 0 ? "is-active" : ""}" data-anchor="${esc(l.anchor)}">${esc(l.label)}</a>`).join("")}<a class="btn btn-primary btn-sm cn-buy" href="#" data-anchor="${esc(p["buy-anchor"] || "")}">Buy · ${money(p.price)}</a></div></div></nav>`);
+  def("webshop-chapter-nav-section", (p) => `<nav class="chapter-nav is-static" aria-label="Sections"><div class="container"><div class="cn-row">${(p.links || []).map((l, i) => `<a href="#" class="${i === 0 ? "is-active" : ""}" data-anchor="${esc(l.anchor)}">${esc(l.label)}</a>`).join("")}<a class="btn btn-primary btn-sm cn-buy" href="#" data-anchor="${esc(p["buy-anchor"] || "")}">Buy · ${money(p.price)}</a></div></div></nav>`);
 
   /* ---------- tiles ---------- */
-  def("stride-category-tiles", (p) => `<section class="section"><div class="container">${p.title ? head(p.title) : ""}${tiles(p.tiles, p.variant === "8-up" ? "tiles-8" : "")}</div></section>`);
+  def("webshop-category-tiles-section", (p) => `<section class="section"><div class="container">${p.title ? head(p.title) : ""}${tiles(p.tiles, p.variant === "8-up" ? "tiles-8" : "")}</div></section>`);
 
-  def("stride-split-tiles", (p) => `<section class="section" style="padding-top:var(--s-4)"><div class="container"><div class="split">${(p.tiles || []).map((s) => `<a class="split-tile" href="#"${P(s["data-prompt"])}><img src="${img(s.image, 900, 1100)}" alt="" loading="lazy"><span class="display">${esc(s.label)}</span><span class="btn btn-outline btn-sm" style="border-color:#fff;color:#fff">Shop ${esc(s.label.toLowerCase())}</span></a>`).join("")}</div></div></section>`);
+  def("webshop-split-tiles-section", (p) => `<section class="section" style="padding-top:var(--s-4)"><div class="container"><div class="split">${(p.tiles || []).map((s) => `<a class="split-tile" href="#"${P(s)}><img src="${img(s.image, 900, 1100)}" alt="" loading="lazy"><span class="display">${esc(s.label)}</span><span class="btn btn-outline btn-sm" style="border-color:#fff;color:#fff">Shop ${esc(s.label.toLowerCase())}</span></a>`).join("")}</div></div></section>`);
 
-  def("stride-size-strip", (p) => `<section class="section size-strip"><div class="container"><div class="section-head"><div><h2 class="h2">${esc(p.title)}</h2>${p.text ? `<p class="muted" style="margin:4px 0 0">${esc(p.text)}</p>` : ""}</div></div><div class="chips">${(p.sizes || []).map((s) => `<a class="pill" href="#"${P("Show what's in stock in EU " + s)}>EU ${esc(s)}</a>`).join("")}</div></div></section>`);
+  def("webshop-size-section", (p) => `<section class="section size-strip"><div class="container"><div class="section-head"><div><h2 class="h2">${esc(p.title)}</h2>${p.text ? `<p class="muted" style="margin:4px 0 0">${esc(p.text)}</p>` : ""}</div></div><div class="chips">${(p.sizes || []).map((s) => `<a class="pill" href="#"${P("Show what's in stock in EU " + s)}>EU ${esc(s)}</a>`).join("")}</div></div></section>`);
 
   /* ---------- products ---------- */
-  def("stride-product-grid", (p) => {
+  def("webshop-product-grid-section", (p) => {
     const v = p.variant || "grid";
     const note = p.text ? `<p class="small muted" style="margin:-12px 0 16px">${esc(p.text)}</p>` : "";
     if (v === "rail") return `<section class="section"><div class="container">${head(p.title, p["action-label"], p["data-prompt"])}${note}</div><div class="rail-wrap"><div class="rail container">${(p.products || []).map((x) => `<div class="rail-item">${card(x)}</div>`).join("")}</div></div></section>`;
     return `<section class="section"><div class="container">${head(p.title, p["action-label"], p["data-prompt"])}${note}${grid(p.products, v === "grid-large" ? "grid-2" : "")}</div></section>`;
   });
 
-  def("stride-product-card", (p) => `<section class="section"><div class="container" style="max-width:360px;margin:0"><div class="grid" style="grid-template-columns:1fr">${card(p)}</div></div></section>`);
+  def("webshop-product-card-section", (p) => `<section class="section"><div class="container" style="max-width:360px;margin:0"><div class="grid" style="grid-template-columns:1fr">${card(p)}</div></div></section>`);
 
-  def("stride-quick-view", (p) => `<div class="modal is-static"><div class="modal-box" role="dialog" aria-label="Quick view"><button class="icon-btn modal-x"${A("Close quick view")} aria-label="Close">✕</button><div class="qv"><div class="card-media" style="--card-ratio:4/5"><img src="${img(p.image, 600, 750)}" alt=""></div>
+  def("webshop-quick-view-section", (p) => `<div class="modal is-static"><div class="modal-box" role="dialog" aria-label="Quick view"><button class="icon-btn modal-x"${A("Close quick view")} aria-label="Close">✕</button><div class="qv"><div class="card-media" style="--card-ratio:4/5"><img src="${img(p.image, 600, 750)}" alt=""></div>
     <div class="buy"><div class="eyebrow">${esc(p.eyebrow)}</div><h2 class="h2">${esc(p.title)}</h2>${rating(p.rating)}${price(p, "price-lg")}<p class="small" style="margin:0">${esc(p.summary)}</p>${options(p.colors, p.sizes)}
-    <button class="btn btn-primary btn-lg btn-block"${A("Add to bag")}>Add to bag · ${money(p.price)}</button><a class="btn btn-ghost btn-block" href="#"${P(p["data-prompt"])}>Full details</a></div></div></div></div>`);
+    <button class="btn btn-primary btn-lg btn-block"${A("Add to bag")}>Add to bag · ${money(p.price)}</button><a class="btn btn-ghost btn-block" href="#"${P(p)}>Full details</a></div></div></div></div>`);
 
-  def("stride-recently-viewed", (p) => `<section class="section"><div class="container">${head(p.title || "Recently viewed")}${grid(p.products)}</div></section>`);
+  def("webshop-recently-viewed-section", (p) => `<section class="section"><div class="container">${head(p.title || "Recently viewed")}${grid(p.products)}</div></section>`);
 
   /* ---------- listing ---------- */
-  def("stride-category", (p) => {
+  def("webshop-category-section", (p) => {
     const crumbs = p.breadcrumbs || [];
     const applied = p.applied || [];
     const isOn = (g, o) => applied.some((a) => a.group === g && a.label === o);
@@ -167,29 +168,29 @@
     return `<div class="container plp">
      <nav class="crumbs" aria-label="Breadcrumb">${crumbs.map((c, i) => (i < crumbs.length - 1 ? `<a href="#"${P(i === 0 ? "Show the homepage" : "Show category " + c)}>${esc(c)}</a> › ` : `<span>${esc(c)}</span>`)).join("")}</nav>
      <header class="plp-head"><div><h1 class="h1">${esc(p.title)}</h1><p class="lead">${esc(p.intro)}</p></div></header>
-     <div class="chips subcats">${(p.subcategories || []).map((s) => `<a class="pill ${s.active ? "is-active" : ""}" href="#"${P(s["data-prompt"])}>${esc(s.label)}</a>`).join("")}</div>
+     <div class="chips subcats">${(p.subcategories || []).map((s) => `<a class="pill ${s.active ? "is-active" : ""}" href="#"${P(s)}>${esc(s.label)}</a>`).join("")}</div>
      <div class="plp-bar"><div class="small muted"><b>${p.total}</b> product${p.total === 1 ? "" : "s"}</div><div class="plp-tools"><button class="btn btn-outline btn-sm filters-btn"${A("Open filters drawer")}>Filters${applied.length ? ` (${applied.length})` : ""}</button><label class="sort"><span class="sr-only">Sort</span><select class="select" data-local>${(p["sort-options"] || []).map((o) => `<option>${esc(o)}</option>`).join("")}</select></label></div></div>
      ${applied.length ? `<div class="applied">${applied.map((a) => `<button class="pill is-active"${A("Remove filter " + a.label)}>${esc(a.label)} <span class="x">×</span></button>`).join("")}<a class="btn btn-ghost btn-sm" href="#"${P("Show category " + p.title)}>Clear all</a></div>` : ""}
      <div class="plp-body"><aside class="facets-col"><div class="facets">${facets}</div></aside><div class="plp-grid">${grid(p.products)}</div></div></div>`;
   });
 
-  def("stride-empty-results", (p) => `<div class="container"><div class="empty"><p class="h3">${esc(p.title)}</p><p class="muted">${esc(p.text)}</p><div class="sg-row" style="justify-content:center">${(p.actions || []).map((a, i) => `<a class="btn ${i === 0 ? "btn-primary" : "btn-outline"}" href="#"${P(a["data-prompt"])}>${esc(a.label)}</a>`).join("")}</div></div>${(p.tiles || []).length ? tiles(p.tiles) : ""}</div>`,
+  def("webshop-empty-results-section", (p) => `<div class="container"><div class="empty"><p class="h3">${esc(p.title)}</p><p class="muted">${esc(p.text)}</p><div class="sg-row" style="justify-content:center">${(p.actions || []).map((a, i) => `<a class="btn ${i === 0 ? "btn-primary" : "btn-outline"}" href="#"${P(a)}>${esc(a.label)}</a>`).join("")}</div></div>${(p.tiles || []).length ? tiles(p.tiles) : ""}</div>`,
     { css: ".empty .sg-row{margin-top:var(--s-4)}" });
 
-  def("stride-compare", (p) => {
+  def("webshop-compare-section", (p) => {
     const ps = p.products || [];
     const avail = { "in-stock": ["", "In stock"], "low-stock": ["is-low", "Low stock"], "sold-out": ["is-out", "Sold out"] };
     return `<div class="compare-tray is-static"><div class="container ct-row"><div class="ct-items">${ps.map((x) => `<div class="ct-item"><img src="${img(x.image, 80, 80)}" alt=""><span>${esc(x.title)}</span><button class="icon-btn"${A("Remove from compare")} aria-label="Remove">✕</button></div>`).join("")}</div><div class="ct-actions"><button class="btn btn-ghost btn-sm"${A("Clear compare")}>Clear</button><button class="btn btn-primary"${A("Open compare")}>Compare ${ps.length}</button></div></div></div>
-    <div class="modal is-static" style="margin-top:16px"><div class="modal-box modal-wide" role="dialog" aria-label="Compare products"><h2 class="h2" style="margin-bottom:12px">Compare</h2><div class="tablewrap"><table class="cmp"><thead><tr><th></th>${ps.map((x) => `<th><a href="#"${P(x["data-prompt"])}><img src="${img(x.image, 200, 200)}" alt=""><b>${esc(x.title)}</b></a><div class="small muted">${esc(x.subtitle || "")}</div></th>`).join("")}</tr></thead><tbody>
+    <div class="modal is-static" style="margin-top:16px"><div class="modal-box modal-wide" role="dialog" aria-label="Compare products"><h2 class="h2" style="margin-bottom:12px">Compare</h2><div class="tablewrap"><table class="cmp"><thead><tr><th></th>${ps.map((x) => `<th><a href="#"${P(x)}><img src="${img(x.image, 200, 200)}" alt=""><b>${esc(x.title)}</b></a><div class="small muted">${esc(x.subtitle || "")}</div></th>`).join("")}</tr></thead><tbody>
      <tr><th>Price</th>${ps.map((x) => `<td>${price(x).replace('<div class="price ', '<span class="price ').replace(/<\/div>$/, "</span>")}</td>`).join("")}</tr>
      <tr><th>Rating</th>${ps.map((x) => `<td>${rating(x.rating)}</td>`).join("")}</tr>
      ${(p.rows || []).map((r) => `<tr><th>${esc(r.label)}</th>${(r.values || []).map((v) => `<td>${v === "—" ? '<span class="muted">—</span>' : esc(v)}</td>`).join("")}</tr>`).join("")}
      <tr><th>Availability</th>${ps.map((x) => { const a = avail[x.availability] || avail["in-stock"]; return `<td><span class="stock ${a[0]}">${a[1]}</span></td>`; }).join("")}</tr>
-     <tr><th></th>${ps.map((x) => `<td><a class="btn btn-primary btn-sm" href="#"${P(x["data-prompt"])}>View</a></td>`).join("")}</tr></tbody></table></div></div></div>`;
+     <tr><th></th>${ps.map((x) => `<td><a class="btn btn-primary btn-sm" href="#"${P(x)}>View</a></td>`).join("")}</tr></tbody></table></div></div></div>`;
   });
 
   /* ---------- product page ---------- */
-  def("stride-product", (p) => {
+  def("webshop-product-section", (p) => {
     const crumbs = p.breadcrumbs || [];
     const guide = p["size-guide"];
     const acc = `<div class="acc">
@@ -206,25 +207,25 @@
      ${reviewsBlock(p.rating || { avg: 0, count: 0 }, null, p.reviews)}</div>`;
   }, { script: galleryScript });
 
-  def("stride-bundle", (p) => { const items = p.items || []; const sum = items.reduce((a, x) => a + x.price, 0); return `<div class="container" style="max-width:520px;margin:0"><div class="bundle"><div class="bundle-head"><b>Buy together, save ${money(p.save)}</b><span class="small muted">${items.length} items</span></div><div class="bundle-items">${items.map((x) => `<a href="#"${P(x["data-prompt"])}><img src="${img(x.image, 96, 96)}" alt=""><span>${esc(x.title)}</span></a>`).join('<span class="plus">+</span>')}</div><div class="bundle-foot"><span class="price"><span class="now">${money(sum - p.save)}</span><span class="was">${money(sum)}</span></span><button class="btn btn-secondary btn-sm"${A("Add all to bag")}>Add all ${items.length}</button></div></div></div>`; });
+  def("webshop-bundle-section", (p) => { const items = p.items || []; const sum = items.reduce((a, x) => a + x.price, 0); return `<div class="container" style="max-width:520px;margin:0"><div class="bundle"><div class="bundle-head"><b>Buy together, save ${money(p.save)}</b><span class="small muted">${items.length} items</span></div><div class="bundle-items">${items.map((x) => `<a href="#"${P(x)}><img src="${img(x.image, 96, 96)}" alt=""><span>${esc(x.title)}</span></a>`).join('<span class="plus">+</span>')}</div><div class="bundle-foot"><span class="price"><span class="now">${money(sum - p.save)}</span><span class="was">${money(sum)}</span></span><button class="btn btn-secondary btn-sm"${A("Add all to bag")}>Add all ${items.length}</button></div></div></div>`; });
 
-  def("stride-cross-sell", (p) => `<section class="section"><div class="container">${head(p.title || "Complete the kit")}${grid(p.products)}</div></section>`);
+  def("webshop-cross-sell-section", (p) => `<section class="section"><div class="container">${head(p.title || "Complete the kit")}${grid(p.products)}</div></section>`);
 
-  def("stride-reviews", (p) => `<div class="container">${reviewsBlock(p.rating, p.dist, p.reviews)}</div>`);
+  def("webshop-reviews-section", (p) => `<div class="container">${reviewsBlock(p.rating, p.dist, p.reviews)}</div>`);
 
-  def("stride-sticky-atc", (p) => `<div class="sticky-atc is-static"><div class="container"><div class="sa-row"><div><b>${esc(p.title)}</b><div class="small muted">${esc((p.options || []).join(" · "))} · ${money(p.price)}</div></div><button class="btn btn-primary"${A("Add to bag")}>Add to bag</button></div></div></div>`);
+  def("webshop-sticky-add-to-bag-section", (p) => `<div class="sticky-atc is-static"><div class="container"><div class="sa-row"><div><b>${esc(p.title)}</b><div class="small muted">${esc((p.options || []).join(" · "))} · ${money(p.price)}</div></div><button class="btn btn-primary"${A("Add to bag")}>Add to bag</button></div></div></div>`);
 
   /* ---------- story & trust ---------- */
-  def("stride-editorial", (p) => `<section class="section"><div class="container"><div class="editorial ${p.reverse ? "is-reverse" : ""}"><img src="${img(p.image, 1200, 800)}" alt="" loading="lazy"><div class="ed-copy"><div class="eyebrow">${esc(p.eyebrow)}</div><h2 class="h1">${esc(p.title)}</h2><p class="lead">${esc(p.text)}</p><a class="btn btn-secondary" href="#"${P(p.cta?.["data-prompt"])}>${esc(p.cta?.label)}</a></div></div></div></section>`,
+  def("webshop-editorial-section", (p) => `<section class="section"><div class="container"><div class="editorial ${p.reverse ? "is-reverse" : ""}"><img src="${img(p.image, 1200, 800)}" alt="" loading="lazy"><div class="ed-copy"><div class="eyebrow">${esc(p.eyebrow)}</div><h2 class="h1">${esc(p.title)}</h2><p class="lead">${esc(p.text)}</p><a class="btn btn-secondary" href="#"${P(p.cta)}>${esc(p.cta?.label)}</a></div></div></div></section>`,
     { css: "@media (min-width:720px){.editorial.is-reverse{grid-template-columns:1fr 1.1fr}.editorial.is-reverse img{order:2}}" });
 
-  def("stride-edit", (p) => `<section class="section"><div class="container"><div class="edit"><div class="edit-media card-media" style="--card-ratio:4/5"><img src="${img(p.image, 1000, 1250)}" alt="" loading="lazy"></div><div class="edit-copy"><div class="eyebrow">${esc(p.eyebrow)}</div><h2 class="h1">${esc(p.title)}</h2><p class="lead">${esc(p.text)}</p><div class="edit-list">${(p.products || []).map((x) => `<a class="edit-item" href="#"${P(x["data-prompt"])}><img src="${img(x.image, 120, 150)}" alt=""><span><b>${esc(x.title)}</b><span class="small muted">${esc(x.subtitle || "")}</span></span><span class="price"><span class="now">${money(x.price)}</span></span></a>`).join("")}</div></div></div></div></section>`);
+  def("webshop-edit-section", (p) => `<section class="section"><div class="container"><div class="edit"><div class="edit-media card-media" style="--card-ratio:4/5"><img src="${img(p.image, 1000, 1250)}" alt="" loading="lazy"></div><div class="edit-copy"><div class="eyebrow">${esc(p.eyebrow)}</div><h2 class="h1">${esc(p.title)}</h2><p class="lead">${esc(p.text)}</p><div class="edit-list">${(p.products || []).map((x) => `<a class="edit-item" href="#"${P(x)}><img src="${img(x.image, 120, 150)}" alt=""><span><b>${esc(x.title)}</b><span class="small muted">${esc(x.subtitle || "")}</span></span><span class="price"><span class="now">${money(x.price)}</span></span></a>`).join("")}</div></div></div></div></section>`);
 
-  def("stride-journal", (p) => `<section class="section"><div class="container">${head(p.title || "Journal")}<div class="journal">${(p.articles || []).map((j) => `<article class="j-card"><img src="${img(j.image, 800, 600)}" alt="" loading="lazy"><h3 class="h3">${esc(j.title)}</h3><p class="small muted">${esc(j.text)}</p><a href="#" class="small"${P(j["data-prompt"])}>Read →</a></article>`).join("")}</div></div></section>`);
+  def("webshop-journal-section", (p) => `<section class="section"><div class="container">${head(p.title || "Journal")}<div class="journal">${(p.articles || []).map((j) => `<article class="j-card"><img src="${img(j.image, 800, 600)}" alt="" loading="lazy"><h3 class="h3">${esc(j.title)}</h3><p class="small muted">${esc(j.text)}</p><a href="#" class="small"${P(j)}>Read →</a></article>`).join("")}</div></div></section>`);
 
-  def("stride-ugc", (p) => `<section class="section"><div class="container"><div class="section-head"><div><h2 class="h2">${esc(p.title)}</h2><p class="muted" style="margin:4px 0 0">${esc(p.text)}</p></div></div><div class="ugc">${(p.items || []).map((u) => `<a class="ugc-item" href="#"${P(u["data-prompt"])}><img src="${img(u.image, 500, 625)}" alt="" loading="lazy"><span class="ugc-tag"><b>${esc(u.handle)}</b> wears ${esc(u.product)}</span></a>`).join("")}</div></div></section>`);
+  def("webshop-ugc-section", (p) => `<section class="section"><div class="container"><div class="section-head"><div><h2 class="h2">${esc(p.title)}</h2><p class="muted" style="margin:4px 0 0">${esc(p.text)}</p></div></div><div class="ugc">${(p.items || []).map((u) => `<a class="ugc-item" href="#"${P(u)}><img src="${img(u.image, 500, 625)}" alt="" loading="lazy"><span class="ugc-tag"><b>${esc(u.handle)}</b> wears ${esc(u.product)}</span></a>`).join("")}</div></div></section>`);
 
-  def("stride-chapter", (p) => {
+  def("webshop-chapter-section", (p) => {
     const t = p.tiles || [];
     const cols = p.columns || [];
     const body = p.variant === "compare"
@@ -233,21 +234,21 @@
     return `<section class="chapter"><div class="container"><div class="ch-head"><div class="eyebrow">${esc(p.eyebrow)}</div><h2 class="display">${esc(p.title)}</h2><p class="lead">${esc(p.text)}</p></div>${body}</div></section>`;
   });
 
-  def("stride-specs", (p) => `<section class="chapter"><div class="container"><div class="ch-head"><div class="eyebrow">${esc(p.eyebrow || "Specifications")}</div><h2 class="display">${esc(p.title)}</h2></div><div class="spec-cols">${specTables(p.specs)}</div>${(p["in-the-box"] || []).length ? `<div class="inbox"><div class="eyebrow">In the box</div><ol>${p["in-the-box"].map((i) => `<li>${esc(i)}</li>`).join("")}</ol></div>` : ""}</div></section>`);
+  def("webshop-specs-section", (p) => `<section class="chapter"><div class="container"><div class="ch-head"><div class="eyebrow">${esc(p.eyebrow || "Specifications")}</div><h2 class="display">${esc(p.title)}</h2></div><div class="spec-cols">${specTables(p.specs)}</div>${(p["in-the-box"] || []).length ? `<div class="inbox"><div class="eyebrow">In the box</div><ol>${p["in-the-box"].map((i) => `<li>${esc(i)}</li>`).join("")}</ol></div>` : ""}</div></section>`);
 
-  def("stride-faq", (p) => `<section class="chapter"><div class="container"><div class="ch-head"><div class="eyebrow">${esc(p.eyebrow || "Questions")}</div><h2 class="display">${esc(p.title)}</h2></div><div class="acc faq">${(p.items || []).map((q, i) => `<details ${i === 0 ? "open" : ""}><summary>${esc(q.q)}</summary><div class="acc-body"><p>${esc(q.a)}</p></div></details>`).join("")}</div></div></section>`);
+  def("webshop-faq-section", (p) => `<section class="chapter"><div class="container"><div class="ch-head"><div class="eyebrow">${esc(p.eyebrow || "Questions")}</div><h2 class="display">${esc(p.title)}</h2></div><div class="acc faq">${(p.items || []).map((q, i) => `<details ${i === 0 ? "open" : ""}><summary>${esc(q.q)}</summary><div class="acc-body"><p>${esc(q.a)}</p></div></details>`).join("")}</div></div></section>`);
 
-  def("stride-final-cta", (p) => `<section class="chapter s-final"><div class="container"><div class="ch-head"><div class="eyebrow">${esc(p.eyebrow)}</div><h2 class="display">${esc(p.title)}</h2><p class="lead">${esc(p.text)}</p><div class="sg-row"><a class="btn btn-primary btn-lg" href="#" data-anchor="${esc(p.cta?.anchor || "")}">${esc(p.cta?.label)}</a><span class="small muted">${esc(p.note || "")}</span></div></div></div></section>`);
+  def("webshop-final-cta-section", (p) => `<section class="chapter s-final"><div class="container"><div class="ch-head"><div class="eyebrow">${esc(p.eyebrow)}</div><h2 class="display">${esc(p.title)}</h2><p class="lead">${esc(p.text)}</p><div class="sg-row"><a class="btn btn-primary btn-lg" href="#" data-anchor="${esc(p.cta?.anchor || "")}">${esc(p.cta?.label)}</a><span class="small muted">${esc(p.note || "")}</span></div></div></div></section>`);
 
-  def("stride-press", (p) => `<section class="section press"><div class="container"><div class="press-row">${(p.quotes || []).map((q) => `<blockquote><p>“${esc(q.quote)}”</p><cite>${esc(q.source)}</cite></blockquote>`).join("")}</div></div></section>`);
+  def("webshop-press-section", (p) => `<section class="section press"><div class="container"><div class="press-row">${(p.quotes || []).map((q) => `<blockquote><p>“${esc(q.quote)}”</p><cite>${esc(q.source)}</cite></blockquote>`).join("")}</div></div></section>`);
 
-  def("stride-brand-strip", (p) => `<section class="section brands"><div class="container"><div class="brand-row">${(p.brands || []).map((b) => `<span>${esc(b)}</span>`).join("")}</div></div></section>`);
+  def("webshop-brand-strip-section", (p) => `<section class="section brands"><div class="container"><div class="brand-row">${(p.brands || []).map((b) => `<span>${esc(b)}</span>`).join("")}</div></div></section>`);
 
-  def("stride-trust", (p) => `<section class="section"><div class="container"><div class="trust">${(p.items || []).map((t) => `<div>${icon(t.icon)}<b>${esc(t.title)}</b><span>${esc(t.text)}</span></div>`).join("")}</div></div></section>`);
+  def("webshop-trust-section", (p) => `<section class="section"><div class="container"><div class="trust">${(p.items || []).map((t) => `<div>${icon(t.icon)}<b>${esc(t.title)}</b><span>${esc(t.text)}</span></div>`).join("")}</div></div></section>`);
 
   /* ---------- cart & checkout ---------- */
-  def("stride-cart", (p) => {
-    if (p.variant === "empty") return `<div class="drawer is-static"><aside class="panel" style="height:auto"><header><b>Your bag · 0</b><button class="icon-btn"${A("Close bag")} aria-label="Close">✕</button></header><div class="body"><div class="empty"><p class="h3">${esc(p.title)}</p><p class="muted">${esc(p.text)}</p><a class="btn btn-primary" href="#"${P(p.cta?.["data-prompt"])}>${esc(p.cta?.label)}</a></div></div></aside></div>`;
+  def("webshop-cart-section", (p) => {
+    if (p.variant === "empty") return `<div class="drawer is-static"><aside class="panel" style="height:auto"><header><b>Your bag · 0</b><button class="icon-btn"${A("Close bag")} aria-label="Close">✕</button></header><div class="body"><div class="empty"><p class="h3">${esc(p.title)}</p><p class="muted">${esc(p.text)}</p><a class="btn btn-primary" href="#"${P(p.cta)}>${esc(p.cta?.label)}</a></div></div></aside></div>`;
     const lines = p.lines || [];
     const count = lines.reduce((a, l) => a + (l.qty || 0), 0);
     const toFree = Math.max(0, (p["free-shipping-over"] || 0) - p.subtotal);
@@ -257,7 +258,7 @@
       <footer>${totals(p)}<button class="btn btn-primary btn-lg btn-block"${A("Checkout")}>Checkout</button><button class="btn btn-express btn-block"${A("Apple Pay")}> Pay</button><div class="small muted" style="text-align:center">Guest checkout · no account needed</div></footer></aside></div>`;
   });
 
-  def("stride-checkout", (p) => { const d = p.delivery || []; return `<div class="container checkout"><div class="co-head"><a class="logo" href="#"${P("Show the homepage")}>${esc(p.store || "Stride")}</a><div class="steps"><div class="is-active">Information</div><div>Shipping</div><div>Payment</div></div></div>
+  def("webshop-checkout-section", (p) => { const d = p.delivery || []; return `<div class="container checkout"><div class="co-head"><a class="logo" href="#"${P("Show the homepage")}>${esc(p.store || "Stride")}</a><div class="steps"><div class="is-active">Information</div><div>Shipping</div><div>Payment</div></div></div>
     <div class="co-body"><form class="co-form" onsubmit="return false">
      <section class="co-sec"><h2 class="h3">Express checkout</h2><div class="express"><button type="button" class="btn btn-express"${A("Apple Pay")}> Pay</button><button type="button" class="btn btn-express"${A("Google Pay")}>G Pay</button><button type="button" class="btn btn-express"${A("PayPal")}>PayPal</button></div><div class="or"><span>or continue as guest</span></div></section>
      <section class="co-sec"><h2 class="h3">Contact</h2><div class="field"><label>Email</label><input class="input" type="email" placeholder="you@example.com" data-local><span class="hint">Order updates only. No account needed; you can create one after paying.</span></div></section>
@@ -271,13 +272,13 @@
       <div class="co-submit"><button class="btn btn-primary btn-lg btn-block"${A("Pay")}>Pay ${money(p.total)}</button><p class="small muted" style="text-align:center;margin:10px 0 0">Encrypted · 30-day returns · prices include VAT</p></div></section></form>
     <aside class="co-summary"><details class="co-sum-toggle" open><summary><b>Order summary</b><span class="num">${money(p.total)}</span></summary><div>${(p.lines || []).map((l) => lineItem(l, false)).join("")}<div style="margin-top:12px">${totals(p)}</div><div class="paylogos" style="margin-top:14px">${(p.payments || []).map((x) => `<span>${esc(x)}</span>`).join("")}</div></div></details></aside></div></div>`; });
 
-  def("stride-order-confirmation", (p) => { let eta = p.eta; try { eta = new Date(p.eta).toLocaleDateString("en-GB", { weekday: "long", day: "numeric", month: "long" }); } catch (e) {} return `<div class="container plp"><div class="order"><div class="eyebrow">Order #${esc(p.order)}</div><h1 class="h1">Thanks, ${esc(p["first-name"])}. It's on its way soon.</h1><p class="lead">Confirmation sent to <b>${esc(p.email)}</b>. Expected delivery by <b>${esc(eta)}</b> to ${esc(p.address)}.</p>
+  def("webshop-order-confirmation-section", (p) => { let eta = p.eta; try { eta = new Date(p.eta).toLocaleDateString("en-GB", { weekday: "long", day: "numeric", month: "long" }); } catch (e) {} return `<div class="container plp"><div class="order"><div class="eyebrow">Order #${esc(p.order)}</div><h1 class="h1">Thanks, ${esc(p["first-name"])}. It's on its way soon.</h1><p class="lead">Confirmation sent to <b>${esc(p.email)}</b>. Expected delivery by <b>${esc(eta)}</b> to ${esc(p.address)}.</p>
     <div class="order-box">${(p.lines || []).map((l) => lineItem(l, false)).join("")}<div style="margin-top:12px">${totals({ ...p, vat: null }, p.method === "express" ? "Paid with express checkout" : "Paid")}</div></div>
-    <div class="order-next"><div><b>Create an account?</b><p class="small muted" style="margin:4px 0 10px">Track this order and reorder in one tap. Optional.</p><button class="btn btn-outline btn-sm"${A("Create account")}>Create account</button></div><div><b>Changed your mind?</b><p class="small muted" style="margin:4px 0 10px">30-day free returns, prepaid label in the box.</p><a class="btn btn-ghost btn-sm" href="#"${P(p["data-prompt"])}>Continue shopping</a></div></div></div></div>`; });
+    <div class="order-next"><div><b>Create an account?</b><p class="small muted" style="margin:4px 0 10px">Track this order and reorder in one tap. Optional.</p><button class="btn btn-outline btn-sm"${A("Create account")}>Create account</button></div><div><b>Changed your mind?</b><p class="small muted" style="margin:4px 0 10px">30-day free returns, prepaid label in the box.</p><a class="btn btn-ghost btn-sm" href="#"${P(p)}>Continue shopping</a></div></div></div></div>`; });
 
-  def("stride-toast", (p) => `<div style="padding:var(--s-5) 0"><div class="toast is-static"><span>${esc(p.message)}</span>${p.action ? `<button class="btn btn-sm" style="background:var(--bg);color:var(--fg)"${P(p.action["data-prompt"])}>${esc(p.action.label)}</button>` : ""}</div></div>`);
+  def("webshop-toast-section", (p) => `<div style="padding:var(--s-5) 0"><div class="toast is-static"><span>${esc(p.message)}</span>${p.action ? `<button class="btn btn-sm" style="background:var(--bg);color:var(--fg)"${P(p.action)}>${esc(p.action.label)}</button>` : ""}</div></div>`);
   /* ---------- design page: live UI kit ---------- */
-  def("stride-kit", () => {
+  def("webshop-kit", () => {
     const h = (eyebrow, title) => `<div class="kit-h"><div class="eyebrow">${eyebrow}</div><h3 class="h2">${title}</h3></div>`;
     const sample = { title: "Aero Run 2", subtitle: "Neutral road running shoe", price: 139, "compare-at": 169, image: "photo-1542291026-7eec264c27ff", "hover-image": "photo-1597892657493-6847b9640bac", badges: ["sale", "bestseller"], rating: { avg: 4.7, count: 183 }, swatches: ["#d6341f", "#f1efe9", "#7c7f86"], "data-prompt": "Show product Aero Run 2" };
     const sample2 = { title: "Merino run sock 3-pack", subtitle: "Cushioned ankle sock", price: 29, image: "photo-1773665230184-5fd8cb4fc928", badges: ["bestseller", "low-stock"], rating: { avg: 4.8, count: 530 }, swatches: [], "data-prompt": "Show product Merino run sock 3-pack" };
@@ -305,4 +306,7 @@
   }, { css: `.kit{display:grid;gap:40px;padding-block:28px 40px}.kit-h{margin-bottom:14px}.kit-h .h2{margin:4px 0 0}.kit-row{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-bottom:12px}
      .kit-2{display:grid;gap:24px}@media(min-width:760px){.kit-2{grid-template-columns:1fr 1fr}}.kit-col{display:grid;gap:12px;align-content:start}
      .kit-cards{display:grid;gap:16px}@media(min-width:760px){.kit-cards{grid-template-columns:1.2fr 1fr;align-items:start}.kit-cards .tiles{grid-template-columns:1fr 1fr}}` });
+  /* ---------- Stream: the heading now; the text streams in (placeholder lines until it does) ---------- */
+  def("webshop-stream-section", (p) => `<section class="chapter"><div class="container"><div class="ch-head">${p.heading ? `<h2 class="display">${esc(p.heading)}</h2>` : ""}
+    ${p.text ? `<p class="lead">${esc(p.text)}</p>` : `<div class="eyebrow">Streaming</div>${[100, 94, 97, 62].map((w) => `<span style="display:block;height:12px;margin-top:12px;border-radius:999px;background:currentColor;opacity:.12;width:${w}%"></span>`).join("")}`}</div></div></section>`);
 })();

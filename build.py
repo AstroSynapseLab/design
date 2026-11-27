@@ -154,7 +154,7 @@ def parse_components(path, name):
         rules, jsons, notes, raw = parse_blocks(body)
         if not jsons:
             comps["shared"].append({"title": title.strip(), "id": "shared-" + slug(title), "rules": rules + notes, "raw": raw}); continue
-        variants, cname, problems = [], None, []
+        variants, cname, problems, unique = [], None, [], False
         for j in jsons:
             try:
                 data = json.loads(j["code"]); err = None
@@ -163,8 +163,9 @@ def parse_components(path, name):
             props, vlabel = {}, None
             if data:
                 c = (data.get("components") or [{}])[0]; cname = cname or c.get("name"); props = c.get("props", {}); vlabel = props.get("variant")
+                unique = unique or c.get("unique") is True
             variants.append({"label": vlabel or (j["label"] if len(jsons) > 1 else "Default"), "code": j["code"], "props": props, "error": err})
-        comps["components"].append({"id": cname or slug(title), "title": title.strip(), "rules": rules, "raw": raw, "notes": notes, "variants": variants, "problems": problems})
+        comps["components"].append({"id": cname or slug(title), "title": title.strip(), "rules": rules, "raw": raw, "notes": notes, "variants": variants, "problems": problems, "unique": unique})
         WARN.extend(f"{rel(path)} · {title.strip()} · {p}" for p in problems)
     if comps["components"]: comps["export"] = {"name": f"{name}-components.md", "md": components_export(comps, name)}
     return comps

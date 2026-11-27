@@ -15,7 +15,8 @@ A new shopper lands on the empty page, browses running shoes, opens one, adds it
     "components": [
       {
         "category": "announcement-section",
-        "name": "stride-announcement",
+        "name": "webshop-announcement-section",
+        "unique": true,
         "props": {
           "text": "Free shipping over €75 · 30-day free returns · VAT included"
         }
@@ -27,7 +28,8 @@ A new shopper lands on the empty page, browses running shoes, opens one, adds it
     "components": [
       {
         "category": "header-section",
-        "name": "stride-header",
+        "name": "webshop-header-section",
+        "unique": true,
         "props": {
           "logo": "Stride",
           "nav": [
@@ -84,7 +86,7 @@ A new shopper lands on the empty page, browses running shoes, opens one, adds it
     "components": [
       {
         "category": "menu-section",
-        "name": "stride-mobile-menu",
+        "name": "webshop-mobile-menu-section",
         "props": {
           "nav": [
             {
@@ -135,7 +137,8 @@ A new shopper lands on the empty page, browses running shoes, opens one, adds it
     "components": [
       {
         "category": "hero-section",
-        "name": "stride-hero",
+        "name": "webshop-hero-section",
+        "unique": true,
         "props": {
           "eyebrow": "Trail season",
           "title": "Built for the long way round",
@@ -176,7 +179,7 @@ A new shopper lands on the empty page, browses running shoes, opens one, adds it
     "components": [
       {
         "category": "product-grid-section",
-        "name": "stride-product-grid",
+        "name": "webshop-product-grid-section",
         "props": {
           "title": "Best sellers",
           "action-label": "View all",
@@ -269,7 +272,7 @@ A new shopper lands on the empty page, browses running shoes, opens one, adds it
     "components": [
       {
         "category": "size-section",
-        "name": "stride-size-strip",
+        "name": "webshop-size-section",
         "props": {
           "title": "Shop by size",
           "text": "Only shows what's in stock in your size.",
@@ -292,7 +295,7 @@ A new shopper lands on the empty page, browses running shoes, opens one, adds it
     "components": [
       {
         "category": "editorial-section",
-        "name": "stride-editorial",
+        "name": "webshop-editorial-section",
         "props": {
           "eyebrow": "Journal",
           "title": "How to choose a trail shoe",
@@ -312,7 +315,7 @@ A new shopper lands on the empty page, browses running shoes, opens one, adds it
     "components": [
       {
         "category": "press-section",
-        "name": "stride-press",
+        "name": "webshop-press-section",
         "props": {
           "quotes": [
             {
@@ -337,7 +340,8 @@ A new shopper lands on the empty page, browses running shoes, opens one, adds it
     "components": [
       {
         "category": "trust-section",
-        "name": "stride-trust",
+        "name": "webshop-trust-section",
+        "unique": true,
         "props": {
           "items": [
             {
@@ -370,7 +374,8 @@ A new shopper lands on the empty page, browses running shoes, opens one, adds it
     "components": [
       {
         "category": "footer-section",
-        "name": "stride-footer",
+        "name": "webshop-footer-section",
+        "unique": true,
         "props": {
           "logo": "Stride",
           "tagline": "Footwear and sport gear, shipped from Zagreb to the whole EU.",
@@ -464,7 +469,7 @@ A new shopper lands on the empty page, browses running shoes, opens one, adds it
 
 **User:** Show category Running _(taps the Running tile)_
 
-**Why:** A category request is one `stride-category` block, sent alone. All six Running products fit, so `total` equals the products sent.
+**Why:** A category request is one `webshop-category-section` block, sent alone. All six Running products fit, so `total` equals the products sent.
 
 ```json
 [
@@ -473,7 +478,7 @@ A new shopper lands on the empty page, browses running shoes, opens one, adds it
     "components": [
       {
         "category": "category-section",
-        "name": "stride-category",
+        "name": "webshop-category-section",
         "props": {
           "breadcrumbs": [
             "Home",
@@ -689,7 +694,7 @@ A new shopper lands on the empty page, browses running shoes, opens one, adds it
 
 **User:** Show product Aero Run 2
 
-**Why:** `stride-product`, then its cross-sell list from STORE INFO, then the sticky add-to-bag bar as the last component.
+**Why:** `webshop-product-section`, then its cross-sell list from STORE INFO, then the sticky add-to-bag bar as the last component.
 
 ```json
 [
@@ -698,7 +703,7 @@ A new shopper lands on the empty page, browses running shoes, opens one, adds it
     "components": [
       {
         "category": "product-section",
-        "name": "stride-product",
+        "name": "webshop-product-section",
         "props": {
           "breadcrumbs": [
             "Home",
@@ -891,7 +896,7 @@ A new shopper lands on the empty page, browses running shoes, opens one, adds it
     "components": [
       {
         "category": "product-grid-section",
-        "name": "stride-cross-sell",
+        "name": "webshop-cross-sell-section",
         "props": {
           "title": "Complete the kit",
           "products": [
@@ -976,7 +981,7 @@ A new shopper lands on the empty page, browses running shoes, opens one, adds it
     "components": [
       {
         "category": "sticky-section",
-        "name": "stride-sticky-atc",
+        "name": "webshop-sticky-add-to-bag-section",
         "props": {
           "title": "Aero Run 2",
           "options": [
@@ -1004,7 +1009,7 @@ A new shopper lands on the empty page, browses running shoes, opens one, adds it
     "components": [
       {
         "category": "toast-section",
-        "name": "stride-toast",
+        "name": "webshop-toast-section",
         "props": {
           "message": "Added to bag · Aero Run 2",
           "action": {
@@ -1031,7 +1036,8 @@ A new shopper lands on the empty page, browses running shoes, opens one, adds it
     "components": [
       {
         "category": "cart-section",
-        "name": "stride-cart",
+        "name": "webshop-cart-section",
+        "unique": true,
         "props": {
           "variant": "filled",
           "lines": [
@@ -1073,7 +1079,8 @@ A new shopper lands on the empty page, browses running shoes, opens one, adds it
     "components": [
       {
         "category": "checkout-section",
-        "name": "stride-checkout",
+        "name": "webshop-checkout-section",
+        "unique": true,
         "props": {
           "store": "Stride",
           "delivery": [

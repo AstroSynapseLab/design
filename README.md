@@ -43,6 +43,8 @@ Two kinds of things can be built:
   | `prototype/` | the template's clickable site, built like a website |
   | `prompts/` | AI instructions for the template |
 
+  Component names follow the template: `category` is `<thing>-section`, and `name` is the template prefix plus the component, e.g. `website-faq-section` or `webshop-hero-campaign-section`. The link modes (`href`, `data-prompt`, `clear`) and the unique components are described in `.context/instructions/webagen-agent-primer.md`.
+
   The main page gives each template these tabs: Prototype, Design, Components (with a download of every ruleset and JSON example as one `.md`), Example layouts and Content. Component previews are drawn by the project's renderers.
 
 ## Building
@@ -76,9 +78,9 @@ The build only reads what is listed here. Nothing is detected automatically.
         {
           "id": "website-template", "type": "template", "title": "Website · Astro",
           "path": "webagen.astrosynapse.ai/templates/website",
-          "renderers": ["webagen.astrosynapse.ai/renderers/astro.js", "webagen.astrosynapse.ai/renderers/astro-kit.js"],
-          "theme": "astro",
-          "styles": "webagen.astrosynapse.ai/renderers/astro-base.css",
+          "renderers": ["webagen.astrosynapse.ai/renderers/website.js", "webagen.astrosynapse.ai/renderers/website-kit.js"],
+          "theme": "website",
+          "styles": "webagen.astrosynapse.ai/renderers/website-base.css",
           "tailwind": "webagen.astrosynapse.ai/renderers/twlite.py"
         }
       ]
@@ -94,7 +96,7 @@ The build only reads what is listed here. Nothing is detected automatically.
 | `type` | item | `website` or `template` |
 | `path` | item | the folder, from the repo root |
 | `renderers` | template | JS files that draw the components from their JSON; components without one show a wireframe |
-| `theme`, `styles` | template | the CSS the renderers use, under the theme name they declare (`theme: "astro"`) |
+| `theme`, `styles` | template | the CSS the renderers use, under the theme name they declare (`theme: "website"`) |
 | `tailwind` | template, optional | a `twlite.py` that adds the Tailwind utility classes the renderers use to `styles` |
 
 ## Adding a project or a site

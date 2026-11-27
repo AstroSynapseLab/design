@@ -6,7 +6,7 @@ A shopper misspells a search, hits a size that's sold out, recovers with a neigh
 
 **User:** trial shoe
 
-**Why:** A short, misspelled query gets `stride-search-suggest`. The spelling is corrected silently in the matches and in the data-prompt; the query stays as typed.
+**Why:** A short, misspelled query gets `webshop-search-suggest-section`. The spelling is corrected silently in the matches and in the data-prompt; the query stays as typed.
 
 ```json
 [
@@ -15,7 +15,7 @@ A shopper misspells a search, hits a size that's sold out, recovers with a neigh
     "components": [
       {
         "category": "search-section",
-        "name": "stride-search-suggest",
+        "name": "webshop-search-suggest-section",
         "props": {
           "query": "trial shoe",
           "data-prompt": "Search trail shoe",
@@ -52,7 +52,7 @@ A shopper misspells a search, hits a size that's sold out, recovers with a neigh
 
 **User:** Show Trail filtered by EU 41
 
-**Why:** Trail Max GTX is sold out in EU 41 in STORE INFO, so nothing matches: `stride-empty-results` with a way out, not an empty category.
+**Why:** Trail Max GTX is sold out in EU 41 in STORE INFO, so nothing matches: `webshop-empty-results-section` with a way out, not an empty category.
 
 ```json
 [
@@ -61,7 +61,7 @@ A shopper misspells a search, hits a size that's sold out, recovers with a neigh
     "components": [
       {
         "category": "empty-section",
-        "name": "stride-empty-results",
+        "name": "webshop-empty-results-section",
         "props": {
           "title": "Nothing matches those filters",
           "text": "No trail shoe is in stock in EU 41 right now. Remove the size, or try a neighbouring one.",
@@ -96,7 +96,7 @@ A shopper misspells a search, hits a size that's sold out, recovers with a neigh
     "components": [
       {
         "category": "category-section",
-        "name": "stride-category",
+        "name": "webshop-category-section",
         "props": {
           "breadcrumbs": [
             "Home",
@@ -201,7 +201,7 @@ A shopper misspells a search, hits a size that's sold out, recovers with a neigh
 
 **User:** What else do I need for my first trail race?
 
-**Why:** A kit for one activity is `stride-edit`, built only from STORE INFO products.
+**Why:** A kit for one activity is `webshop-edit-section`, built only from STORE INFO products.
 
 ```json
 [
@@ -210,7 +210,7 @@ A shopper misspells a search, hits a size that's sold out, recovers with a neigh
     "components": [
       {
         "category": "edit-section",
-        "name": "stride-edit",
+        "name": "webshop-edit-section",
         "props": {
           "eyebrow": "The kit",
           "title": "Everything for your first trail race",

@@ -34,23 +34,23 @@ body { width: 100%; background-color: hsl(var(--background)); color: hsl(var(--f
 .no-scrollbar { scrollbar-width: none; }
 
 /* Custom astro-* rules (live site) */
-.astro-dot-glow { box-shadow: 0 0 10px hsl(var(--brand-cyan)); }
-.astro-text-outline { color: transparent; -webkit-text-stroke: 1px hsl(var(--foreground) / .35); }
-.astro-st-scope { counter-reset: astro-st 0 astro-index 0; }
-.astro-index-code::before { counter-increment: astro-index 1; content: counter(astro-index, decimal-leading-zero) " · "; }
-.astro-index-code:empty::before { content: counter(astro-index, decimal-leading-zero); }
-.astro-st-code::before { counter-increment: astro-st 1; content: "ST/" counter(astro-st, decimal-leading-zero) " · "; }
-.astro-st-code:empty::before { content: "ST/" counter(astro-st, decimal-leading-zero); }
-.astro-card-1, .astro-card-2, .astro-card-3, .astro-card-mesh { background-size: cover; background-position: center; }
-.astro-card-1 { background-image: linear-gradient(180deg, hsl(var(--background) / .2), hsl(var(--background) / .72)), url(https://webagen.astrosynapse.ai/cards/card-1.jpg); }
-.astro-card-2 { background-image: linear-gradient(180deg, hsl(var(--background) / .2), hsl(var(--background) / .72)), url(https://webagen.astrosynapse.ai/cards/card-2.jpg); }
-.astro-card-3 { background-image: linear-gradient(180deg, hsl(var(--background) / .25), hsl(var(--background) / .78)), url(https://webagen.astrosynapse.ai/cards/card-3.jpg); }
-.astro-card-mesh { background-image: linear-gradient(180deg, hsl(var(--background) / .2), hsl(var(--background) / .8)), radial-gradient(circle at 20% 20%, hsl(var(--brand-cyan) / .35), transparent 40%), radial-gradient(circle at 80% 80%, hsl(var(--brand-violet) / .45), transparent 42%); }
-.astro-void { background-image: linear-gradient(180deg, transparent, hsl(var(--foreground) / .03) 20%, hsl(var(--foreground) / .05)); }
-.dark .astro-void { background-image: linear-gradient(transparent, rgba(0, 0, 0, .35) 20%, rgba(0, 0, 0, .5)); }
+.website-dot-glow { box-shadow: 0 0 10px hsl(var(--brand-cyan)); }
+.website-text-outline { color: transparent; -webkit-text-stroke: 1px hsl(var(--foreground) / .35); }
+.website-st-scope { counter-reset: website-st 0 website-index 0; }
+.website-index-code::before { counter-increment: website-index 1; content: counter(website-index, decimal-leading-zero) " · "; }
+.website-index-code:empty::before { content: counter(website-index, decimal-leading-zero); }
+.website-st-code::before { counter-increment: website-st 1; content: "ST/" counter(website-st, decimal-leading-zero) " · "; }
+.website-st-code:empty::before { content: "ST/" counter(website-st, decimal-leading-zero); }
+.website-card-1, .website-card-2, .website-card-3, .website-card-mesh { background-size: cover; background-position: center; }
+.website-card-1 { background-image: linear-gradient(180deg, hsl(var(--background) / .2), hsl(var(--background) / .72)), url(https://webagen.astrosynapse.ai/cards/card-1.jpg); }
+.website-card-2 { background-image: linear-gradient(180deg, hsl(var(--background) / .2), hsl(var(--background) / .72)), url(https://webagen.astrosynapse.ai/cards/card-2.jpg); }
+.website-card-3 { background-image: linear-gradient(180deg, hsl(var(--background) / .25), hsl(var(--background) / .78)), url(https://webagen.astrosynapse.ai/cards/card-3.jpg); }
+.website-card-mesh { background-image: linear-gradient(180deg, hsl(var(--background) / .2), hsl(var(--background) / .8)), radial-gradient(circle at 20% 20%, hsl(var(--brand-cyan) / .35), transparent 40%), radial-gradient(circle at 80% 80%, hsl(var(--brand-violet) / .45), transparent 42%); }
+.website-void { background-image: linear-gradient(180deg, transparent, hsl(var(--foreground) / .03) 20%, hsl(var(--foreground) / .05)); }
+.dark .website-void { background-image: linear-gradient(transparent, rgba(0, 0, 0, .35) 20%, rgba(0, 0, 0, .5)); }
 @media (hover: hover) and (pointer: fine) {
-  .hover\:astro-glow:hover { box-shadow: 0 0 32px hsl(var(--brand-cyan) / .35); }
-  .hover\:astro-card-glow:hover { box-shadow: 0 20px 80px hsl(var(--background) / .35), 0 0 40px hsl(var(--brand-cyan) / .12); }
+  .hover\:website-glow:hover { box-shadow: 0 0 32px hsl(var(--brand-cyan) / .35); }
+  .hover\:website-card-glow:hover { box-shadow: 0 20px 80px hsl(var(--background) / .35), 0 0 40px hsl(var(--brand-cyan) / .12); }
 }
 @keyframes bounce-y { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(6px); } }
 @media (prefers-reduced-motion: no-preference) { .motion-safe\:animate-bounce-y { animation: bounce-y 2.2s cubic-bezier(.22, 1, .36, 1) infinite; } }

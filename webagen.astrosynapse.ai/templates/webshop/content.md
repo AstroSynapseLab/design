@@ -663,4 +663,4 @@ Vegetable-tanned leather, 10 cm wide all the way round, single-prong steel buckl
 
 ## 9. Not in this store yet
 
-No bundles and no customer photos (UGC) are listed yet. `stride-bundle` and `stride-ugc` must not be generated until this file lists that content; their examples in `components.md` only show the format.
+No bundles and no customer photos (UGC) are listed yet. `webshop-bundle-section` and `webshop-ugc-section` must not be generated until this file lists that content; their examples in `components.md` only show the format.

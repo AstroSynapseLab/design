@@ -1,47 +1,48 @@
-# Stride UI components
+# Webshop UI components
 
-## Stride Webshop Components
+## Webshop Components
 
-- Stride Announcement Section
-- Stride Header Section
-- Stride Search Suggest Section
-- Stride Mobile Menu Section
-- Stride Footer Section
-- Stride Hero Section
-- Stride Hero Campaign Section
-- Stride Hero Slider Section
-- Stride Hero Product Section
-- Stride Chapter Nav Section
-- Stride Category Tiles Section
-- Stride Split Tiles Section
-- Stride Size Section
-- Stride Product Grid Section
-- Stride Product Card Section
-- Stride Quick View Section
-- Stride Recently Viewed Section
-- Stride Category Section
-- Stride Empty Results Section
-- Stride Compare Section
-- Stride Product Section
-- Stride Bundle Section
-- Stride Cross-sell Section
-- Stride Reviews Section
-- Stride Sticky Add-to-bag Section
-- Stride Editorial Section
-- Stride Edit Section
-- Stride Journal Section
-- Stride UGC Section
-- Stride Chapter Section
-- Stride Specs Section
-- Stride FAQ Section
-- Stride Final CTA Section
-- Stride Press Section
-- Stride Brand Strip Section
-- Stride Trust Section
-- Stride Cart Section
-- Stride Checkout Section
-- Stride Order Confirmation Section
-- Stride Toast Section
+- Webshop Announcement Section
+- Webshop Header Section
+- Webshop Search Suggest Section
+- Webshop Mobile Menu Section
+- Webshop Footer Section
+- Webshop Hero Section
+- Webshop Hero Campaign Section
+- Webshop Hero Slider Section
+- Webshop Hero Product Section
+- Webshop Chapter Nav Section
+- Webshop Category Tiles Section
+- Webshop Split Tiles Section
+- Webshop Size Section
+- Webshop Product Grid Section
+- Webshop Product Card Section
+- Webshop Quick View Section
+- Webshop Recently Viewed Section
+- Webshop Category Section
+- Webshop Empty Results Section
+- Webshop Compare Section
+- Webshop Product Section
+- Webshop Bundle Section
+- Webshop Cross-sell Section
+- Webshop Reviews Section
+- Webshop Sticky Add-to-bag Section
+- Webshop Editorial Section
+- Webshop Edit Section
+- Webshop Journal Section
+- Webshop UGC Section
+- Webshop Chapter Section
+- Webshop Specs Section
+- Webshop FAQ Section
+- Webshop Final CTA Section
+- Webshop Press Section
+- Webshop Brand Strip Section
+- Webshop Trust Section
+- Webshop Cart Section
+- Webshop Checkout Section
+- Webshop Order Confirmation Section
+- Webshop Toast Section
+- Webshop Stream Section
 
 ### Shared rules
 
@@ -65,14 +66,18 @@
 - Frame components (announcement, header, mobile menu, footer) are sent once per session with the first response; never send them in reply to a later query
 - Homepage order: Hero → Product Grid → Size → Editorial → Press → Trust; add or drop sections only when the user's query asks for it
 
-### Stride Announcement Section
+### Webshop Announcement Section
+- Every link and button sends either `href` (navigates) or `data-prompt` (sends a new message; the answer is added below the page)
+- Add `"clear": true` next to a `data-prompt` when the answer should start a new page; the current page moves to history
+- A non-empty `data-prompt` wins over `href`; send `clear` only as `true`, and only with a non-empty `data-prompt`
 
 **Ruleset:**
 
-- Frame component: send it once per session in the first response, as the first component, above `stride-header`
+- Frame component: send it once per session in the first response, as the first component, above `webshop-header-section`
 - Never send it in reply to a later query
 - Build the text only from STORE INFO shipping, returns and VAT facts
 - Keep the text between min 4 - max 14 words, with min 1 - max 3 promises separated by ` · `
+- Unique: always send `"unique": true` on the component; the page holds it once, and sending it again fills in its missing props and scrolls to it instead of adding a copy
 
 **JSON:**
 
@@ -82,7 +87,8 @@
   "components": [
     {
       "category": "announcement-section",
-      "name": "stride-announcement",
+      "name": "webshop-announcement-section",
+      "unique": true,
       "props": {
         "text": "Free shipping over €75 · 30-day free returns · VAT included"
       }
@@ -91,11 +97,11 @@
 }
 ```
 
-### Stride Header Section
+### Webshop Header Section
 
 **Ruleset:**
 
-- Frame component: send it once per session in the first response, after `stride-announcement` and before the first section
+- Frame component: send it once per session in the first response, after `webshop-announcement-section` and before the first section
 - Never send it in reply to a later query; the frontend keeps it sticky on every page
 - Keep the logo as the store name from STORE INFO
 - Keep the nav between min 3 - max 7 items, in STORE INFO order
@@ -104,6 +110,8 @@
 - Keep the children label between min 1 - max 2 words
 - Send `promo` only on nav items with children: one subcategory with its STORE INFO image, label min 1 - max 2 words
 - Search, store switcher, theme toggle, wishlist and bag icons are static; the frontend handles them
+- Unique: always send `"unique": true` on the component; the page holds it once, and sending it again fills in its missing props and scrolls to it instead of adding a copy
+- Send `"clear": true` on the nav links: a category starts a new page
 
 **JSON:**
 
@@ -113,25 +121,27 @@
   "components": [
     {
       "category": "header-section",
-      "name": "stride-header",
+      "name": "webshop-header-section",
+      "unique": true,
       "props": {
         "logo": "Stride",
         "nav": [
           {
             "label": "Running",
             "data-prompt": "Show category Running",
+            "clear": true,
             "children": [
-              { "label": "Road", "data-prompt": "Show category Road" },
-              { "label": "Trail", "data-prompt": "Show category Trail" },
-              { "label": "Track", "data-prompt": "Show category Track" }
+              { "label": "Road", "data-prompt": "Show category Road", "clear": true },
+              { "label": "Trail", "data-prompt": "Show category Trail", "clear": true },
+              { "label": "Track", "data-prompt": "Show category Track", "clear": true }
             ],
             "promo": { "label": "Trail", "image": "photo-1718248028293-934f04a578db", "data-prompt": "Show category Trail" }
           },
-          { "label": "Training", "data-prompt": "Show category Training" },
-          { "label": "Football", "data-prompt": "Show category Football" },
-          { "label": "Outdoor", "data-prompt": "Show category Outdoor" },
-          { "label": "Fan gear", "data-prompt": "Show category Fan gear" },
-          { "label": "Sale", "data-prompt": "Show category Sale" }
+          { "label": "Training", "data-prompt": "Show category Training", "clear": true },
+          { "label": "Football", "data-prompt": "Show category Football", "clear": true },
+          { "label": "Outdoor", "data-prompt": "Show category Outdoor", "clear": true },
+          { "label": "Fan gear", "data-prompt": "Show category Fan gear", "clear": true },
+          { "label": "Sale", "data-prompt": "Show category Sale", "clear": true }
         ]
       }
     }
@@ -139,11 +149,11 @@
 }
 ```
 
-### Stride Search Suggest Section
+### Webshop Search Suggest Section
 
 **Ruleset:**
 
-- Use when the user's message is a short, partial or misspelled product search of min 1 - max 3 words, for example `runing`; for a full search sentence send `stride-product-grid` instead
+- Use when the user's message is a short, partial or misspelled product search of min 1 - max 3 words, for example `runing`; for a full search sentence send `webshop-product-grid-section` instead
 - Send it alone; the frontend shows it as a dropdown under the search field
 - Match only STORE INFO titles, subtitles, category names and colour names; correct the spelling silently
 - Keep the query as the user's text, unchanged
@@ -160,7 +170,7 @@
   "components": [
     {
       "category": "search-section",
-      "name": "stride-search-suggest",
+      "name": "webshop-search-suggest-section",
       "props": {
         "query": "runing",
         "data-prompt": "Search running",
@@ -179,14 +189,14 @@
 }
 ```
 
-### Stride Mobile Menu Section
+### Webshop Mobile Menu Section
 
 **Ruleset:**
 
-- Frame component: send it once per session in the first response, right after `stride-header`; the frontend opens it from the menu button on phones
+- Frame component: send it once per session in the first response, right after `webshop-header-section`; the frontend opens it from the menu button on phones
 - Never send it in reply to a later query
-- Keep the nav identical to the `stride-header` nav: same labels, order and data-prompts, max 7 items
-- Send `children` exactly as in `stride-header`; the frontend lists them under their parent
+- Keep the nav identical to the `webshop-header-section` nav: same labels, order and data-prompts, max 7 items
+- Send `children` exactly as in `webshop-header-section`; the frontend lists them under their parent
 - Send no `promo`; the wishlist link and store switcher are static
 
 **JSON:**
@@ -197,7 +207,7 @@
   "components": [
     {
       "category": "menu-section",
-      "name": "stride-mobile-menu",
+      "name": "webshop-mobile-menu-section",
       "props": {
         "nav": [
           {
@@ -221,7 +231,7 @@
 }
 ```
 
-### Stride Footer Section
+### Webshop Footer Section
 
 **Ruleset:**
 
@@ -230,10 +240,11 @@
 - Keep the logo as the store name and the tagline as the STORE INFO tagline, min 6 - max 16 words
 - Keep the newsletter label between min 3 - max 7 words and the newsletter hint between min 6 - max 14 words; the email field and Join button are static
 - Keep the columns to exactly 3 items, titled `Shop`, `Help` and `Company`, each with min 2 - max 6 links
-- Keep the Shop links as the first min 3 - max 5 `stride-header` nav items, with the same data-prompts
+- Keep the Shop links as the first min 3 - max 5 `webshop-header-section` nav items, with the same data-prompts
 - Keep the Help and Company link labels between min 1 - max 3 words; the data-prompt asks for that page, for example `Show shipping and returns`
 - Keep the payments as the STORE INFO payment names in capitals, min 3 - max 8 items
 - Keep the legal as `© <year> <store> d.o.o. · <city> · <note>`, min 5 - max 14 words
+- Unique: always send `"unique": true` on the component; the page holds it once, and sending it again fills in its missing props and scrolls to it instead of adding a copy
 
 **JSON:**
 
@@ -243,7 +254,8 @@
   "components": [
     {
       "category": "footer-section",
-      "name": "stride-footer",
+      "name": "webshop-footer-section",
+      "unique": true,
       "props": {
         "logo": "Stride",
         "tagline": "Footwear and sport gear, shipped from Zagreb to the whole EU.",
@@ -285,13 +297,13 @@
 }
 ```
 
-### Stride Hero Section
+### Webshop Hero Section
 
 **Ruleset:**
 
 - Use when the page (components array) is empty, or when the user asks for the homepage; always place it first, after the frame components on the first response
 - Follow it with the homepage order from Shared rules: Product Grid → Size → Editorial → Press → Trust
-- Never send it together with `stride-hero-campaign`, `stride-hero-slider` or `stride-hero-product`
+- Never send it together with `webshop-hero-campaign-section`, `webshop-hero-slider-section` or `webshop-hero-product-section`
 - The hero and the category tiles are one block: always send them together
 - Keep the eyebrow between min 1 - max 3 words
 - Keep the title between min 3 - max 7 words
@@ -301,6 +313,7 @@
 - Keep the cta data-prompt as `Show category <category>` or `Show product <title>`
 - Keep the tiles between min 2 - max 6 items, one per top-level category
 - Keep the tiles label to the category name, min 1 - max 2 words
+- Unique: always send `"unique": true` on the component; the page holds it once, and sending it again fills in its missing props and scrolls to it instead of adding a copy
 
 **JSON:**
 
@@ -310,7 +323,8 @@
   "components": [
     {
       "category": "hero-section",
-      "name": "stride-hero",
+      "name": "webshop-hero-section",
+      "unique": true,
       "props": {
         "eyebrow": "Trail season",
         "title": "Built for the long way round",
@@ -329,12 +343,12 @@
 }
 ```
 
-### Stride Hero Campaign Section
+### Webshop Hero Campaign Section
 
 **Ruleset:**
 
 - Use as the first section of a campaign or seasonal homepage, or when the user asks to shop a look, for example `What do I wear for a wet trail run?`
-- Never send it together with another hero; it can be followed by `stride-edit` or `stride-product-grid`
+- Never send it together with another hero; it can be followed by `webshop-edit-section` or `webshop-product-grid-section`
 - Keep the eyebrow between min 1 - max 4 words
 - Keep the title between min 3 - max 7 words
 - Keep the text between min 8 - max 20 words
@@ -353,7 +367,7 @@
   "components": [
     {
       "category": "hero-section",
-      "name": "stride-hero-campaign",
+      "name": "webshop-hero-campaign-section",
       "props": {
         "eyebrow": "Wet weather kit",
         "title": "Rain is just more trail",
@@ -371,7 +385,7 @@
 }
 ```
 
-### Stride Hero Slider Section
+### Webshop Hero Slider Section
 
 **Ruleset:**
 
@@ -394,7 +408,7 @@
   "components": [
     {
       "category": "hero-section",
-      "name": "stride-hero-slider",
+      "name": "webshop-hero-slider-section",
       "props": {
         "slides": [
           {
@@ -431,12 +445,12 @@
 }
 ```
 
-### Stride Hero Product Section
+### Webshop Hero Product Section
 
 **Ruleset:**
 
-- Use when the user wants everything about one flagship product on a single long page, for example `Tell me everything about the Trail Max GTX`; for a normal product page send `stride-product` instead
-- Send `stride-chapter-nav` before it; after it send any of `stride-chapter`, `stride-specs`, `stride-reviews`, `stride-faq`, `stride-final-cta` and `stride-sticky-atc`, in that order
+- Use when the user wants everything about one flagship product on a single long page, for example `Tell me everything about the Trail Max GTX`; for a normal product page send `webshop-product-section` instead
+- Send `webshop-chapter-nav-section` before it; after it send any of `webshop-chapter-section`, `webshop-specs-section`, `webshop-reviews-section`, `webshop-faq-section`, `webshop-final-cta-section` and `webshop-sticky-add-to-bag-section`, in that order
 - Keep the eyebrow as the product name, min 1 - max 3 words
 - Keep the title as a promise, not the product name, min 2 - max 6 words
 - Keep the text between min 10 - max 25 words
@@ -454,7 +468,7 @@
   "components": [
     {
       "category": "hero-section",
-      "name": "stride-hero-product",
+      "name": "webshop-hero-product-section",
       "props": {
         "eyebrow": "Trail Max GTX",
         "title": "Dry feet. Any trail.",
@@ -485,11 +499,11 @@
 }
 ```
 
-### Stride Chapter Nav Section
+### Webshop Chapter Nav Section
 
 **Ruleset:**
 
-- Use only on a long product page, as the first section, right before `stride-hero-product`
+- Use only on a long product page, as the first section, right before `webshop-hero-product-section`
 - Keep the links between min 3 - max 7 items, one per section below it, in page order
 - Keep the link label between min 1 - max 2 words, matching the eyebrow of the section it points to
 - Keep the link `anchor` as the target section's `section_id`
@@ -504,7 +518,7 @@
   "components": [
     {
       "category": "navigation-section",
-      "name": "stride-chapter-nav",
+      "name": "webshop-chapter-nav-section",
       "props": {
         "product": "Trail Max GTX",
         "price": 179,
@@ -522,16 +536,17 @@
 }
 ```
 
-### Stride Category Tiles Section
+### Webshop Category Tiles Section
 
 **Ruleset:**
 
-- Use when the user asks what the store sells or to see all categories, or on a homepage whose hero has no tiles (`stride-hero-campaign`, `stride-hero-product`)
-- Never send it right after `stride-hero` or `stride-hero-slider`; they already show tiles
+- Use when the user asks what the store sells or to see all categories, or on a homepage whose hero has no tiles (`webshop-hero-campaign-section`, `webshop-hero-product-section`)
+- Never send it right after `webshop-hero-section` or `webshop-hero-slider-section`; they already show tiles
 - Use `variant` `4-up` for large square tiles of the main categories and `8-up` for a dense grid of every department; default is `4-up`
 - Keep the title between min 2 - max 4 words, optional
 - Keep the tiles to exactly 4 items for `4-up` and min 5 - max 8 items for `8-up`, in STORE INFO order
 - Keep the tiles label to the category name, min 1 - max 2 words
+- Unique: always send `"unique": true` on the component; the page holds it once, and sending it again fills in its missing props and scrolls to it instead of adding a copy
 
 **JSON Variant 1:**
 
@@ -541,7 +556,8 @@
   "components": [
     {
       "category": "tiles-section",
-      "name": "stride-category-tiles",
+      "name": "webshop-category-tiles-section",
+      "unique": true,
       "props": {
         "variant": "4-up",
         "tiles": [
@@ -564,7 +580,8 @@
   "components": [
     {
       "category": "tiles-section",
-      "name": "stride-category-tiles",
+      "name": "webshop-category-tiles-section",
+      "unique": true,
       "props": {
         "variant": "8-up",
         "title": "Shop by category",
@@ -584,12 +601,12 @@
 }
 ```
 
-### Stride Split Tiles Section
+### Webshop Split Tiles Section
 
 **Ruleset:**
 
 - Use when the user is choosing between two equal branches of the store, for example `Road or trail shoes?`, or on a homepage whose store has two main halves
-- Send it after a hero, never as the first section; it can be followed by `stride-product-grid` for either branch
+- Send it after a hero, never as the first section; it can be followed by `webshop-product-grid-section` for either branch
 - Keep the tiles to exactly 2 items, one per STORE INFO category
 - Keep the tiles label to the category name, min 1 - max 2 words
 - Keep the tiles image as a portrait photo id from STORE INFO
@@ -603,7 +620,7 @@
   "components": [
     {
       "category": "tiles-section",
-      "name": "stride-split-tiles",
+      "name": "webshop-split-tiles-section",
       "props": {
         "tiles": [
           { "label": "Road", "image": "photo-1590333748338-d629e4564ad9", "data-prompt": "Show category Road" },
@@ -615,11 +632,11 @@
 }
 ```
 
-### Stride Size Section
+### Webshop Size Section
 
 **Ruleset:**
 
-- Use on the homepage after the first `stride-product-grid`, or on its own when the user asks about sizes or fit
+- Use on the homepage after the first `webshop-product-grid-section`, or on its own when the user asks about sizes or fit
 - Each size button sends `Show what's in stock in EU <size>`; the sizes need no data-prompt
 - Keep the title between min 2 - max 4 words
 - Keep the text between min 5 - max 12 words, optional
@@ -633,7 +650,7 @@
   "components": [
     {
       "category": "size-section",
-      "name": "stride-size-strip",
+      "name": "webshop-size-section",
       "props": {
         "title": "Shop by size",
         "text": "Only shows what's in stock in your size.",
@@ -644,12 +661,12 @@
 }
 ```
 
-### Stride Product Grid Section
+### Webshop Product Grid Section
 
 **Ruleset:**
 
 - Use to show a curated set of products: best sellers, new arrivals, sale items, search results or recommendations
-- On the homepage send it right after the hero; after `stride-product` send it as a `rail` of related products; on its own for search results
+- On the homepage send it right after the hero; after `webshop-product-section` send it as a `rail` of related products; on its own for search results
 - Use `variant` `grid` for a main list, `rail` for a secondary, horizontally scrolling list and `grid-large` for a few products with big photos; default is `grid`
 - Keep the title between min 1 - max 4 words
 - Keep the text between min 5 - max 15 words, optional
@@ -668,7 +685,7 @@
   "components": [
     {
       "category": "product-grid-section",
-      "name": "stride-product-grid",
+      "name": "webshop-product-grid-section",
       "props": {
         "title": "Best sellers",
         "action-label": "View all",
@@ -735,7 +752,7 @@
   "components": [
     {
       "category": "product-grid-section",
-      "name": "stride-product-grid",
+      "name": "webshop-product-grid-section",
       "props": {
         "title": "New in",
         "action-label": "See all new",
@@ -801,7 +818,7 @@
   "components": [
     {
       "category": "product-grid-section",
-      "name": "stride-product-grid",
+      "name": "webshop-product-grid-section",
       "props": {
         "title": "Made for mountains",
         "text": "Two pairs that stay dry when the weather turns.",
@@ -836,12 +853,12 @@
 }
 ```
 
-### Stride Product Card Section
+### Webshop Product Card Section
 
 **Ruleset:**
 
-- Use for a quick answer about one product, for example `How much is the Strike FG?` or `What colours does the Aero Run 2 come in?`; send `stride-product` instead when the user wants the full page
-- Send it alone, or before a `stride-product-grid` `rail` of alternatives
+- Use for a quick answer about one product, for example `How much is the Strike FG?` or `What colours does the Aero Run 2 come in?`; send `webshop-product-section` instead when the user wants the full page
+- Send it alone, or before a `webshop-product-grid-section` `rail` of alternatives
 - The card uses the same product fields as every grid, rail and category; they follow the Shared rules
 - Keep the subtitle between min 2 - max 6 words
 - Keep `badges` as the STORE INFO state: the frontend shows `sale` as the discount percentage, and `low-stock` and `sold-out` over the photo
@@ -853,8 +870,8 @@
   "section_id": "section-s18",
   "components": [
     {
-      "category": "product-card",
-      "name": "stride-product-card",
+      "category": "product-card-section",
+      "name": "webshop-product-card-section",
       "props": {
         "title": "Strike FG",
         "subtitle": "Firm-ground football boot",
@@ -872,12 +889,12 @@
 }
 ```
 
-### Stride Quick View Section
+### Webshop Quick View Section
 
 **Ruleset:**
 
 - Use when the user asks for a quick look at one product from a listing, for example `Quick view Aero Run 2`; the frontend opens it as a modal over the current page
-- Send it alone; never together with `stride-product` for the same product
+- Send it alone; never together with `webshop-product-section` for the same product
 - Keep the eyebrow as the product subtitle, min 2 - max 6 words
 - Keep the title as the product name
 - Keep the summary between min 8 - max 20 words
@@ -893,7 +910,7 @@
   "components": [
     {
       "category": "modal-section",
-      "name": "stride-quick-view",
+      "name": "webshop-quick-view-section",
       "props": {
         "eyebrow": "Neutral road running shoe",
         "title": "Aero Run 2",
@@ -921,15 +938,15 @@
 }
 ```
 
-### Stride Recently Viewed Section
+### Webshop Recently Viewed Section
 
 **Ruleset:**
 
 - Use only with the products SESSION INFO lists as recently viewed; send nothing when it lists none
-- Send it as the last section of the homepage, after `stride-trust`, or on its own when the user asks what they looked at
+- Send it as the last section of the homepage, after `webshop-trust-section`, or on its own when the user asks what they looked at
 - Never include the product the current page is about
 - Keep the title as `Recently viewed`
-- Keep the products between min 1 - max 4 items, most recent first, with the same fields as `stride-product-grid`
+- Keep the products between min 1 - max 4 items, most recent first, with the same fields as `webshop-product-grid-section`
 
 **JSON:**
 
@@ -939,7 +956,7 @@
   "components": [
     {
       "category": "product-grid-section",
-      "name": "stride-recently-viewed",
+      "name": "webshop-recently-viewed-section",
       "props": {
         "title": "Recently viewed",
         "products": [
@@ -980,12 +997,12 @@
 }
 ```
 
-### Stride Category Section
+### Webshop Category Section
 
 **Ruleset:**
 
 - Use when the user asks for a category, a subcategory, or a filtered or sorted list of products
-- Send it alone: a category page is one block; send `stride-empty-results` instead when no product matches
+- Send it alone: a category page is one block; send `webshop-empty-results-section` instead when no product matches
 - Keep the breadcrumbs as the path from `Home` to the current category, min 2 - max 4 items
 - Keep the title as the category name
 - Keep the intro between min 10 - max 30 words
@@ -1009,7 +1026,7 @@
   "components": [
     {
       "category": "category-section",
-      "name": "stride-category",
+      "name": "webshop-category-section",
       "props": {
         "breadcrumbs": ["Home", "Running"],
         "title": "Running",
@@ -1081,16 +1098,16 @@
 }
 ```
 
-### Stride Empty Results Section
+### Webshop Empty Results Section
 
 **Ruleset:**
 
-- Use when a search, category or filter leaves no products, instead of an empty `stride-category` or `stride-product-grid`
-- Send it alone, or followed by a `stride-product-grid` of close alternatives from STORE INFO
+- Use when a search, category or filter leaves no products, instead of an empty `webshop-category-section` or `webshop-product-grid-section`
+- Send it alone, or followed by a `webshop-product-grid-section` of close alternatives from STORE INFO
 - Keep the title between min 3 - max 8 words, plain: say what found nothing
 - Keep the text between min 8 - max 20 words: say why, and give one way out
 - Keep the actions between min 1 - max 2 items, label min 2 - max 4 words; the data-prompt is the way out, for example `Show category Trail`
-- Keep the tiles between min 0 - max 4 categories to browse instead, as in `stride-category-tiles`; send them for a failed search
+- Keep the tiles between min 0 - max 4 categories to browse instead, as in `webshop-category-tiles-section`; send them for a failed search
 
 **JSON:**
 
@@ -1100,7 +1117,7 @@
   "components": [
     {
       "category": "empty-section",
-      "name": "stride-empty-results",
+      "name": "webshop-empty-results-section",
       "props": {
         "title": "Nothing matches those filters",
         "text": "No trail shoe is in stock in EU 41 right now. Remove the size, or try a neighbouring one.",
@@ -1115,12 +1132,12 @@
 }
 ```
 
-### Stride Compare Section
+### Webshop Compare Section
 
 **Ruleset:**
 
 - Use when the user asks to compare two to four specific products, for example `Aero Run 2 vs Aero Stable`
-- Send it alone, or followed by `stride-product` for the product the user leans towards
+- Send it alone, or followed by `webshop-product-section` for the product the user leans towards
 - Use only STORE INFO specs; write `—` where a product has no value
 - Keep the products between min 2 - max 4 items, with title, subtitle, image, price, rating and data-prompt `Show product <title>`
 - Keep the availability as `in-stock`, `low-stock` or `sold-out`
@@ -1135,7 +1152,7 @@
   "components": [
     {
       "category": "compare-section",
-      "name": "stride-compare",
+      "name": "webshop-compare-section",
       "props": {
         "products": [
           { "title": "Aero Run 2", "subtitle": "Neutral road running shoe", "image": "photo-1542291026-7eec264c27ff", "price": 139, "compare-at": 169, "rating": { "avg": 4.7, "count": 183 }, "availability": "in-stock", "data-prompt": "Show product Aero Run 2" },
@@ -1155,12 +1172,12 @@
 }
 ```
 
-### Stride Product Section
+### Webshop Product Section
 
 **Ruleset:**
 
 - Use when the user asks about one specific product
-- Send it alone, optionally followed by `stride-bundle`, then one `stride-cross-sell` or one `stride-product-grid` with `variant` `rail` for related products, then `stride-sticky-atc`
+- Send it alone, optionally followed by `webshop-bundle-section`, then one `webshop-cross-sell-section` or one `webshop-product-grid-section` with `variant` `rail` for related products, then `webshop-sticky-add-to-bag-section`
 - Keep the breadcrumbs as the path from `Home` to the product's subcategory, min 2 - max 4 items
 - Keep the eyebrow as the product's short type, min 2 - max 6 words
 - Keep the title as the product name and the brand as the STORE INFO brand
@@ -1189,7 +1206,7 @@
   "components": [
     {
       "category": "product-section",
-      "name": "stride-product",
+      "name": "webshop-product-section",
       "props": {
         "breadcrumbs": ["Home", "Running", "Road"],
         "eyebrow": "Neutral road running shoe",
@@ -1266,11 +1283,11 @@
 }
 ```
 
-### Stride Bundle Section
+### Webshop Bundle Section
 
 **Ruleset:**
 
-- Use right after `stride-product` when STORE INFO lists a bundle for that product, or when the user asks what to buy with it for less
+- Use right after `webshop-product-section` when STORE INFO lists a bundle for that product, or when the user asks what to buy with it for less
 - Never send a bundle STORE INFO doesn't list
 - Keep the items between min 2 - max 3; the first one is the product the page is about
 - Keep each item's title as the product name, with its image, price and data-prompt `Show product <title>`
@@ -1285,7 +1302,7 @@
   "components": [
     {
       "category": "bundle-section",
-      "name": "stride-bundle",
+      "name": "webshop-bundle-section",
       "props": {
         "save": 15,
         "items": [
@@ -1299,14 +1316,14 @@
 }
 ```
 
-### Stride Cross-sell Section
+### Webshop Cross-sell Section
 
 **Ruleset:**
 
-- Use after `stride-product` or `stride-bundle`, with products from that product's STORE INFO cross-sell list, in that order
-- Never send it together with a `stride-product-grid` `rail` for the same product
+- Use after `webshop-product-section` or `webshop-bundle-section`, with products from that product's STORE INFO cross-sell list, in that order
+- Never send it together with a `webshop-product-grid-section` `rail` for the same product
 - Keep the title as `Complete the kit`, `Works with` or `Styled with`; default is `Complete the kit`
-- Keep the products between min 2 - max 4 items, with the same fields as `stride-product-grid`
+- Keep the products between min 2 - max 4 items, with the same fields as `webshop-product-grid-section`
 
 **JSON:**
 
@@ -1316,7 +1333,7 @@
   "components": [
     {
       "category": "product-grid-section",
-      "name": "stride-cross-sell",
+      "name": "webshop-cross-sell-section",
       "props": {
         "title": "Complete the kit",
         "products": [
@@ -1371,12 +1388,12 @@
 }
 ```
 
-### Stride Reviews Section
+### Webshop Reviews Section
 
 **Ruleset:**
 
-- Use when the user asks what customers think of one product, or on a long product page after `stride-specs`
-- Never send it together with `stride-product` for the same product; that block already has reviews
+- Use when the user asks what customers think of one product, or on a long product page after `webshop-specs-section`
+- Never send it together with `webshop-product-section` for the same product; that block already has reviews
 - Use only STORE INFO reviews and ratings; never write a review
 - Keep the product as the product name
 - Keep `dist` as exactly 5 numbers: the count of 1★ to 5★ ratings, adding up to `rating.count`
@@ -1397,7 +1414,7 @@
   "components": [
     {
       "category": "reviews-section",
-      "name": "stride-reviews",
+      "name": "webshop-reviews-section",
       "props": {
         "product": "Trail Max GTX",
         "rating": { "avg": 4.6, "count": 97 },
@@ -1420,11 +1437,11 @@
 }
 ```
 
-### Stride Sticky Add-to-bag Section
+### Webshop Sticky Add-to-bag Section
 
 **Ruleset:**
 
-- Send it as the last component of a response that contains `stride-product` or `stride-hero-product`; the frontend shows it when the buy button scrolls out of view
+- Send it as the last component of a response that contains `webshop-product-section` or `webshop-hero-product-section`; the frontend shows it when the buy button scrolls out of view
 - Never send it on its own
 - Keep the title as the product name
 - Keep the options as the default selected option labels, min 1 - max 3 items, sizes written as `EU <size>`
@@ -1439,7 +1456,7 @@
   "components": [
     {
       "category": "sticky-section",
-      "name": "stride-sticky-atc",
+      "name": "webshop-sticky-add-to-bag-section",
       "props": {
         "title": "Trail Max GTX",
         "options": ["Ember / Black", "EU 42"],
@@ -1450,12 +1467,12 @@
 }
 ```
 
-### Stride Editorial Section
+### Webshop Editorial Section
 
 **Ruleset:**
 
 - Use for a guide, story or advice topic, for example how to choose a shoe
-- On the homepage send it after `stride-size-strip`; on its own for an advice question; it can be followed by a `stride-product-grid` with the products the story mentions
+- On the homepage send it after `webshop-size-section`; on its own for an advice question; it can be followed by a `webshop-product-grid-section` with the products the story mentions
 - Set `reverse` to `true` to put the image on the right; default is `false`
 - Keep the eyebrow between min 1 - max 2 words
 - Keep the title between min 3 - max 8 words
@@ -1472,7 +1489,7 @@
   "components": [
     {
       "category": "editorial-section",
-      "name": "stride-editorial",
+      "name": "webshop-editorial-section",
       "props": {
         "eyebrow": "Journal",
         "title": "How to choose a trail shoe",
@@ -1494,7 +1511,7 @@
   "components": [
     {
       "category": "editorial-section",
-      "name": "stride-editorial",
+      "name": "webshop-editorial-section",
       "props": {
         "eyebrow": "Fit help",
         "title": "Not sure about your size?",
@@ -1508,12 +1525,12 @@
 }
 ```
 
-### Stride Edit Section
+### Webshop Edit Section
 
 **Ruleset:**
 
 - Use when the user asks for a kit or a look for one activity, for example `What do I need for my first trail race?`
-- Send it alone, or after `stride-hero-campaign`; it can be followed by `stride-product-grid` with alternatives
+- Send it alone, or after `webshop-hero-campaign-section`; it can be followed by `webshop-product-grid-section` with alternatives
 - Keep the eyebrow between min 1 - max 3 words
 - Keep the title between min 3 - max 7 words
 - Keep the text between min 15 - max 40 words: why these products belong together
@@ -1529,7 +1546,7 @@
   "components": [
     {
       "category": "edit-section",
-      "name": "stride-edit",
+      "name": "webshop-edit-section",
       "props": {
         "eyebrow": "The kit",
         "title": "Everything for your first trail race",
@@ -1547,11 +1564,11 @@
 }
 ```
 
-### Stride Journal Section
+### Webshop Journal Section
 
 **Ruleset:**
 
-- Use when the user asks for guides, stories or something to read, or near the end of an editorial homepage before `stride-press`
+- Use when the user asks for guides, stories or something to read, or near the end of an editorial homepage before `webshop-press-section`
 - Send it at most once per page
 - Keep the title between min 1 - max 3 words; default is `Journal`
 - Keep the articles to exactly 3 items
@@ -1567,7 +1584,7 @@
   "components": [
     {
       "category": "journal-section",
-      "name": "stride-journal",
+      "name": "webshop-journal-section",
       "props": {
         "title": "Journal",
         "articles": [
@@ -1581,11 +1598,11 @@
 }
 ```
 
-### Stride UGC Section
+### Webshop UGC Section
 
 **Ruleset:**
 
-- Use when the user asks how products look on real customers, or on the homepage after `stride-press`
+- Use when the user asks how products look on real customers, or on the homepage after `webshop-press-section`
 - Use only STORE INFO customer photos and handles; never invent a customer
 - Keep the title between min 2 - max 4 words
 - Keep the text between min 4 - max 10 words, with the store hashtag
@@ -1601,7 +1618,7 @@
   "components": [
     {
       "category": "ugc-section",
-      "name": "stride-ugc",
+      "name": "webshop-ugc-section",
       "props": {
         "title": "Worn by you",
         "text": "Tag #stride to be featured.",
@@ -1619,13 +1636,13 @@
 }
 ```
 
-### Stride Chapter Section
+### Webshop Chapter Section
 
 **Ruleset:**
 
-- Use on a long product page after `stride-hero-product`: one chapter per topic, min 2 - max 5 chapters per page, then `stride-specs`
+- Use on a long product page after `webshop-hero-product-section`: one chapter per topic, min 2 - max 5 chapters per page, then `webshop-specs-section`
 - Use `variant` `tiles` for a story with photos and `compare` for a table against other products; default is `tiles`
-- Keep the eyebrow between min 1 - max 2 words; `stride-chapter-nav` uses it as the link label
+- Keep the eyebrow between min 1 - max 2 words; `webshop-chapter-nav-section` uses it as the link label
 - Keep the title between min 2 - max 6 words
 - Keep the text between min 15 - max 45 words
 - For `tiles`, keep the tiles between min 1 - max 3 items, each with a landscape photo id and a caption of min 8 - max 20 words
@@ -1640,7 +1657,7 @@
   "components": [
     {
       "category": "chapter-section",
-      "name": "stride-chapter",
+      "name": "webshop-chapter-section",
       "props": {
         "variant": "tiles",
         "eyebrow": "Grip",
@@ -1664,7 +1681,7 @@
   "components": [
     {
       "category": "chapter-section",
-      "name": "stride-chapter",
+      "name": "webshop-chapter-section",
       "props": {
         "variant": "compare",
         "eyebrow": "Compared",
@@ -1684,7 +1701,7 @@
 }
 ```
 
-### Stride Specs Section
+### Webshop Specs Section
 
 **Ruleset:**
 
@@ -1701,7 +1718,7 @@
   "components": [
     {
       "category": "specs-section",
-      "name": "stride-specs",
+      "name": "webshop-specs-section",
       "props": {
         "eyebrow": "Specifications",
         "title": "Everything in one table",
@@ -1722,17 +1739,18 @@
 }
 ```
 
-### Stride FAQ Section
+### Webshop FAQ Section
 
 **Ruleset:**
 
-- Use when the user asks for an FAQ or several practical questions at once, or on a long product page before `stride-final-cta`
+- Use when the user asks for an FAQ or several practical questions at once, or on a long product page before `webshop-final-cta-section`
 - Answer only from STORE INFO: product Q&A, shipping, returns, sizing and warranty; never promise anything STORE INFO doesn't say
 - Keep the eyebrow to max 1 word; default is `Questions`
 - Keep the title between min 2 - max 5 words
 - Keep the items between min 3 - max 8
 - Keep the question as a full question, min 4 - max 12 words
 - Keep the answer between min 8 - max 40 words
+- Unique: always send `"unique": true` on the component; the page holds it once, and sending it again fills in its missing props and scrolls to it instead of adding a copy
 
 **JSON:**
 
@@ -1742,7 +1760,8 @@
   "components": [
     {
       "category": "faq-section",
-      "name": "stride-faq",
+      "name": "webshop-faq-section",
+      "unique": true,
       "props": {
         "eyebrow": "Questions",
         "title": "Asked often",
@@ -1758,15 +1777,15 @@
 }
 ```
 
-### Stride Final CTA Section
+### Webshop Final CTA Section
 
 **Ruleset:**
 
-- Use as the last section of a long product page, after `stride-faq` and before `stride-trust`
+- Use as the last section of a long product page, after `webshop-faq-section` and before `webshop-trust-section`
 - Keep the eyebrow as the product name
 - Keep the title between min 4 - max 10 words, with the product's current price
 - Keep the text as the STORE INFO tagline
-- Keep the cta label between min 1 - max 3 words and the cta `anchor` as the `section_id` of `stride-hero-product`
+- Keep the cta label between min 1 - max 3 words and the cta `anchor` as the `section_id` of `webshop-hero-product-section`
 - Keep the note between min 3 - max 8 words, from STORE INFO warranty or returns facts
 
 **JSON:**
@@ -1777,7 +1796,7 @@
   "components": [
     {
       "category": "cta-section",
-      "name": "stride-final-cta",
+      "name": "webshop-final-cta-section",
       "props": {
         "eyebrow": "Trail Max GTX",
         "title": "From €179. Thirty days to change your mind.",
@@ -1790,11 +1809,11 @@
 }
 ```
 
-### Stride Press Section
+### Webshop Press Section
 
 **Ruleset:**
 
-- Use on the homepage after `stride-editorial`, or when the user asks what others say about the shop
+- Use on the homepage after `webshop-editorial-section`, or when the user asks what others say about the shop
 - Use only quotes and sources from STORE INFO
 - Keep the quotes between min 2 - max 3 items
 - Keep the quote between min 4 - max 12 words
@@ -1808,7 +1827,7 @@
   "components": [
     {
       "category": "press-section",
-      "name": "stride-press",
+      "name": "webshop-press-section",
       "props": {
         "quotes": [
           { "quote": "The best value road shoe of the year.", "source": "Runner's World" },
@@ -1821,11 +1840,11 @@
 }
 ```
 
-### Stride Brand Strip Section
+### Webshop Brand Strip Section
 
 **Ruleset:**
 
-- Use when the user asks which materials, technologies or partner brands the products use, or on the homepage right before `stride-trust`
+- Use when the user asks which materials, technologies or partner brands the products use, or on the homepage right before `webshop-trust-section`
 - Use only names that appear in STORE INFO
 - Keep the brands between min 4 - max 8 items, min 1 - max 3 words each; the frontend shows them as a quiet text row, no logos
 
@@ -1837,7 +1856,7 @@
   "components": [
     {
       "category": "brands-section",
-      "name": "stride-brand-strip",
+      "name": "webshop-brand-strip-section",
       "props": {
         "brands": ["Vibram", "Merino wool", "Recycled rubber", "Engineered mesh", "Full-grain leather", "Waterproof membrane"]
       }
@@ -1846,16 +1865,17 @@
 }
 ```
 
-### Stride Trust Section
+### Webshop Trust Section
 
 **Ruleset:**
 
-- Use near the end of every homepage, after `stride-press`, or on its own when the user asks about shipping, returns or warranty
+- Use near the end of every homepage, after `webshop-press-section`, or on its own when the user asks about shipping, returns or warranty
 - Build every item from STORE INFO shipping, returns and warranty facts
 - Keep the items to exactly 4
 - Keep the icon as a Tabler icon name in kebab-case, without the `Icon` prefix, for example `truck`, `arrow-back-up`, `shield-check`, `map-pin`
 - Keep the title between min 2 - max 5 words
 - Keep the text between min 3 - max 8 words
+- Unique: always send `"unique": true` on the component; the page holds it once, and sending it again fills in its missing props and scrolls to it instead of adding a copy
 
 **JSON:**
 
@@ -1865,7 +1885,8 @@
   "components": [
     {
       "category": "trust-section",
-      "name": "stride-trust",
+      "name": "webshop-trust-section",
+      "unique": true,
       "props": {
         "items": [
           { "icon": "truck", "title": "Free shipping over €75", "text": "2–4 working days, EU-wide" },
@@ -1879,7 +1900,7 @@
 }
 ```
 
-### Stride Cart Section
+### Webshop Cart Section
 
 **Ruleset:**
 
@@ -1893,6 +1914,7 @@
 - Keep `subtotal`, `shipping`, `vat` and `total` as CART INFO numbers in EUR, and `free-shipping-over` as the STORE INFO threshold; the frontend draws the free-shipping progress bar
 - For `empty`, keep the title between min 2 - max 5 words, the text between min 3 - max 10 words, the cta label between min 1 - max 3 words and the cta data-prompt as `Show category <category>`
 - Quantity buttons, Remove, Checkout and express pay are static frontend actions
+- Unique: always send `"unique": true` on the component; the page holds it once, and sending it again fills in its missing props and scrolls to it instead of adding a copy
 
 **JSON Variant 1:**
 
@@ -1902,7 +1924,8 @@
   "components": [
     {
       "category": "cart-section",
-      "name": "stride-cart",
+      "name": "webshop-cart-section",
+      "unique": true,
       "props": {
         "variant": "filled",
         "lines": [
@@ -1928,7 +1951,8 @@
   "components": [
     {
       "category": "cart-section",
-      "name": "stride-cart",
+      "name": "webshop-cart-section",
+      "unique": true,
       "props": {
         "variant": "empty",
         "title": "Your bag is empty",
@@ -1940,18 +1964,19 @@
 }
 ```
 
-### Stride Checkout Section
+### Webshop Checkout Section
 
 **Ruleset:**
 
-- Use only when the user asks to check out or pay and CART INFO has at least one line; otherwise send `stride-cart` with `variant` `empty`
+- Use only when the user asks to check out or pay and CART INFO has at least one line; otherwise send `webshop-cart-section` with `variant` `empty`
 - Send it alone; the frontend shows it as a page of its own
 - The steps, contact, address and payment fields, validation, express pay and the Pay button are static; never ask for, repeat or store card details
 - Keep the delivery methods to exactly 3 items with `id` `standard`, `pickup` and `express`, from STORE INFO shipping
 - Keep the delivery label between min 2 - max 6 words, the note between min 3 - max 8 words and the price as a number in EUR, `0` when free
 - Keep the countries between min 2 - max 8 items from the STORE INFO shipping zone, the store's own country first
-- Keep the lines, `subtotal`, `shipping`, `vat` and `total` as in `stride-cart`, from CART INFO
-- Keep the payments as in `stride-footer`
+- Keep the lines, `subtotal`, `shipping`, `vat` and `total` as in `webshop-cart-section`, from CART INFO
+- Keep the payments as in `webshop-footer-section`
+- Unique: always send `"unique": true` on the component; the page holds it once, and sending it again fills in its missing props and scrolls to it instead of adding a copy
 
 **JSON:**
 
@@ -1961,7 +1986,8 @@
   "components": [
     {
       "category": "checkout-section",
-      "name": "stride-checkout",
+      "name": "webshop-checkout-section",
+      "unique": true,
       "props": {
         "store": "Stride",
         "delivery": [
@@ -1985,7 +2011,7 @@
 }
 ```
 
-### Stride Order Confirmation Section
+### Webshop Order Confirmation Section
 
 **Ruleset:**
 
@@ -1996,6 +2022,7 @@
 - Keep the address as one line, min 3 - max 14 words
 - Keep the lines, `subtotal`, `shipping` and `total` as in ORDER INFO, and `method` as `card` or `express`
 - The "Create account" block and returns reminder are static; "Continue shopping" sends `Show the homepage`
+- Unique: always send `"unique": true` on the component; the page holds it once, and sending it again fills in its missing props and scrolls to it instead of adding a copy
 
 **JSON:**
 
@@ -2005,7 +2032,8 @@
   "components": [
     {
       "category": "order-section",
-      "name": "stride-order-confirmation",
+      "name": "webshop-order-confirmation-section",
+      "unique": true,
       "props": {
         "order": "482913",
         "first-name": "Ana",
@@ -2027,7 +2055,7 @@
 }
 ```
 
-### Stride Toast Section
+### Webshop Toast Section
 
 **Ruleset:**
 
@@ -2044,10 +2072,36 @@
   "components": [
     {
       "category": "toast-section",
-      "name": "stride-toast",
+      "name": "webshop-toast-section",
       "props": {
         "message": "Added to bag · Aero Run 2",
         "action": { "label": "View bag", "data-prompt": "Show my bag" }
+      }
+    }
+  ]
+}
+```
+
+### Webshop Stream Section
+
+**Ruleset:**
+
+- Use only when no other component can answer the query
+- Keep the heading between min 2 - max 8 words, optional
+- Leave text empty, it is filled by streaming
+
+**JSON:**
+
+```jsx
+{
+  "section_id": "section-s1",
+  "components": [
+    {
+      "category": "stream-section",
+      "name": "webshop-stream-section",
+      "props": {
+        "heading": "About your question",
+        "text": ""
       }
     }
   ]

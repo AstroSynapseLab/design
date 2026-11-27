@@ -3,7 +3,7 @@
    tokens.css — design tokens for all four stores
    One base set, then [data-store="…"] overrides. Components only ever use
    var(--…); they never hard-code a colour, font or radius.
-   Stores: stride | atelier | voltline | halo
+   Stores: webshop | atelier | voltline | halo
    ========================================================================== */
 
 /* ---------- Base (shared across stores) ---------- */
@@ -30,7 +30,7 @@
 
 /* ---------- STRIDE · Shoes & Sport · Classic hero + grid ----------
    White ground, deep navy ink, warm orange accent. Condensed grotesque display. */
-:root, :root[data-store="stride"]{
+:root, :root[data-store="webshop"]{
   --bg:#ffffff; --bg-2:#f4f3f0; --surface:#ffffff; --fg:#13213a; --fg-2:#4b556b; --muted:#7b8294;
   --line:#e3e1dc; --line-strong:#c9c6bf;
   --accent:#f26a21; --accent-fg:#ffffff; --accent-soft:#fdebe0; --accent-2:#13213a; --accent-2-fg:#ffffff;
@@ -43,12 +43,12 @@
   --img-bg:#f4f3f0;
 }
 @media (prefers-color-scheme:dark){
-  :root:not([data-theme="light"]), :root[data-store="stride"]:not([data-theme="light"]){
+  :root:not([data-theme="light"]), :root[data-store="webshop"]:not([data-theme="light"]){
     --bg:#0f1524; --bg-2:#161d2f; --surface:#161d2f; --fg:#eef0f5; --fg-2:#c3c8d6; --muted:#8c93a6;
     --line:#2a3246; --line-strong:#3a4359; --accent:#ff7a33; --accent-soft:#3a2416; --accent-2:#eef0f5; --accent-2-fg:#0f1524;
     --ok-soft:#163626; --warn-soft:#3a2a12; --err-soft:#3d1b17; --img-bg:#1c2436; color-scheme:dark}
 }
-:root[data-theme="dark"], :root[data-store="stride"][data-theme="dark"]{
+:root[data-theme="dark"], :root[data-store="webshop"][data-theme="dark"]{
   --bg:#0f1524; --bg-2:#161d2f; --surface:#161d2f; --fg:#eef0f5; --fg-2:#c3c8d6; --muted:#8c93a6;
   --line:#2a3246; --line-strong:#3a4359; --accent:#ff7a33; --accent-soft:#3a2416; --accent-2:#eef0f5; --accent-2-fg:#0f1524;
   --ok-soft:#163626; --warn-soft:#3a2a12; --err-soft:#3d1b17; --img-bg:#1c2436; color-scheme:dark}
@@ -128,7 +128,7 @@
 }
 
 /* ---------- Scoped themes: <div class="scope" data-store="…"> gets a store's tokens inside any page ---------- */
-.scope[data-store="stride"]{
+.scope[data-store="webshop"]{
   --bg:#ffffff; --bg-2:#f4f3f0; --surface:#ffffff; --fg:#13213a; --fg-2:#4b556b; --muted:#7b8294;
   --line:#e3e1dc; --line-strong:#c9c6bf;
   --accent:#f26a21; --accent-fg:#ffffff; --accent-soft:#fdebe0; --accent-2:#13213a; --accent-2-fg:#ffffff;
@@ -140,11 +140,11 @@
   --r-sm:3px; --r:6px; --r-lg:10px;
   --img-bg:#f4f3f0;
 }
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .scope[data-store="stride"]{
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .scope[data-store="webshop"]{
   --bg:#0f1524; --bg-2:#161d2f; --surface:#161d2f; --fg:#eef0f5; --fg-2:#c3c8d6; --muted:#8c93a6;
   --line:#2a3246; --line-strong:#3a4359; --accent:#ff7a33; --accent-soft:#3a2416; --accent-2:#eef0f5; --accent-2-fg:#0f1524;
   --ok-soft:#163626; --warn-soft:#3a2a12; --err-soft:#3d1b17; --img-bg:#1c2436; color-scheme:dark}}
-:root[data-theme="dark"] .scope[data-store="stride"]{
+:root[data-theme="dark"] .scope[data-store="webshop"]{
   --bg:#0f1524; --bg-2:#161d2f; --surface:#161d2f; --fg:#eef0f5; --fg-2:#c3c8d6; --muted:#8c93a6;
   --line:#2a3246; --line-strong:#3a4359; --accent:#ff7a33; --accent-soft:#3a2416; --accent-2:#eef0f5; --accent-2-fg:#0f1524;
   --ok-soft:#163626; --warn-soft:#3a2a12; --err-soft:#3d1b17; --img-bg:#1c2436; color-scheme:dark}
@@ -836,7 +836,7 @@ a:hover{text-decoration:underline;text-underline-offset:3px}
 .scope .chapter{border-top:0;padding-block:var(--s-5)}
 
 
-/* ---------- component extras (from docs/renderers/stride.js) ---------- */
+/* ---------- component extras (from docs/renderers/webshop.js) ---------- */
 .empty .sg-row{margin-top:var(--s-4)}
 @media (min-width:720px){.editorial.is-reverse{grid-template-columns:1fr 1.1fr}.editorial.is-reverse img{order:2}}
 .kit{display:grid;gap:40px;padding-block:28px 40px}.kit-h{margin-bottom:14px}.kit-h .h2{margin:4px 0 0}.kit-row{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-bottom:12px}

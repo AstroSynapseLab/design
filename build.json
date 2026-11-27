@@ -11,11 +11,11 @@
           "title": "Website · Astro",
           "path": "webagen.astrosynapse.ai/templates/website",
           "renderers": [
-            "webagen.astrosynapse.ai/renderers/astro.js",
-            "webagen.astrosynapse.ai/renderers/astro-kit.js"
+            "webagen.astrosynapse.ai/renderers/website.js",
+            "webagen.astrosynapse.ai/renderers/website-kit.js"
           ],
-          "theme": "astro",
-          "styles": "webagen.astrosynapse.ai/renderers/astro-base.css",
+          "theme": "website",
+          "styles": "webagen.astrosynapse.ai/renderers/website-base.css",
           "tailwind": "webagen.astrosynapse.ai/renderers/twlite.py"
         },
         {
@@ -24,10 +24,10 @@
           "title": "Webshop · Stride",
           "path": "webagen.astrosynapse.ai/templates/webshop",
           "renderers": [
-            "webagen.astrosynapse.ai/renderers/stride.js"
+            "webagen.astrosynapse.ai/renderers/webshop.js"
           ],
-          "theme": "stride",
-          "styles": "webagen.astrosynapse.ai/renderers/stride.css"
+          "theme": "webshop",
+          "styles": "webagen.astrosynapse.ai/renderers/webshop.css"
         }
       ]
     }
